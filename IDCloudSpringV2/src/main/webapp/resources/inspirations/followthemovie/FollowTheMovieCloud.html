@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ID Cloud Listening English</title>
+<script src="./audiojs/audio.min.js"></script>
+<script src="./idcloudjs/audiocontrol.js"></script>
+<script src="./jquery-2.0.3/jquery-2.0.3.js"></script>
+<script src="./idcloudjs/jquery_contentcontrol.js"></script>
+<link rel="stylesheet" href="./idcloudcss/index.css" media="screen">
+
+</head>
+
+<body>
+<div id="header">
+	<audio id="demo" src="./audios/Forrest.Gump.DVDRiP.DiVX.CD1-HOSTiLE.mp3" preload="auto"></audio>
+	<button onclick="document.getElementById('demo').play()">Play the Audio</button>
+	<button onclick="document.getElementById('demo').pause()">Pause the Audio</button>
+	<button onclick="document.getElementById('demo').volume+=0.1">Increase Volume</button>
+	<button onclick="document.getElementById('demo').volume-=0.1">Decrease Volume</button>
+	<button onclick="document.getElementById('demo').currentTime-=5">Backward</button>
+	<hr>
+</div>
+<div id="main">
+	<div id="menu">
+		<div class="menuitem">Forrest.Gump.DVDRiP.DiVX.CD1-HOSTiLE</div>
+		<div class="menuitem">0-The.apprentice.1x01.meet.the.billionaire.pdtv-lol</div>
+		<div class="menuitem_nr">Not Ready</div>
+		<div class="menuitem_nr">Not Ready</div>
+		<div class="menuitem_nr">Not Ready</div>
+		<div class="menuitem_nr">Not Ready</div>
+	</div>
+	<div id="content">
+		<img src="./images/ticket.jpg"></img>
+	</div>
+</div>
+<div id="footer">
+	Powered by ID Cloud
+</div>
+</body>
+</html>

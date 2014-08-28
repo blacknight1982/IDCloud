@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" 
+"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="idadmin" name="idrole/list">
+        <put-attribute name="body" value="/WEB-INF/views/admin/idrole/list.jspx"/>
+	</definition>
+
+	<definition extends="idadmin" name="idrole/show">
+        <put-attribute name="body" value="/WEB-INF/views/admin/idrole/show.jspx"/>
+	</definition>
+
+	<definition extends="idadmin" name="idrole/create">
+        <put-attribute name="body" value="/WEB-INF/views/admin/idrole/create.jspx"/>
+	</definition>
+
+	<definition extends="idadmin" name="idrole/update">
+	    <put-attribute name="body" value="/WEB-INF/views/admin/idrole/update.jspx"/>
+	</definition>
+
+</tiles-definitions>

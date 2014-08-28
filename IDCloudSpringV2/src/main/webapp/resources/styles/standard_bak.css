@@ -1,0 +1,98 @@
+/* main elements */
+/*Header*/
+#header
+{
+	width:100%;
+	margin-bottom:30px;
+}
+
+#header .head
+{
+	width:940px;
+	margin:0 auto;
+	height:100px;
+}
+
+#header .headnav
+{
+	width:100%;
+	height:60px;
+	background-color:#FFF8D2;
+}
+
+#header .hcent
+{
+	width:940px;
+	margin:0 auto;
+	height:60px;
+	text-align: center;
+}
+
+#header .headnav .hnav
+{
+	float:left;
+	width:600px;
+	height:30px;
+	background-image:bottom;
+	margin:22px 0 0 0px;
+}
+
+#header .headnav .hnav ul
+{
+	float:left;
+	height:30px;
+	width:560px;
+	margin-left:-9px;
+}
+
+#header .headnav .hnav li
+{
+	float:left;
+	height:17px;
+	line-height:16px;
+	text-align:center;
+	padding: 0 9px 0 9px;
+	position:relative;
+	z-index:999;
+}
+
+#header .headnav .hnav li a span 
+{
+	text-decoration:none;
+	color: #12937c;
+	display: block;
+	width: auto;
+	padding: 0 14px 0 14px;
+	font-weight:bold;
+}
+
+ul, li{
+	/*清除ul和li上默认的小圆点*/  
+    list-style:none; 
+    float:left;
+	height: 17px;
+	line-height: 16px;
+	text-align: center;
+	padding: 0 9px 0 9px;
+	position: relative;
+	z-index: 999;
+}
+
+body {
+	background: #FFFCF2;
+	text-align: center;
+}
+
+.lone{
+	border-right: 1px dotted #BF6F8C;
+}
+
+a {
+	color: #AF6200;
+	text-decoration: none;
+	display: block;
+	width: auto;
+	padding: 0 14px 0 14px;
+	font-weight: bold;
+	font-family: 'Microsoft YaHei';
+}

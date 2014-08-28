@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <menu:menu id="_menu">
+        <menu:category id="c_useradmin">
+            <menu:item id="i_create_user" url="/idadmin/create_user" />
+            <menu:item id="i_list_users" url="/idadmin/idusers?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+        </menu:category>
+        
+        <menu:category id="c_roleadmin">
+            <menu:item id="i_create_role" url="/idadmin/create_role" />
+            <menu:item id="i_list_roles" url="/idadmin/list_roles" />
+        </menu:category>
+        
+        <menu:category id="c_actionadmin">
+            <menu:item id="i_create_action" url="/idadmin/create_action" />
+            <menu:item id="i_list_actions" url="/idadmin/list_actions" />
+        </menu:category>
+    </menu:menu>
+</div>

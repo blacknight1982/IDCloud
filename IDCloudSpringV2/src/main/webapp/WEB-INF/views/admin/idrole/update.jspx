@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_id_cloud_web_IDRole" modelAttribute="IDRole_" path="/idroles" versionField="Version" z="RPyD/tWYZxEeiDEpiHHDpm1x5Pg=">
+        <field:select field="idUser" id="c_com_id_cloud_web_IDRole_idUser" itemValue="id" items="${idusers}" path="/idusers" z="Vr4+sLM/PtCxdL4YN3P70biR7zc="/>
+        <field:input field="roleString" id="c_com_id_cloud_web_IDRole_roleString" required="true" z="jnBWPoWQt48pNXJ5oU9i9W/kb5k="/>
+        <field:textarea field="roleDescription" id="c_com_id_cloud_web_IDRole_roleDescription" z="ZqXPD0Mr/IDEPNWFMngv5Bs/bxM="/>
+    </form:update>
+</div>

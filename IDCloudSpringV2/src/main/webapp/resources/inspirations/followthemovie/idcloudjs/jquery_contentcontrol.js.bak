@@ -1,0 +1,11 @@
+audiojs.events.ready(function(){
+	audiojs.createAll();
+});
+
+$(document).ready(function(){
+  $(".menuitem").click(function(){
+  	$("#content").load("https://dl.dropboxusercontent.com/u/98117111/FollowTheMovie/contentHTML/"+$(this).text()+".html");
+  	$("#demo").attr("src","https://dl.dropboxusercontent.com/u/98117111/FollowTheMovie/MovieMP3/"+$(this).text()+".mp3");
+		audiojs.createAll();
+  });
+});

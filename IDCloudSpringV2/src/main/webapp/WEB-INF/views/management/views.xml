@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+  <definition name="management" extends="template">
+  	<put-attribute name="body" value="/WEB-INF/views/management/body.jspx"/>
+	<put-attribute name="header" value="/WEB-INF/views/management/header.jspx"/>
+  </definition>
+  
+  <definition name="management_inspirationTag" template="/WEB-INF/views/management/management_inspirationTag.jspx"/>
+  <definition name="tagpool" template="/WEB-INF/views/management/tagpool.jspx"/>
+  <definition name="inspirationpool" template="/WEB-INF/views/management/inspirationpool.jspx"/>
+  
+  
+</tiles-definitions>

@@ -1,0 +1,26 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+  <jsp:output omit-xml-declaration="yes" />
+
+  <spring:url value="/resources/images/favicon.ico" var="favicon" />
+  
+  <spring:url value="/resources/styles/idcloud_style.css" var="style_sheet" />
+  <spring:url value="/resources/styles/jquery-ui.css" var="jquery_style_sheet" />
+  
+  
+  <spring:url value="/resources/jquery/jquery-1.11.1.js" var="jquery_js"/>
+  <spring:url value="/resources/jquery/jquery-ui.js" var="jquery_ui_js"/>
+  <spring:url value="/resources/idcloudjs/slidingmenu.js" var="slidingmenu_js"/>
+  
+  <script type="text/javascript" src="${jquery_js}"><!-- added this avoiding script tag problem --></script>
+  <script type="text/javascript" src="${jquery_ui_js}"><!-- added this avoiding script tag problem --></script>
+  <script type="text/javascript" src="${slidingmenu_js}"><!-- added this avoiding script tag problem --></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="${style_sheet}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${jquery_style_sheet}" />
+  <link rel="icon" href="${favicon}" type="image/x-icon"/>
+  <link rel="shortcut icon" href="${favicon}" type="image/x-icon"/>
+  
+</jsp:root>

@@ -1,0 +1,30 @@
+<div xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	
+  	<p>Available Tags in the Pool:</p>
+  	<p>
+	  	<div id="tagFromBox" class="droppableFromBox">
+		  	<c:forEach items="${tags}" var="tag">
+		  		<c:set var="contains" value="false" />
+				<c:forEach items="${inspirationTags}" var="inspirationTag">
+					<c:if test="${inspirationTag eq tag}">
+							<c:set var="contains" value="true" />
+					</c:if>
+				</c:forEach>
+				<c:if test="${!contains}">
+					<span style="background-color:${tag.color}; color:${tag.complementaryColorInHex}; font-size:18px" class="draggableItem tag" id="${tag.tagID}" name="${tag.name}">${tag.name}</span>
+				</c:if>
+		  	</c:forEach>
+	  	</div>
+  	</p>
+  	<p>Associated Tags:</p>
+  	<p>
+	  	<div id="tagToBox" class="droppableToBox">
+	  		<c:forEach items="${inspirationTags}" var="inspirationTag">
+		  		<span style="background-color:${inspirationTag.color}; color:${inspirationTag.complementaryColorInHex}; font-size:18px" class="draggableItem tag" id="${inspirationTag.tagID}" name="${inspirationTag.name}">${inspirationTag.name}</span>
+		  	</c:forEach>
+	  	</div>
+  	</p>
+</div>

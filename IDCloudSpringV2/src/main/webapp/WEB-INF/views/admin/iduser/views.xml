@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" 
+"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="idadmin" name="iduser/list">
+        <put-attribute name="body" value="/WEB-INF/views/admin/iduser/list.jspx"/>
+	</definition>
+
+	<definition extends="idadmin" name="iduser/show">
+        <put-attribute name="body" value="/WEB-INF/views/admin/iduser/show.jspx"/>
+	</definition>
+
+	<definition extends="idadmin" name="iduser/create">
+        <put-attribute name="body" value="/WEB-INF/views/admin/iduser/create.jspx"/>
+	</definition>
+
+	<definition extends="idadmin" name="iduser/update">
+	    <put-attribute name="body" value="/WEB-INF/views/admin/iduser/update.jspx"/>
+	</definition>
+
+</tiles-definitions>

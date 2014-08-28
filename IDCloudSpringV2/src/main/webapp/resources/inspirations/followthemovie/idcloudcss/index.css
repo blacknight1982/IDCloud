@@ -1,0 +1,33 @@
+#header{
+background-color:#DEE3F5;
+margin:5px;
+}
+#content{
+margin:5px
+float:right;
+}
+#menu{
+background:#daeae8;
+float:left;
+margin:5px;
+}
+#footer{
+background:#f2f2f2;
+margin:5px;
+float:bottom;
+}
+table,tr,td{
+	border: 1px solid black;
+	border-collapse:collapse;
+}
+.menuitem{
+	float:top;
+	background:#FFFF7B;
+	margin:5px;
+}
+.menuitem_nr{
+	float:top;
+	background:#FFFF7B;
+	margin:5px;
+}
+

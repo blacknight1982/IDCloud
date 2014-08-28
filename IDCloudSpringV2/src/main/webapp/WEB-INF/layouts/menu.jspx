@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:menu_simple="urn:jsptagdir:/WEB-INF/tags/menu_simple" id="menu_simple" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <menu_simple:menu id="_menu">      
+    	<menu_simple:item id="i_iduser_new" li_class="lone" label="首页" url="/" />
+        <menu_simple:item id="i_iduser_list" li_class="lone" label="发布" url="/" />      
+        <menu_simple:item id="i_idrole_new" li_class="lone" label="日记" url="/" />
+        <menu_simple:item id="i_idrole_list" li_class="lone" label="管理员" url="/" />      
+    </menu_simple:menu>
+</div>

@@ -1,0 +1,63 @@
+<div xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message var="app_name" code="application_name" htmlEscape="false" />
+	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
+	<spring:url var="serverlocation" value="/resources" />
+	<spring:url value="/resources/idcloudjs/tagmgt.js" var="tagmgt_js"/>
+	
+	<script type="text/javascript" src="${tagmgt_js}"><!-- added this avoiding script tag problem --></script>
+  
+	<div id="tagmgt-tabs">
+    	<ul>
+		    <li><a href="#tagmgt-tabs-1">Tag Creation/Deletion</a></li>
+		    <li><a href="#tagmgt-tabs-2">Inspiration Tags</a></li>
+		    <li><a href="#tagmgt-tabs-3">Inspiration Deletion</a></li>
+  		</ul>
+  		
+		<div id="tagmgt-tabs-1">
+			
+		  	<section>Tag Creation/Deletion Pool</section>
+	  		<section id="tagpool" >
+		  		<c:forEach items="${tags}" var="tag">
+				  		<span style="background-color:${tag.color}; color:${tag.complementaryColorInHex}; font-size:18px" id="${tag.tagID}" name="${tag.name}" class="tag">${tag.name}</span>
+				</c:forEach>
+		  	</section>
+			
+			<button id="create-tag">Create new tag</button>
+			<button id="save-tag">Save to Server</button>
+		</div>
+		<div id="tagmgt-tabs-2">
+			<select id="inspiration-sel">
+	    		<c:forEach items="${inspirationList}" var="inspiration">
+	    			<option value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
+	    		</c:forEach>
+		    </select>
+		    <button id="save-tag2">Save to Server</button>
+		    <section id="tagcontainer"></section>
+		    
+		</div>
+		
+		<div id="tagmgt-tabs-3">
+		 	<section id="inspirationcontainer"></section>
+		</div>
+	</div>
+	  	
+  	<section id="dialog-form" title="Create new tag">
+	  <form id="tag-creating-form">
+	    <fieldset>
+	    	<label for="name">Name</label>
+	    	<input type="text" name="tagName" id="tagName" class="text ui-widget-content ui-corner-all"/>
+	    	<br/>
+	    	<label for="color">Color</label>
+	    	<input type="color" name="tagColor" id="tagColor" class="text ui-widget-content ui-corner-all"/>
+	    	
+	    	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	      	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+	    </fieldset>
+	  </form>
+	</section>
+</div>

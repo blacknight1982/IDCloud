@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+	xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_id_cloud_web_IDRole" items="${idroles}">
+        <table:table data="${idroles}" id="l_com_id_cloud_web_IDRole" typeIdFieldName="roleID" path="/admin/idroles" >
+            <table:column id="c_com_id_cloud_web_IDRole_idUser" property="roleName" />
+            <table:column id="c_com_id_cloud_web_IDRole_roleString" property="roleDescription" />
+        </table:table>
+    </page:list> 
+
+</div>
