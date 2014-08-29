@@ -2,9 +2,11 @@ package com.id.cloud.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 @Configuration
+@PropertySource({"/WEB-INF/cfg-props/inspiration.properties"})
 public class IDCloudAppConfiguration {
 	
 	/**

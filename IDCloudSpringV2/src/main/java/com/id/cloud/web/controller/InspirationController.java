@@ -16,6 +16,7 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,9 @@ import com.id.cloud.inspiration.entities.Tag;
 public class InspirationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(InspirationController.class);
+	
+	@Autowired
+	Environment environment;
 		
 	@Autowired
 	private InspirationDao inspirationDao;
@@ -67,7 +71,6 @@ public class InspirationController {
 			inspirationList.get(i).setTags(tagDao.findByTagIDs(tagIDs));
 		}
 		model.addAttribute("inspirationList",inspirationList);
-		System.out.println("1234567890!%$6%$&^$%^*&^%&(*^&(&^)&*()_8()_()_+()_^*(&^(*0987654321");
 		return "index";
 	}
 	
@@ -94,7 +97,7 @@ public class InspirationController {
 		 */
 		
 		String inspirationTitle = new String(request.getParameter("inspiration_title").getBytes("UTF-8"));
-		String folderName = "C:/Users/John/Dropbox/Public/inspirations/"+inspirationTitle;
+		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
 		String fileName = folderName+"/"+inspirationTitle+".html";
 		
 		(new File(folderName)).mkdirs();
@@ -236,7 +239,7 @@ public class InspirationController {
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		try {
-		String folderName = "C:/Users/John/Dropbox/Public/inspirations/"+ inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.folder.location") + inspiration.getTitle();
 		
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {
