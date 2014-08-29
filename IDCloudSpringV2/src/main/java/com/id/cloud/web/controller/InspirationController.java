@@ -3,6 +3,7 @@ package com.id.cloud.web.controller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +67,7 @@ public class InspirationController {
 			inspirationList.get(i).setTags(tagDao.findByTagIDs(tagIDs));
 		}
 		model.addAttribute("inspirationList",inspirationList);
+		System.out.println("1234567890!%$6%$&^$%^*&^%&(*^&(&^)&*()_8()_()_+()_^*(&^(*0987654321");
 		return "index";
 	}
 	
@@ -83,14 +85,15 @@ public class InspirationController {
 	/**
 	 * Associate to post method for publishing the inspiration and associate the tags to it
 	 * Redirect to the index view after executing publish
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/publish", method = RequestMethod.POST)
-	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) {
+	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
 		/*
 		 * Create inspiration on the file system.
 		 */
 		
-		String inspirationTitle = request.getParameter("inspiration_title");
+		String inspirationTitle = new String(request.getParameter("inspiration_title").getBytes("UTF-8"));
 		String folderName = "C:/Users/John/Dropbox/Public/inspirations/"+inspirationTitle;
 		String fileName = folderName+"/"+inspirationTitle+".html";
 		
