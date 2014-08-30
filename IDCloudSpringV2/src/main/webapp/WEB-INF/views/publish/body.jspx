@@ -21,7 +21,7 @@
 	</script>
 	
   
-  	<form action="./publish" method="post">
+  	<form action="./publish" accept-charset="UTF-8" method="post">
   	
   		<p>List Tags:</p>
 	  	<p>

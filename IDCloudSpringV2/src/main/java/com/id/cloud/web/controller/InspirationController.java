@@ -1,8 +1,12 @@
 package com.id.cloud.web.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +19,7 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +43,9 @@ import com.id.cloud.inspiration.entities.Tag;
 public class InspirationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(InspirationController.class);
+	
+	@Autowired
+	Environment environment;
 		
 	@Autowired
 	private InspirationDao inspirationDao;
@@ -83,24 +91,26 @@ public class InspirationController {
 	/**
 	 * Associate to post method for publishing the inspiration and associate the tags to it
 	 * Redirect to the index view after executing publish
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/publish", method = RequestMethod.POST)
-	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) {
+	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
 		/*
 		 * Create inspiration on the file system.
 		 */
 		
 		String inspirationTitle = request.getParameter("inspiration_title");
-		String folderName = "C:/Users/John/Dropbox/Public/inspirations/"+inspirationTitle;
+		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
 		String fileName = folderName+"/"+inspirationTitle+".html";
 		
 		(new File(folderName)).mkdirs();
 		
 		try{
-			FileWriter fw = new FileWriter(fileName);
-			fw.write(request.getParameter("inspiration_editor"));
-			fw.flush();
-			fw.close();
+			FileOutputStream fos = new FileOutputStream(fileName);
+			OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
+			osw.write(request.getParameter("inspiration_editor"));
+			osw.flush();
+			osw.close();
 		}
 		catch(IOException e){
 			
@@ -233,7 +243,7 @@ public class InspirationController {
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		try {
-		String folderName = "C:/Users/John/Dropbox/Public/inspirations/"+ inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.folder.location") + inspiration.getTitle();
 		
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {
