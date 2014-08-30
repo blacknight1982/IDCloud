@@ -1,9 +1,12 @@
 package com.id.cloud.web.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -96,17 +99,18 @@ public class InspirationController {
 		 * Create inspiration on the file system.
 		 */
 		
-		String inspirationTitle = new String(request.getParameter("inspiration_title").getBytes("UTF-8"));
+		String inspirationTitle = request.getParameter("inspiration_title");
 		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
 		String fileName = folderName+"/"+inspirationTitle+".html";
 		
 		(new File(folderName)).mkdirs();
 		
 		try{
-			FileWriter fw = new FileWriter(fileName);
-			fw.write(request.getParameter("inspiration_editor"));
-			fw.flush();
-			fw.close();
+			FileOutputStream fos = new FileOutputStream(fileName);
+			OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
+			osw.write(request.getParameter("inspiration_editor"));
+			osw.flush();
+			osw.close();
 		}
 		catch(IOException e){
 			
