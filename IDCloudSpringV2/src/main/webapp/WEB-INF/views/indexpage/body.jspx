@@ -6,10 +6,12 @@
   <jsp:output omit-xml-declaration="yes" />
   <spring:message var="app_name" code="application_name" htmlEscape="false" />
   <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
+  <spring:url value="/resources/jquery/jquery.scrollTo.js" var="jquery_scrollTo_js"/>
   <spring:url value="/resources/idcloudjs/index.js" var="index_js"/>
   
   <spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
   
+  <script type="text/javascript" src="${jquery_scrollTo_js}"><!-- added this avoiding script tag problem --></script>
   <script type="text/javascript" src="${index_js}"><!-- added this avoiding script tag problem --></script>
   
   <h3>
@@ -32,7 +34,7 @@
 		  	<td>${inspiration.inspirationID}</td>
 		  	<td>${inspiration.postTime.time}</td>
 		  	<td> 
-		  	  <a href="${serverlocation}${inspiration.mainPageLocation}">
+		  	  <a href="#" id="${serverlocation}${inspiration.mainPageLocation}" class="inspirationlink">
 		  	  ${inspiration.title}
 	  		  </a>
 	  		</td>

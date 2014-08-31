@@ -93,14 +93,47 @@ p {
 
 
 /** page structure **/
+#wrapper {
+    width:100%;
+    height:100%;
+    position:absolute;
+    overflow:hidden;
+}
+
+#mask {
+    width:200%;
+    height:100%;
+}
+
+.panel {
+    width:50%;
+    height:100%;
+    float:left;
+}
+
 #content {
-  max-width: 1200px;
   background: #fff;
   padding: 25px 65px;
   margin: 0 auto;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+  max-width: 1200px;
+}
+
+#readingpanel {
+  background: #fff;
+  padding: 25px 65px;
+  margin: 0 auto;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  max-width: 1200px;
+}
+
+#readingframe{
+	width: 100%;
+	height: 1100px;
 }
 
 header {

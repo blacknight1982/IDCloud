@@ -1,19 +1,12 @@
 $(initTagFilter);
+$(initSlidingPanel);
 
 function initTagFilter(){
 	$("#tagfilter").keyup(function() {
-		/*var tagfiltertext = $(this).val();
-		var inspirationMatchSpanTags = $("#inspirationtable").find("span:contains('"+tagfiltertext+"')");
-		$("#inspirationtable").find("tr.dynamicrows").css("display","none");
-		$(inspirationMatchSpanTags).parent().parent().css("display","table-row");*/
 		filterInspirationByTitleAndTag();
 	});
 	
 	$("#titlefilter").keyup(function() {
-		/*var titlefiltertext = $(this).val();
-		var inspirationMatchTitles = $("#inspirationtable").find("a:contains('"+titlefiltertext+"')");
-		$("#inspirationtable").find("tr.dynamicrows").css("display","none");
-		$(inspirationMatchTitles).parent().parent().css("display","table-row");*/
 		filterInspirationByTitleAndTag();
 	});
 }
@@ -27,14 +20,11 @@ function filterInspirationByTitleAndTag(){
 	$("#inspirationtable").find("tr.dynamicrows").data("display",0);
 	$(inspirationMatchSpanTags).each(function(){
 		$(this).parent().parent().data("display",$(this).parent().parent().data("display")|1);
-		//console.log($(this).parent().parent().data("display")+"\n");
 	});
 	$(inspirationMatchTitles).each(function(){
 		$(this).parent().parent().data("display",$(this).parent().parent().data("display")|2);
-		//console.log($(this).parent().parent().data("display")+"\n");
 	});
 	$("#inspirationtable").find("tr.dynamicrows").each(function(index){
-		console.log(index+" --- "+$(this).data("display")+"\n");
 		if($(this).data("display")==3){
 			$(this).css("display","table-row");
 		}
@@ -42,6 +32,16 @@ function filterInspirationByTitleAndTag(){
 			$(this).css("display","none");
 		}
 	});
-	//$(inspirationMatchSpanTags).parent().parent().data("display",1);
-	//$(inspirationMatchTitles).parent().parent().css("display","table-row");
+}
+
+function initSlidingPanel(){
+	
+	$("#readingback").click(function(){
+		$('#wrapper').scrollTo("#panel1", 1000);	
+	});
+	
+	$(".inspirationlink").click(function(){
+		$("#readingframe").attr("src",$(this).attr("id"));
+		$('#wrapper').scrollTo("#panel2", 1000);
+	});
 }

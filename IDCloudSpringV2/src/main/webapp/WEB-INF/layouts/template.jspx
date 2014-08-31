@@ -42,17 +42,31 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
     			</div>
     			<div class="overlay"></div>
   			</header>
-  			<div id="content">
-		   		<div id="header">
-		   			<tiles:insertAttribute name="header" ignore="true" />
-		   		</div>
-				    
-				<div id="body">
-					<tiles:insertAttribute name="body" ignore="true"/>
-				</div>
-				
-				<div id="footer">
-				  	<tiles:insertAttribute name="footer" ignore="true"/>
+  			<div id="wrapper">
+  				<div id="mask">
+  					<div id="panel1" class="panel">
+			  			<div id="content">
+					   		<div id="header">
+					   			<tiles:insertAttribute name="header" ignore="true" />
+					   		</div>
+							    
+							<div id="body">
+								<tiles:insertAttribute name="body" ignore="true"/>
+							</div>
+							
+							<div id="footer">
+							  	<tiles:insertAttribute name="footer" ignore="true"/>
+							</div>
+						</div>
+					</div>
+					<div id="panel2" class="panel">
+						<div id="readingpanel">
+							<span id="readingback">Back</span>
+							
+					   		<iframe id="readingframe">
+					   		</iframe>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
