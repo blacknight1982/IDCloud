@@ -12,6 +12,6 @@
     <img src="${banner}" />
   </a>
   <p>
-  	<input type="search"></input>
+  	Search Inspiration: <input type="search"></input>
   </p>
 </div> 

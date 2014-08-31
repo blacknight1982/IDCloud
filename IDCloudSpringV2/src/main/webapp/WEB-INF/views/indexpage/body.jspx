@@ -6,8 +6,11 @@
   <jsp:output omit-xml-declaration="yes" />
   <spring:message var="app_name" code="application_name" htmlEscape="false" />
   <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
+  <spring:url value="/resources/idcloudjs/index.js" var="index_js"/>
   
   <spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
+  
+  <script type="text/javascript" src="${index_js}"><!-- added this avoiding script tag problem --></script>
   
   <h3>
 	<spring:message code="welcome_h3" arguments="${app_name}" />
@@ -16,16 +19,16 @@
   	<spring:message code="welcome_text" />
   </p>
 
-  <table>
+  <table id="inspirationtable">
 	<tbody>
 	  <tr>
 	  	<th>Index</th>
 	  	<th>Time</th>
-	  	<th>Title</th>
-	  	<th>Tags</th>
+	  	<th>Title <input type="search" id="titlefilter"></input></th>
+	  	<th>Tags <input type="search" id="tagfilter"></input></th>
 	  </tr>
 	  <c:forEach items="${inspirationList}" var="inspiration">
-	  	<tr>
+	  	<tr class="dynamicrows">
 		  	<td>${inspiration.inspirationID}</td>
 		  	<td>${inspiration.postTime.time}</td>
 		  	<td> 
@@ -33,7 +36,7 @@
 		  	  ${inspiration.title}
 	  		  </a>
 	  		</td>
-		  	<td><c:forEach items="${inspiration.tags}" var="tag"><span style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span>;</c:forEach></td>
+		  	<td><c:forEach items="${inspiration.tags}" var="tag"><span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span></c:forEach></td>
 	  	</tr>
 	  </c:forEach>
 	</tbody>
