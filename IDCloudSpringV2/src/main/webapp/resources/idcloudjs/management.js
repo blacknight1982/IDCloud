@@ -6,6 +6,8 @@ $(initPageTabs);
 
 $(initInspirationSel);
 
+$(initInspirationSelEdit);
+
 $(initDragAndDropTags);
 
 $(initTagRemovable);
@@ -218,14 +220,72 @@ function initInspirationSel(){
 		    		{ "inspirationTagOperation": inspirationTagOperation},
 		    			function(response) {
 		    				if (response) {
-		    					$("#tagcontainer").load("./management/"+inspirationID,function(){
-		    						initDragAndDropTags();
-		    					});
+		    					$(initInspirationSel);
 		    				}
 		    			});
 		}
 		else{
 			window.alert("Nothing was changed for inspiration with ID: "+ inspirationID);
+		}
+	});
+}
+
+function initInspirationSelEdit(){
+	
+	$("#inspirationedit").load("./management/edit/"+$("#inspiration-sel-edit").val(),function(){
+		
+	});
+	
+	$("#inspiration-sel-edit").data("lastInspirationID",$("#inspiration-sel-edit").val());
+	
+	$("#inspiration-sel-edit").change(function () {
+        /**
+         * Get Confirmation before send inspiration tag update post to server
+         */
+		var confirmChange = false;
+		var lastInspirationID = $("#inspiration-sel-edit").data("lastInspirationID");
+		$("#inspiration-sel-edit").data("lastInspirationID",this.value);
+		
+		if($("#inspirationedit").data("statusChanged")){
+			confirmChange = window.confirm("Changes for inspiration with ID: "+ lastInspirationID +" will be applied");
+		}
+		if(confirmChange){
+			/*var inspirationTagOperation = $("#tagcontainer").data("inspirationTagOperation");
+			$.post( "./management/inspirationtags/"+lastInspirationID, 
+		    		{ "inspirationTagOperation": inspirationTagOperation},
+		    			function(response) {
+		    				if (response) {
+		    					//window.location.reload();
+		    				}
+		    			});*/
+		}
+		
+		var inspirationid = this.value;
+        if(inspirationid!=""){
+        	$("#inspirationedit").load("./management/edit/"+inspirationid,function(){
+        		
+        	});
+        }
+    });
+	
+	$("#save-tag3").button().on( "click",function(){
+		var inspirationID = $("#inspiration-sel-edit").val();
+		var newInspirationTitle = $("#inspiration_title-edit").val();
+		var valid = checkLength($("#inspiration_title-edit"),"Title length not meet requirement",1,255);
+		var confirmChange = false;
+		if(valid){
+			confirmChange = window.confirm("Changes for inspiration with ID: "+ inspirationID +" will be applied");
+		}
+		if(confirmChange){
+			$.post( "./management/edit/"+inspirationID, 
+		    		{"inspiration_title-edit": newInspirationTitle,"inspiration_editor-edit": $("#inspiration_editor-edit").val() },
+		    			function(response) {
+		    				if (response) {
+		    					$(initInspirationSelEdit);
+		    					updateInspirationSel("inspiration-sel","option"+inspirationID,inspirationID+" - "+newInspirationTitle,false);
+		    					updateInspirationSel("inspiration-sel-edit","optionedit"+inspirationID,inspirationID+" - "+newInspirationTitle,false);
+		    				}
+		    			});
 		}
 	});
 }
@@ -252,6 +312,8 @@ function initInspirationRemovable(){
 			if(confirmRemove){
 				$("#inspirationcontainer").load("./management/inspirationremove/"+inspirationID,function(){
 					$(initInspirationRemovable);
+					updateInspirationSel("inspiration-sel","option"+inspirationID,"",true);
+					updateInspirationSel("inspiration-sel-edit","optionedit"+inspirationID,"",true);
 				});
 			}
 		}
@@ -288,8 +350,8 @@ function initTagCreationDialog() {
 	function addTag() {
 		var newTag = $('<span>'+tagName.val()+'</span>');
 		var valid = true;
-		valid = valid && checkLength( tagName, "Tag Name", 1, 255 );
-		valid = valid && checkLength( tagColor, "Tag Color", 7, 7);
+		valid = valid && checkLength( tagName, "Tag Name doesn't meet required length", 1, 255 );
+		valid = valid && checkLength( tagColor, "Tag Color doesn't meet requirement", 7, 7);
 		
 		if (valid){
 			newTag.css("background-color",tagColor.val());
@@ -309,31 +371,12 @@ function initTagCreationDialog() {
 	});	
 }
 
-function invertColor(hexTripletColor) {
-    var color = hexTripletColor;
-    color = color.substring(1);           // remove #
-    color = parseInt(color, 16);          // convert to integer
-    color = 0xFFFFFF ^ color;             // invert three bytes
-    color = color.toString(16);           // convert to hex
-    color = ("000000" + color).slice(-6); // pad with leading zeros
-    color = "#" + color;                  // prepend #
-    return color;
-}
-
-function checkLength( o, n, min, max ) {
-    if ( (o.val().length <= max) && (o.val().length >= min) ) {
-    	
-      return true;
-    } else {
-      alert("Validation Not Passed");
-      return false;
-    }
-}
-
-function rgb2hex(rgb){
-	 rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-	 return "#" +
-	  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-	  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-	  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
+function updateInspirationSel(selectObjectID, inspirationID, updatedTitle, deletion){
+	var selectObject = $("#"+selectObjectID);
+	if(deletion){
+		$(selectObject).children("#"+inspirationID).remove();
+	}
+	else{
+		$(selectObject).children("#"+inspirationID).text(updatedTitle);
+	}
 }

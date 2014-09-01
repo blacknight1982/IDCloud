@@ -1,0 +1,26 @@
+<div xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditor_js"/>
+	<spring:url value="/resources/ckeditor/jquery.js" var="ckeditor_jquery_js"/>
+	
+	<script type="text/javascript" src="${ckeditor_js}"><!-- added this avoiding script tag problem --></script>
+	<script type="text/javascript" src="${ckeditor_jquery_js}"><!-- added this avoiding script tag problem --></script>
+	
+	<script>
+  	$( document ).ready( function() {
+		$( "#inspiration_editor-edit").ckeditor(); 
+	} );
+	</script>
+	
+	<form action="./management/edit/${inspiration.inspirationID}" accept-charset="UTF-8" method="post">
+		<p>
+			<strong>Inspiration Title:</strong>
+			<input name="inspiration_title-edit" id="inspiration_title-edit" size="40" value="${inspiration.title}"/>
+		</p>
+		<p>
+			<textarea name="inspiration_editor-edit" id="inspiration_editor-edit"> ${inspirationString} </textarea>
+		</p>
+	</form>
+</div>

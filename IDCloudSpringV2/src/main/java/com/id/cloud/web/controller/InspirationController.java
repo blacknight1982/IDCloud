@@ -2,11 +2,12 @@ package com.id.cloud.web.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -169,7 +170,90 @@ public class InspirationController {
 		
 		List <Tag> tags = tagDao.findAll();
 		model.addAttribute("tags", tags);
-		return "management_inspirationTag";
+		return "inspirationtag";
+	}
+	
+	/**
+	 * Manage the content for each inspiration with parameter {inspiration_id}
+	 * Selects the publish view to render by returning its name
+	 */
+	@RequestMapping(value = "/management/edit/{inspiration_id}", method = RequestMethod.POST)
+	public String inspirationEditPost(@PathVariable String inspiration_id, Locale locale, Model model, HttpServletRequest request) {
+		/**
+		 * Delete inspiration on the file system first
+		 */
+		
+		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
+		
+		try {
+		String folderName = environment.getProperty("inspiration.folder.location") + inspiration.getTitle();
+		
+			FileUtils.deleteDirectory(new File(folderName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed");
+			e.printStackTrace(System.err);
+		}
+		
+		
+		/**
+		 * Write edited inspiration on the file system.
+		 */
+		
+		String inspirationTitle = request.getParameter("inspiration_title-edit");
+		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
+		(new File(folderName)).mkdirs();
+		String fileName = folderName+"/"+inspirationTitle+".html";
+		
+		try{
+			FileOutputStream fos = new FileOutputStream(fileName);
+			OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
+			osw.write(request.getParameter("inspiration_editor-edit"));
+			osw.flush();
+			osw.close();
+		}
+		catch(IOException e){
+			
+		}
+		
+		
+		inspiration.setPostTime(Calendar.getInstance());
+		inspiration.setTitle(inspirationTitle);
+		inspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		inspirationDao.update(inspiration);
+		
+		return "inspirationedit";
+	}
+	
+	/**
+	 * Manage the content for each inspiration with parameter {inspiration_id}
+	 * Selects the publish view to render by returning its name
+	 */
+	@RequestMapping(value = "/management/edit/{inspiration_id}", method = RequestMethod.GET)
+	public String inspirationEdit(@PathVariable String inspiration_id, Locale locale, Model model) {
+		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
+		model.addAttribute("inspiration",inspiration);
+		
+		
+		/*
+		 * Read inspiration on the file system.
+		 */
+		
+		String folderName = environment.getProperty("inspiration.folder.location")+inspiration.getTitle();
+		String fileName = folderName+"/"+inspiration.getTitle()+".html";
+		
+		try{
+			Path paths = Paths.get(fileName);
+			byte[] encoded = Files.readAllBytes(paths);
+			String inspirationString = new String(encoded, "UTF-8");
+			model.addAttribute("inspirationString",inspirationString);
+			
+		}
+		catch(IOException e){
+			
+		}
+		
+		return "inspirationedit";
 	}
 	
 	/**

@@ -14,10 +14,12 @@
   <spring:url value="/resources/jquery/jquery-1.11.1.js" var="jquery_js"/>
   <spring:url value="/resources/jquery/jquery-ui.js" var="jquery_ui_js"/>
   <spring:url value="/resources/idcloudjs/slidingmenu.js" var="slidingmenu_js"/>
+  <spring:url value="/resources/idcloudjs/utility.js" var="utility_js"/>
   
   <script type="text/javascript" src="${jquery_js}"><!-- added this avoiding script tag problem --></script>
   <script type="text/javascript" src="${jquery_ui_js}"><!-- added this avoiding script tag problem --></script>
   <script type="text/javascript" src="${slidingmenu_js}"><!-- added this avoiding script tag problem --></script>
+  <script type="text/javascript" src="${utility_js}"><!-- added this avoiding script tag problem --></script>
   <link rel="stylesheet" type="text/css" media="screen" href="${style_sheet}" />
   <link rel="stylesheet" type="text/css" media="screen" href="${jquery_style_sheet}" />
   <link rel="icon" href="${favicon}" type="image/x-icon"/>

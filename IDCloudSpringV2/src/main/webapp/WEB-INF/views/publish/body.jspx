@@ -18,10 +18,16 @@
   	$( document ).ready( function() {
 		$( '#inspiration_editor' ).ckeditor(); 
 	} );
+  	
+  	function validateForm(){
+  		var newInspirationTitle = $("#inspiration_title-edit").val();
+		return checkLength($("#inspiration_title-publish"),"Title length not meet requirement",1,255);
+  	}
+  	
 	</script>
 	
   
-  	<form action="./publish" accept-charset="UTF-8" method="post">
+  	<form action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
   		<p>List Tags:</p>
 	  	<p>
@@ -32,7 +38,7 @@
 	  	</p>
   		<p>
   			<strong>Inspiration Title:</strong>
-  			<input name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
+  			<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
   		</p>
   		<p>
   			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
