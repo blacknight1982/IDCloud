@@ -66,6 +66,7 @@ p {
 }
 
 #homebanner{
+	 width: 500px;
      display:block;
      margin:0 auto;
      text-decoration: none;
@@ -182,8 +183,7 @@ footer {
 
 /** toggle menu **/
 body.openmenu {
-  position: fixed;
-  overflow: hidden;
+  
 }
 
 #pgcontainer {

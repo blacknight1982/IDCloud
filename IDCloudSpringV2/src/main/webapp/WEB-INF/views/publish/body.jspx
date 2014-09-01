@@ -29,7 +29,7 @@
   
   	<form action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
-  		<p>List Tags:</p>
+  		<p>Please Select Tags:</p>
 	  	<p>
 		  	<c:forEach items="${tags}" var="tag">
 		  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>

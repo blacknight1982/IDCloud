@@ -22,6 +22,15 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 	</head>
 	
   	<body>
+  		<div id="idcloudmenu">
+	        <ul>
+	          <li><a href="${index_page}">Homepage</a></li>
+	          <li><a href="${publish_page}">Publish</a></li>
+	          <li><a href="${management}">Management</a></li>
+	          <li><a href="#">Our Products</a></li>
+	          <li><a href="#">Contact</a></li>
+	        </ul>
+	    </div>
   		<div id="pgcontainer">
   			  <header>
     			<div id="navbar">
@@ -30,15 +39,7 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
     					<span>IDCloud Inspiration</span>
   					</a>
 	      			<!-- use captain icon for toggle menu -->
-	      			<div id="idcloudmenu">
-				        <ul>
-				          <li><a href="${index_page}">Homepage</a></li>
-				          <li><a href="${publish_page}">Publish</a></li>
-				          <li><a href="${management}">Management</a></li>
-				          <li><a href="#">Our Products</a></li>
-				          <li><a href="#">Contact</a></li>
-				        </ul>
-	      			</div>
+	      			
     			</div>
     			<div class="overlay"></div>
   			</header>
