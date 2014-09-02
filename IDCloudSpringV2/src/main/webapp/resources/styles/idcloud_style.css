@@ -246,6 +246,14 @@ body.openmenu {
 	margin: 0 auto;
 }
 
+#readingback:hover{
+	color: #bdd43e;
+}
+
+#readingedit:hover{
+	color: #bdd43e;
+}
+
 /**Management**/
 #tagpool{
 	height: 300px;

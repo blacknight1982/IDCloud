@@ -51,7 +51,7 @@ public class InspirationDaoImpl implements InspirationDao {
 	public void update(Inspiration inspiration) {
 		if (inspiration == null) return;
 		String SQL = "update INSPIRATION SET INSPIRATION_TITLE=?, INSPIRATION_LOCATION=?, INSPIRATION_POSTTIME=? where INSPIRATION_ID = ? ";
-		jdbcTemplate.update(SQL, inspiration.getTitle(), inspiration.getMainPageLocation(), new java.sql.Date(inspiration.getPostTime().getTimeInMillis()), inspiration.getInspirationID());
+		jdbcTemplate.update(SQL, inspiration.getTitle(), inspiration.getMainPageLocation(), new java.sql.Timestamp(inspiration.getPostTime().getTimeInMillis()), inspiration.getInspirationID());
 	}
 
 	@Override

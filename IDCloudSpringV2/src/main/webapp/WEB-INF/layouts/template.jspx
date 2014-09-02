@@ -63,10 +63,13 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 					<div id="panel2" class="panel">
 						<div id="readingpanel">
 							<span id="readingback">Back</span>
-							
-					   		<iframe id="readingframe">
-					   		</iframe>
-						</div>
+							<br></br>
+							<span id="readingedit">Switch to Editing Mode</span>
+							<div id="inspirationpanel">
+								<iframe id="readingframe">
+						   		</iframe>
+						   	</div>
+					   	</div>
 					</div>
 				</div>
 			</div>
