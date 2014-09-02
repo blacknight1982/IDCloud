@@ -246,6 +246,14 @@ body.openmenu {
 	margin: 0 auto;
 }
 
+#readingback{
+	margin: 10px 0px;
+}
+
+#readingedit{
+	margin: 10px 0px;
+}
+
 #readingback:hover{
 	color: #bdd43e;
 }
