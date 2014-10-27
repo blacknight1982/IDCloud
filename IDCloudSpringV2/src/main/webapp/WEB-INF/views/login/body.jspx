@@ -1,0 +1,51 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:spring-form="http://www.springframework.org/tags/form" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <spring:message var="app_name" code="application_name" htmlEscape="false" />
+  <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
+  <spring:url value="/resources/jquery/jquery.scrollTo.js" var="jquery_scrollTo_js"/>
+  <spring:url value="/resources/idcloudjs/index.js" var="index_js"/>
+  
+  <spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
+  
+  <script type="text/javascript" src="${jquery_scrollTo_js}"><!-- added this avoiding script tag problem --></script>
+  <script type="text/javascript" src="${index_js}"><!-- added this avoiding script tag problem --></script>
+  
+  <h3>
+	<spring:message code="welcome_h3" arguments="${app_name}" />
+  </h3>
+  <p>
+  	<spring:message code="welcome_text" />
+  </p>
+
+  <c:url value="/login" var="loginUrl"/>
+  <spring-form:form action="${loginUrl}" method="POST" commandName="loginForm">
+  	<spring-form:errors path="*" element="div"/>
+  	<c:if test="${param.logout != null}">
+  		<div>
+  			You have been logged out.
+  		</div>
+  	</c:if>
+  	<c:if test="${param.accessDenied != null}">
+  		<div>
+  			You are not authorized to access this page, please login with proper user.
+  		</div>
+  	</c:if>
+  	<c:if test="${param.pleaseLogin != null}">
+  		<div>
+  			You are not login yet. Please Login.
+  		</div>
+  	</c:if>
+  	<label for="username">Username</label>
+  	<spring-form:input path="idcloud_username"/>
+  	<label for="password">Password</label>
+  	<spring-form:password path="idcloud_password"/>
+  	<div>
+  		<input id="submit" name="submit" type="submit" value="Login"/>
+  	</div>
+  </spring-form:form>
+</div>

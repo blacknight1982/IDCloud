@@ -38,8 +38,10 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 	      			<a id="homebanner" href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
     					<span>IDCloud Inspiration</span>
   					</a>
-	      			<!-- use captain icon for toggle menu -->
-	      			
+  					<div id="credential">
+  						<tiles:insertAttribute name="credential" ignore="true" />
+  					</div>
+  					<!-- use captain icon for toggle menu -->
     			</div>
     			<div class="overlay"></div>
   			</header>

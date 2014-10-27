@@ -82,6 +82,13 @@ p {
      color: #274a61;
 }
 
+#credential {
+	float: right;
+	margin: 0 auto;
+	top: -25;
+	position: relative;
+}
+
 #banner{
      display:block;
      margin:0 auto;

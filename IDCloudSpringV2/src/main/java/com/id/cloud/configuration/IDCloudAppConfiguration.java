@@ -2,11 +2,15 @@ package com.id.cloud.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 @Configuration
 @PropertySource({"/WEB-INF/cfg-props/inspiration.properties"})
+@Import({IDCloudDBConfiguration.class, IDCloudMVCConfiguration.class, IDCloudSecurityConfiguration.class})
+
+//@ImportResource("/WEB-INF/spring/idcloudsecurity.xml")
 public class IDCloudAppConfiguration {
 	
 	/**

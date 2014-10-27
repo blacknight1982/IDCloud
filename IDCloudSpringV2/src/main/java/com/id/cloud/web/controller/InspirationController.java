@@ -46,8 +46,8 @@ public class InspirationController {
 	private static final Logger logger = LoggerFactory.getLogger(InspirationController.class);
 	
 	@Autowired
-	Environment environment;
-		
+	private Environment environment;
+	
 	@Autowired
 	private InspirationDao inspirationDao;
 	
