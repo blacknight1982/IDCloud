@@ -22,19 +22,29 @@
   	<spring:message code="welcome_text" />
   </p>
 
-  <c:url value="/login" var="loginUrl"/>
-  <form action="${loginUrl}" method="POST">
-  	<c:if test="${param.logout != null}">
-  		<div>
-  			You have been logged out.
-  		</div>
-  	</c:if>
-  	<label for="username">Username</label>
-  	<input id="idcloud_username" name="idcloud_username" size="20" maxlength="50" type="text"/>
-  	<label for="password">Password</label>
-  	<input id="idcloud_username" name="idcloud_password" size="20" maxlength="50" type="password"/>
-	<div>
-  		<input id="submit" name="submit" type="submit" value="Login"/>
+  <c:url value="/createAccount" var="createAccountUrl"/>
+  <spring-form:form action="${createAccountUrl}" method="POST" commandName="accountForm">
+  	<p>
+  		<spring-form:errors path="*" element="div"/>
+  	</p>
+  	<p>
+  		<label for="username">Email(Will be used as login user name)</label>
+  		<spring-form:input path="idcloud_username"/>
+  	</p>
+  	<p>
+  		<label for="nickname">Nickname</label>
+  		<spring-form:input path="idcloud_nickname"/>
+  	</p>
+  	<p>
+  		<label for="password">Password</label>
+  		<spring-form:password path="idcloud_password"/>
+  	</p>
+  	<p>
+  		<label for="password">Confirm Password</label>
+  		<spring-form:password path="idcloud_confirm_password"/>
+  	</p>
+  	<div>
+  		<input id="submit" name="submit" type="submit" value="Create Account"/>
   	</div>
-  </form>
+  </spring-form:form>
 </div>

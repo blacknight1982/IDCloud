@@ -11,7 +11,8 @@ public class UserRoleMapper implements RowMapper<UserRole>{
 	
 	@Override
 	public UserRole mapRow(ResultSet rs, int num) throws SQLException {
-		UserRole userRole = new UserRole(rs.getInt("id"), rs.getString("username"),rs.getString("role"));
+		UserRole userRole = new UserRole(rs.getString("username"),rs.getString("role"));
+		userRole.setId(rs.getInt("id"));
 		return userRole;
 	}
 }

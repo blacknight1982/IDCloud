@@ -23,15 +23,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.id.cloud.inspiration.dao.UserDao;
+import com.id.cloud.inspiration.dao.UserRoleDao;
+import com.id.cloud.inspiration.entities.AccountForm;
 import com.id.cloud.inspiration.entities.LoginForm;
+import com.id.cloud.inspiration.entities.User;
+import com.id.cloud.inspiration.entities.UserRole;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
-public class LoginController {
+public class AccessController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccessController.class);
 	
 	@Autowired
 	private AuthenticationSuccessHandler successHandler;
@@ -39,6 +44,12 @@ public class LoginController {
 	@Autowired
 	@Qualifier("idcloudAuthenticationManager")
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private UserRoleDao userRoleDao;
 	
 	/**
 	 * post login Servlet
@@ -79,5 +90,39 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@ModelAttribute("loginForm") LoginForm loginForm){
 		return "login";
+	}
+	
+	/**
+	 * Create Account Servlet
+	 */
+	@RequestMapping(value = "/createAccount", method = RequestMethod.GET)
+	public String createAccount(@ModelAttribute("accountForm") AccountForm accountForm){
+		return "create_account";
+	}
+	
+	/**
+	 * Post Create Account Servlet
+	 */
+	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
+	public String createAccount(HttpServletRequest request, HttpServletResponse response,
+			@Valid @ModelAttribute("accountForm") AccountForm accountForm, BindingResult result){
+		String username = accountForm.getIdcloud_username();
+		String password = accountForm.getIdcloud_password();
+		String confirm_password = accountForm.getIdcloud_confirm_password();
+		String nickname = accountForm.getIdcloud_nickname();
+		if(result.hasErrors()){
+			return "create_account";
+		}
+		
+		if(!password.equals(confirm_password)){
+			result.reject("Create Account Fail","Passwords does not equal.");
+			return "create_account";
+		}
+		User newUser = new User(username,password,true,nickname);
+		UserRole newUserRole = new UserRole(username,"ROLE_USER");
+		userDao.create(newUser);
+		userRoleDao.create(newUserRole);
+		
+		return "redirect:/login";
 	}
 }

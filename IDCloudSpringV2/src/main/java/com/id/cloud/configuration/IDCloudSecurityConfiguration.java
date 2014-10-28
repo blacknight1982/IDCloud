@@ -43,6 +43,7 @@ public class IDCloudSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.httpBasic().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?pleaseLogin"));
 		http.authorizeRequests().antMatchers("/login").permitAll();
+		http.authorizeRequests().antMatchers("/createAccount").permitAll();
 		http.authorizeRequests().antMatchers("/**").hasRole("USER").anyRequest().authenticated();
 		http.exceptionHandling().accessDeniedPage("/login?accessDenied");
 		//http.formLogin().loginPage("/login").failureUrl("/login?error").successHandler(successHandler());

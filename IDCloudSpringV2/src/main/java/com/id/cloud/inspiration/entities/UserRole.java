@@ -8,8 +8,7 @@ public class UserRole {
 	
 	private String role;
 	
-	public UserRole(int id, String username, String role){
-		this.id = id;
+	public UserRole(String username, String role){
 		this.username = username;
 		this.role = role;
 	}
