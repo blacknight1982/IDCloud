@@ -20,6 +20,7 @@ public class InspirationMapper implements RowMapper<Inspiration>{
 		inspiration.setMainPageLocation(rs.getString("INSPIRATION_LOCATION"));
 		postTime.setTime(rs.getTimestamp("INSPIRATION_POSTTIME"));
 		inspiration.setPostTime(postTime);
+		inspiration.setAuthor(rs.getString("INSPIRATION_AUTHOR"));
 		return inspiration;
 	}
 }

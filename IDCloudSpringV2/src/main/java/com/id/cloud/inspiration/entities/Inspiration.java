@@ -26,7 +26,29 @@ public class Inspiration {
 	private String mainPageLocation;
 	
 	/**
+	 * Inspiration author
+	 */
+	private String author;
+	
+	
+	/**
+	 * Inspiration author nickname.
+	 * Non-persistent attribute
+	 * Normally, it's null. Only accessible through JSP page after value fulfilled. 
+	 */
+	private String authorNickname;
+	
+	public String getAuthorNickname() {
+		return authorNickname;
+	}
+
+	public void setAuthorNickname(String authorNickname) {
+		this.authorNickname = authorNickname;
+	}
+
+	/**
 	 * Inspiration associated Tags.
+	 * Non-persistent attribute
 	 * Normally, it's empty. Only accessible through JSP page after value fulfilled. 
 	 */
 	private List<Tag> tags;
@@ -69,6 +91,14 @@ public class Inspiration {
 
 	public void setMainPageLocation(String mainPageLocation) {
 		this.mainPageLocation = mainPageLocation;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 }

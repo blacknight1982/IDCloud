@@ -4,6 +4,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+
+/**
+ * Handle end user login information.
+ * Non-persist object. For view layer only.
+ * @author John
+ *
+ */
 public class LoginForm {
 	
 	@NotNull

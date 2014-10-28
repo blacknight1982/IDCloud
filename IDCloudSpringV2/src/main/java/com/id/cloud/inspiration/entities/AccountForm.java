@@ -3,6 +3,12 @@ package com.id.cloud.inspiration.entities;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Handle new user account registration information
+ * Non-persist object. For view layer only.
+ * @author John
+ *
+ */
 public class AccountForm extends LoginForm {
 	
 	@NotNull

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +33,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.id.cloud.inspiration.dao.InspirationDao;
 import com.id.cloud.inspiration.dao.InspirationM2MTagDao;
 import com.id.cloud.inspiration.dao.TagDao;
+import com.id.cloud.inspiration.dao.UserDao;
 import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.InspirationM2MTag;
 import com.id.cloud.inspiration.entities.Tag;
+import com.id.cloud.inspiration.entities.User;
 
 /**
  * Handles requests for the application home page.
@@ -57,6 +60,9 @@ public class InspirationController {
 	@Autowired
 	private InspirationM2MTagDao inspirationM2MTagDao;
 	
+	@Autowired
+	private UserDao userDao;
+	
 	/**
 	 * Query for the inspirations and related tags and display them on the index page
 	 * Selects the index view to render by returning its name.
@@ -73,6 +79,8 @@ public class InspirationController {
 				tagIDs[j] = inspirationM2MTags.get(j).getTagID();
 			}
 			inspirationList.get(i).setTags(tagDao.findByTagIDs(tagIDs));
+			User author = userDao.findByPrimaryKey(inspirationList.get(i).getAuthor());
+			inspirationList.get(i).setAuthorNickname(author.getNickname());
 		}
 		model.addAttribute("inspirationList",inspirationList);
 		return "index";
@@ -121,6 +129,9 @@ public class InspirationController {
 		newInspiration.setPostTime(Calendar.getInstance());
 		newInspiration.setTitle(inspirationTitle);
 		newInspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		
+		//set inspiration author to the current user
+		newInspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
 		int newInspirationID = inspirationDao.create(newInspiration);
 		
 		List <Tag> tags = tagDao.findAll();
@@ -191,7 +202,7 @@ public class InspirationController {
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.err.println("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed");
+			logger.error("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed");
 			e.printStackTrace(System.err);
 		}
 		
@@ -220,6 +231,7 @@ public class InspirationController {
 		inspiration.setPostTime(Calendar.getInstance());
 		inspiration.setTitle(inspirationTitle);
 		inspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
 		inspirationDao.update(inspiration);
 		
 		return "inspirationedit";
