@@ -1,12 +1,15 @@
 package com.id.cloud.inspiration.entities;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class AccountForm extends LoginForm {
 	
+	@NotNull
 	@Size(min=1, message="Username is required")
 	private String idcloud_nickname;
 	
+	@NotNull
 	@Size(min=1, message="Confirm Password is required")
 	private String idcloud_confirm_password;
 

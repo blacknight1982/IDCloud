@@ -353,3 +353,17 @@ table td{
 	font-weight: bold;
 }
 
+/**Credential Panel Style**/
+#credential_table tr td{
+	border: 0px;
+}
+
+/**Login page style**/
+#login_table tr td{
+	border: 0px;
+}
+
+/**New account page style**/
+#account_table tr td{
+	border: 0px;
+}

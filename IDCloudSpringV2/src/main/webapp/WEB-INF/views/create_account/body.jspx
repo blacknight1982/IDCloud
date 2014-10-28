@@ -27,24 +27,26 @@
   	<p>
   		<spring-form:errors path="*" element="div"/>
   	</p>
-  	<p>
-  		<label for="username">Email(Will be used as login user name)</label>
-  		<spring-form:input path="idcloud_username"/>
-  	</p>
-  	<p>
-  		<label for="nickname">Nickname</label>
-  		<spring-form:input path="idcloud_nickname"/>
-  	</p>
-  	<p>
-  		<label for="password">Password</label>
-  		<spring-form:password path="idcloud_password"/>
-  	</p>
-  	<p>
-  		<label for="password">Confirm Password</label>
-  		<spring-form:password path="idcloud_confirm_password"/>
-  	</p>
-  	<div>
-  		<input id="submit" name="submit" type="submit" value="Create Account"/>
-  	</div>
+  	<table id="account_table">
+  		<tr>
+  			<td><label for="username">Email (Will be used as login user name)</label></td>
+  			<td><spring-form:input path="idcloud_username"/></td>
+  		</tr>
+  		<tr>
+  			<td><label for="nickname">Nickname</label></td>
+  			<td><spring-form:input path="idcloud_nickname"/></td>
+  		</tr>
+  		<tr>
+  			<td><label for="password">Password</label></td>
+  			<td><spring-form:password path="idcloud_password"/></td>
+  		</tr>
+  		<tr>
+  			<td><label for="password">Confirm Password</label></td>
+  			<td><spring-form:password path="idcloud_confirm_password"/></td>
+  		</tr>
+  		<tr>
+  			<td><input id="submit" name="submit" type="submit" value="Create Account"/></td>
+  		</tr>
+  	</table>
   </spring-form:form>
 </div>
