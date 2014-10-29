@@ -353,6 +353,19 @@ table td{
 	font-weight: bold;
 }
 
+/**Inspiration edit page style**/
+#inspiration_editor-edit{
+	width: 100%;
+	height: 400px;
+}
+
+
+/**Inspiration publish page style**/
+#inspiration_editor{
+	width: 100%;
+	height: 400px;
+}
+
 /**Credential Panel Style**/
 #credential_table tr td{
 	border: 0px;

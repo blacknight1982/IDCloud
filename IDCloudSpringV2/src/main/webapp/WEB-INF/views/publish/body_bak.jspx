@@ -8,14 +8,16 @@
 	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
 	<spring:url var="serverlocation" value="/resources" />
 	
-	<spring:url value="/resources/nicEdit/nicEdit.js" var="nicEdit_js"/>
+	<spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditor_js"/>
+	<spring:url value="/resources/ckeditor/jquery.js" var="ckeditor_jquery_js"/>
 	
-	<script type="text/javascript" src="${nicEdit_js}"><!-- added this avoiding script tag problem --></script>
+	<script type="text/javascript" src="${ckeditor_js}"><!-- added this avoiding script tag problem --></script>
+	<script type="text/javascript" src="${ckeditor_jquery_js}"><!-- added this avoiding script tag problem --></script>
 	
 	<script>
-	bkLib.onDomLoaded(function() {
-		new nicEditor({fullPanel: true, maxHeight : 450}).panelInstance('inspiration_editor');
-	});
+  	$( document ).ready( function() {
+		$( '#inspiration_editor' ).ckeditor(); 
+	} );
   	
   	function validateForm(){
   		var newInspirationTitle = $("#inspiration_title-edit").val();
@@ -38,9 +40,9 @@
   			<strong>Inspiration Title:</strong>
   			<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
   		</p>
-  		<div id="inspiration_edit_area">
+  		<p>
   			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
-  		</div>
+  		</p>
   		<p>
   			<input name="submit" type="submit" value="Submit"/>
   		</p>
