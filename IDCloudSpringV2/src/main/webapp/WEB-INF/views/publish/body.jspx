@@ -38,7 +38,7 @@
   			<strong>Inspiration Title:</strong>
   			<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
   		</p>
-  		<div id="inspiration_edit_area">
+  		<div>
   			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
   		</div>
   		<p>

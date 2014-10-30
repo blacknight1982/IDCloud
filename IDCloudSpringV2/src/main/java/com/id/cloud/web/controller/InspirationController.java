@@ -188,7 +188,7 @@ public class InspirationController {
 	 * Manage the content for each inspiration with parameter {inspiration_id}
 	 * Selects the publish view to render by returning its name
 	 */
-	@RequestMapping(value = "/management/edit/{inspiration_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.POST)
 	public String inspirationEditPost(@PathVariable String inspiration_id, Locale locale, Model model, HttpServletRequest request) {
 		/**
 		 * Delete inspiration on the file system first
@@ -234,7 +234,7 @@ public class InspirationController {
 		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
 		inspirationDao.update(inspiration);
 		
-		return "inspirationedit";
+		return "redirect:index";
 	}
 	
 	/**

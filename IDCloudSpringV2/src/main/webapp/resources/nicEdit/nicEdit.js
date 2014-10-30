@@ -56,9 +56,12 @@ var bkElement = bkClass.extend({
 	pos : function() {
 		var curleft = curtop = 0;
 		var o = obj = this;
+		
+		//John modified - get left position directly from jquery API 
+		curleft = $(this).position().left;
 		if (obj.offsetParent) {
 			do {
-				curleft += obj.offsetLeft;
+				//curleft += obj.offsetLeft;
 				curtop += obj.offsetTop;
 			} while (obj = obj.offsetParent);
 		}

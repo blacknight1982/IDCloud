@@ -68,7 +68,7 @@ function initSlidingPanel(){
 	 
 	function switchModeForInspirationpanel(readingMode,changed){
 		if(readingMode){
-			if(changed){
+			/*if(changed){
 				var confirmchange = window.confirm("Do you want to save your editing?");
 				if(confirmchange){
 					$.post( "./management/edit/"+inspirationid, 
@@ -79,7 +79,7 @@ function initSlidingPanel(){
 				    				}
 				    			});
 				}
-			}
+			}*/
 			$("#inspirationpanel").empty();
 			$("#inspirationpanel").html('<iframe id="readingframe"></iframe>');
 			$("#readingframe").attr("src",inspirationURL);
@@ -89,7 +89,7 @@ function initSlidingPanel(){
 		}
 		else{
 			$("#inspirationpanel").load("./management/edit/"+inspirationid,function(){
-				$("#readingedit").text("Save and Back");
+				$("#readingedit").text("Back to Reading Mode");
 				$("#readingback").text("Back without Save");
 				$("#inspirationpanel").data("reading",false);
 			});
