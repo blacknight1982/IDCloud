@@ -1,0 +1,21 @@
+<div xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	 <jsp:directive.page contentType="text/html;charset=UTF-8" />
+	 <jsp:output omit-xml-declaration="yes" />
+	<spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
+	
+	<h1 id="directlinktitle">${inspiration.title}</h1>
+	<div id="directlinktags">
+	<c:forEach items="${inspiration.tags}" var="tag"><span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span></c:forEach>
+	</div>
+	<h1 id="directlinkdate">
+		<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${inspiration.postTime.time}"/>
+	</h1>
+	<h1 id="directlinkauthor">Author: ${inspiration.authorNickname}</h1>
+	
+	<iframe id="directlinkframe" src="${serverlocation}${inspiration.mainPageLocation}">
+	</iframe>
+</div>

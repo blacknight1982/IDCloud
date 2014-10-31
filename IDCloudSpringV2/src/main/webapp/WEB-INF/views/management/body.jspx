@@ -47,7 +47,7 @@
 	    			<option id="optionedit${inspiration.inspirationID}" value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
 	    		</c:forEach>
 		    </select>
-		    <button id="save-tag3">Save to Server</button>
+		    <!--<button id="save-tag3">Save to Server</button>-->
 		    <section id="inspirationedit">
 			    
   			</section>

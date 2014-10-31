@@ -185,6 +185,46 @@ public class InspirationController {
 	}
 	
 	/**
+	 * Direct link for getting the content of each inspiration with parameter {inspiration_id}
+	 */
+	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.GET)
+	public String directLink(@PathVariable String inspiration_id, Locale locale, Model model) {
+		int inspirationID = Integer.parseInt(inspiration_id);
+		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
+		inspiration.setAuthorNickname(userDao.findByPrimaryKey(inspiration.getAuthor()).getNickname());
+		
+		List<InspirationM2MTag> inspirationM2MTags = inspirationM2MTagDao.findByInspirationID(inspirationID);
+		Integer [] tagIDs = new Integer[inspirationM2MTags.size()];
+		for (int i=0 ; i<inspirationM2MTags.size() ; i++) 
+		{
+			tagIDs[i] = inspirationM2MTags.get(i).getTagID();
+		}
+		inspiration.setTags(tagDao.findByTagIDs(tagIDs));
+		
+		model.addAttribute("inspiration",inspiration);
+				
+		/*
+		 * Read inspiration on the file system.
+		 */
+		
+		String folderName = environment.getProperty("inspiration.folder.location")+inspiration.getTitle();
+		String fileName = folderName+"/"+inspiration.getTitle()+".html";
+		
+		try{
+			Path paths = Paths.get(fileName);
+			byte[] encoded = Files.readAllBytes(paths);
+			String inspirationString = new String(encoded, "UTF-8");
+			model.addAttribute("inspirationString",inspirationString);
+			
+		}
+		catch(IOException e){
+			
+		}
+		
+		return "directlink";
+	}
+	
+	/**
 	 * Manage the content for each inspiration with parameter {inspiration_id}
 	 * Selects the publish view to render by returning its name
 	 */

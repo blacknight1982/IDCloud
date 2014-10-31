@@ -100,7 +100,7 @@ p {
 }
 
 
-/** page structure **/
+/** page structure for content sliding effect**/
 #wrapper {
     width:100%;
     height:100%;
@@ -143,6 +143,8 @@ p {
 	width: 100%;
 	height: 1100px;
 }
+
+/** Normal page structure**/
 
 header {
   display: block;
@@ -379,4 +381,34 @@ table td{
 /**New account page style**/
 #account_table tr td{
 	border: 0px;
+}
+
+/**Inspiration direct link page style**/
+#directlinkframe {
+	width: 100%;
+	height: 1100px;
+}
+
+#directlinktitle {
+	font-size: 26px;
+	font-weight: bold;
+	text-align: center;
+	margin: 5px 0px 10px 0px;
+}
+#directlinkdate{
+	font-size: 23px;
+	font-weight: bold;
+	text-align: center;
+	margin: 5px 0px 10px 0px;
+}
+
+#directlinkauthor{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	margin: 5px 0px 10px 0px;	
+}
+
+#directlinktags{
+	text-align: center ;
 }

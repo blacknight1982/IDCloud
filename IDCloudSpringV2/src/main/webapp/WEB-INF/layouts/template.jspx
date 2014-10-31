@@ -32,7 +32,7 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 	        </ul>
 	    </div>
   		<div id="pgcontainer">
-  			  <header>
+  			<header>
     			<div id="navbar">
 	      			<span id='menubtn' type="button">Menu</span>
 	      			<a id="homebanner" href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
