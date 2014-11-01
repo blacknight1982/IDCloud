@@ -14,14 +14,14 @@
   
   <script type="text/javascript" src="${jquery_scrollTo_js}"><!-- added this avoiding script tag problem --></script>
   <script type="text/javascript" src="${index_js}"><!-- added this avoiding script tag problem --></script>
-  
-  <h3>
+<!-- Temporarily comment out the begining of body for IDCloud inspiration introduction
+  <h1>
 	<spring:message code="welcome_h3" arguments="${app_name}" />
-  </h3>
+  </h1>
   <p>
   	<spring:message code="welcome_text" />
   </p>
-
+--> 
   <table id="inspirationtable">
 	<tbody>
 	  <tr>

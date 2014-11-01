@@ -1,0 +1,23 @@
+<div xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+
+  <table>
+	<tbody>
+	  <tr>
+	  	<th>Name</th>
+	  	<th>Title</th>
+	  	<th>Email</th>
+	  </tr>
+	  <tr>
+	  	<td>John Liu</td>
+	  	<td>Designer</td>
+	  	<td>blacknight1982@gmail.com</td>
+  	  </tr>
+	</tbody>
+  </table>
+</div>

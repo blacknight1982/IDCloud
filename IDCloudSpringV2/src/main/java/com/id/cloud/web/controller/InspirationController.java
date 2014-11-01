@@ -447,6 +447,15 @@ public class InspirationController {
 	}
 	
 	/**
+	 * Selects the contact view to render by returning its name.
+	 */
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact(Locale locale, Model model) {
+		
+		return "contact";
+	}
+	
+	/**
 	 * Test Servlet
 	 * @param locale
 	 * @param model

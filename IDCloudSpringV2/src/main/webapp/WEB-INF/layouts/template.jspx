@@ -10,6 +10,8 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 <spring:url var="index_page" value="/inspiration/index" />
 <spring:url var="publish_page" value="/inspiration/publish" />
 <spring:url var="management" value="/inspiration/management" />
+<spring:url var="contact" value="/inspiration/contact" />
+
 <spring:url var="banner" value="/resources/images/banner-graphic.png" />
 <spring:url var="home" value="/" />
 <spring:message code="button_home" var="home_label" htmlEscape="false" />
@@ -27,8 +29,7 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 	          <li><a href="${index_page}">Homepage</a></li>
 	          <li><a href="${publish_page}">Publish</a></li>
 	          <li><a href="${management}">Management</a></li>
-	          <li><a href="#">Our Products</a></li>
-	          <li><a href="#">Contact</a></li>
+	          <li><a href="${contact}">Contact</a></li>
 	        </ul>
 	    </div>
   		<div id="pgcontainer">
