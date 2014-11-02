@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,6 +21,7 @@ import com.id.cloud.inspiration.security.IDCloudUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class IDCloudSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
@@ -44,8 +46,9 @@ public class IDCloudSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.httpBasic().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?pleaseLogin"));
 		http.authorizeRequests().antMatchers("/login").permitAll();
 		http.authorizeRequests().antMatchers("/createAccount").permitAll();
-		http.authorizeRequests().antMatchers("/**").hasRole("USER").anyRequest().authenticated();
-		http.exceptionHandling().accessDeniedPage("/login?accessDenied");
+		//http.authorizeRequests().antMatchers("/inspiration/publish").hasRole("ADMIN").anyRequest().authenticated();
+		//http.authorizeRequests().antMatchers("/**").hasRole("USER").anyRequest().authenticated();
+		http.exceptionHandling().accessDeniedPage("/accessdenied");
 		//http.formLogin().loginPage("/login").failureUrl("/login?error").successHandler(successHandler());
 		//http.formLogin().loginProcessingUrl("/login").usernameParameter("idcloud_username").passwordParameter("idcloud_password");
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,6 +91,7 @@ public class InspirationController {
 	 * Publish the inspiration and associate the tags to it
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/publish", method = RequestMethod.GET)
 	public String inspirationPublish(Locale locale, Model model) {
 		List <Tag> tags = tagDao.findAll();
@@ -102,6 +104,7 @@ public class InspirationController {
 	 * Redirect to the index view after executing publish
 	 * @throws UnsupportedEncodingException 
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/publish", method = RequestMethod.POST)
 	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
 		/*
@@ -149,6 +152,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String tagManagement(Locale locale, Model model) {
 		/**
@@ -164,6 +168,7 @@ public class InspirationController {
 	 * Manage the tags for each inspiration with parameter {inspiration_id}
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/{inspiration_id}", method = RequestMethod.GET)
 	public String inspirationTagMgt(@PathVariable String inspiration_id, Locale locale, Model model) {
 		
@@ -228,6 +233,7 @@ public class InspirationController {
 	 * Manage the content for each inspiration with parameter {inspiration_id}
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.POST)
 	public String inspirationEditPost(@PathVariable String inspiration_id, Locale locale, Model model, HttpServletRequest request) {
 		/**
@@ -281,6 +287,7 @@ public class InspirationController {
 	 * Manage the content for each inspiration with parameter {inspiration_id}
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/management/edit/{inspiration_id}", method = RequestMethod.GET)
 	public String inspirationEdit(@PathVariable String inspiration_id, Locale locale, Model model) {
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
@@ -312,6 +319,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting in a pool
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/create_delete", method = RequestMethod.POST)
 	public String tagCreateDeletePool(@RequestParam(value = "tagNameArray[]", required = false) String[] tagNameArray, 
 			@RequestParam(value = "tagColorArray[]", required = false) String[] tagColorArray,
@@ -347,6 +355,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/tagpool", method = RequestMethod.GET)
 	public String tagPool(Model model) {
 		List <Tag> tags = tagDao.findAll();
@@ -358,6 +367,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationpool", method = RequestMethod.GET)
 	public String inspirationPool(Model model) {
 		List<Inspiration> inspirationList = inspirationDao.findAll();
@@ -369,6 +379,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationremove/{inspiration_id}", method = RequestMethod.GET)
 	public String inspirationRemove(@PathVariable String inspiration_id, Model model) {
 		int inspirationID = Integer.parseInt(inspiration_id);
@@ -388,14 +399,11 @@ public class InspirationController {
 			e.printStackTrace(System.err);
 		}
 		
-		
 		/**
 		 *  Delete inspiration in the DB
 		 */
 		
 		inspirationDao.deleteByPrimaryKey(inspirationID);
-		
-		
 		
 		List<Inspiration> inspirationList = inspirationDao.findAll();
 		model.addAttribute("inspirationList",inspirationList);
@@ -406,6 +414,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationtags/{inspiration_id}", method = RequestMethod.POST)
 	public String inspirationTagOper(@PathVariable String inspiration_id, 
 			@RequestParam(value = "inspirationTagOperation", required = false) String inspirationTagOperation,
@@ -442,8 +451,17 @@ public class InspirationController {
 				}
 			}
 		}
-		
 		return "management";
+	}
+	
+	/**
+	 * 
+	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = "/imageupload", method = RequestMethod.POST)
+	public String imageUpload(Locale locale, Model model) {
+		
+		return "contact";
 	}
 	
 	/**

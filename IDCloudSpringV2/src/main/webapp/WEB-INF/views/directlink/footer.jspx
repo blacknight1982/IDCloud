@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+<!-- Temporarily comment out the footer
+  <spring:url value="/inspiration/index" var="home"/>
+  <span>
+    <a href="${home}">
+      <spring:message code="button_home"/>
+    </a>
+  </span>
+  -->
+  	<div>
+		Powered by ID Cloud
+	</div>
+</div>

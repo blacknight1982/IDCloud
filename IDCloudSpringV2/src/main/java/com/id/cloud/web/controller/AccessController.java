@@ -125,4 +125,9 @@ public class AccessController {
 		
 		return "redirect:/login";
 	}
+	
+	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
+	public String accessDenied(@ModelAttribute("loginForm") LoginForm loginForm){
+		return "accessdenied";
+	}
 }

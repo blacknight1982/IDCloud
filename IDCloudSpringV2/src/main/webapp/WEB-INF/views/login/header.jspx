@@ -4,11 +4,16 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-
+<!-- Temporarily comment out the banner and search bar
   <spring:url var="banner" value="/resources/images/banner-graphic.png" />
   <spring:url var="home" value="/" />
   <spring:message code="button_home" var="home_label" htmlEscape="false" />
   <a id="banner" href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
     <img src="${banner}" />
   </a>
+  <p>
+  	Search Inspiration: <input type="search"></input>
+  </p>
+  -->
+  <h2 id="index-slogan">A Mind Voyaing Through Spaces of Inspiration</h2>
 </div> 

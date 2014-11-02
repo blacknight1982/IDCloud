@@ -150,7 +150,7 @@ p {
 header {
   display: block;
   width: 100%;
-  height: 70px;
+  height: 75px;
   background: #F1F1F1;
   padding: 15px 10px;
   margin-bottom: 25px;
@@ -386,6 +386,10 @@ table td{
 	height: 400px;
 }
 
+#publish_table tr td{
+	border: 0px;
+}
+
 /**Credential Panel Style**/
 #credential_table tr td{
 	border: 0px;
@@ -405,7 +409,7 @@ table td{
 /**Inspiration direct link page style**/
 #directlinkframe {
 	width: 100%;
-	height: 100%;
+	height: 65%;
 }
 
 #directlinktitle {

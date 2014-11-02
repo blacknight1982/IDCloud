@@ -2,6 +2,7 @@
 xmlns:c="http://java.sun.com/jsp/jstl/core" 
 xmlns:tiles="http://tiles.apache.org/tags-tiles" 
 xmlns:spring="http://www.springframework.org/tags" 
+xmlns:sec="http://www.springframework.org/security/tags"
 xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
 xmlns:fn="http://java.sun.com/jsp/jstl/functions" >  
 
@@ -66,8 +67,10 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 					<div id="panel2" class="panel">
 						<div id="readingpanel">
 							<button id="readingback">Back</button>
-							<br></br>
-							<button id="readingedit">Switch to Editing Mode</button>
+							<sec:authorize access="authenticated">
+								<br></br>
+								<button id="readingedit">Switch to Editing Mode</button>
+							</sec:authorize>
 							<div id="inspirationpanel">
 								<iframe id="readingframe">
 						   		</iframe>

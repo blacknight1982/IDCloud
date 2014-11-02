@@ -1370,6 +1370,7 @@ var nicUploadOptions = {
 
 var nicUploadButton = nicEditorAdvancedButton.extend({	
 	nicURI : 'http://api.imgur.com/2/upload.json',
+//	nicURI : 'http://localhost:8080/IDCloudSpringV2/inspiration/imageupload',
   errorText : 'Failed to upload image',
 
 	addPane : function() {

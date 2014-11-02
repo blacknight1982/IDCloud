@@ -27,17 +27,26 @@
   
   	<form action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
-  		<p>Please Select Tags:</p>
-	  	<p>
-		  	<c:forEach items="${tags}" var="tag">
-		  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
-		  		<span>${tag.name}||</span>
-		  	</c:forEach>
-	  	</p>
-  		<p>
-  			<strong>Inspiration Title:</strong>
-  			<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
-  		</p>
+  		<table id="publish_table">
+	  		<tbody>
+	  			<tr>
+	  				<td>Please Select Tags:</td>
+	  				<td>
+	  					<c:forEach items="${tags}" var="tag">
+					  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
+					  		<span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span>
+					  	</c:forEach>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td>Inspiration Title:</td>
+	  				<td>
+	  					<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
+	  				</td>
+	  			</tr>
+	  		</tbody>
+  		</table>
+  		
   		<div>
   			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
   		</div>

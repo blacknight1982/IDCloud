@@ -7,5 +7,6 @@
   <definition name="directlink" extends="template">
   	<put-attribute name="body" value="/WEB-INF/views/directlink/body.jspx"/>
 	<put-attribute name="header" value="/WEB-INF/views/directlink/header.jspx"/>
+	<put-attribute name="footer" value="/WEB-INF/views/directlink/footer.jspx"/>
   </definition>
 </tiles-definitions>
