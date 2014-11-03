@@ -5,10 +5,10 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	 <jsp:directive.page contentType="text/html;charset=UTF-8" />
 	 <jsp:output omit-xml-declaration="yes" />
+	<spring:url value="/resources/idcloudjs/fbintegration.js" var="fbintegration_js"></spring:url>
+  	<script type="text/javascript" src="${fbintegration_js}"><!-- added this avoiding script tag problem --></script>
 	 
 	<spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
-	
- 
 	
 	<h1 id="directlinktitle">${inspiration.title}</h1>
 	<div id="directlinktags">
@@ -25,4 +25,20 @@
 	
 	<embed id="directlinkframe" src="${serverlocation}${inspiration.mainPageLocation}"/>
 	
+	<div id="socialintegrationtabs">
+		<ul>
+		    <li><a href="#socialintegrationtabs-fb">Facebook</a></li>
+		    <li><a href="#socialintegrationtabs-twitter">Twitter</a></li>
+  		</ul>
+  		
+  		<div id="socialintegrationtabs-fb">
+			<div class="fb-comments" data-href="http://www.sap.com" data-numposts="10" data-colorscheme="light">
+				<!-- added this avoiding script tag problem -->
+			</div>
+		</div>
+		
+		<div id="socialintegrationtabs-twitter">
+			<!-- added this avoiding script tag problem -->
+		</div>
+	</div>
 </div>

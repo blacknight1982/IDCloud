@@ -4,7 +4,7 @@
 	"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
 
 <tiles-definitions>
-  <definition name="directlink" extends="template">
+  <definition name="directlink" extends="template_nonsliding">
   	<put-attribute name="body" value="/WEB-INF/views/directlink/body.jspx"/>
 	<put-attribute name="header" value="/WEB-INF/views/directlink/header.jspx"/>
 	<put-attribute name="footer" value="/WEB-INF/views/directlink/footer.jspx"/>
