@@ -68,12 +68,14 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 						<div id="readingpanel">
 							<button id="readingback">Back</button>
 							<sec:authorize access="authenticated">
-								<br></br>
 								<button id="readingedit">Switch to Editing Mode</button>
 							</sec:authorize>
 							<div id="inspirationpanel">
-								<iframe id="readingframe">
-						   		</iframe>
+								<div class="ios-scroll-wrapper">
+									<iframe id="readingframe">
+										<!-- added this avoiding script tag problem -->
+							   		</iframe>
+						   		</div>
 						   	</div>
 					   	</div>
 					</div>

@@ -98,14 +98,18 @@ p {
      display:block;
      margin:0 auto;
 }
-
+/****/
+.ios-scroll-wrapper {
+	-webkit-overflow-scrolling: touch;
+  	/* important:  dimensions or positioning here! */
+}
 
 /** page structure for content sliding effect**/
 #wrapper {
     width:100%;
     height:100%;
     position:absolute;
-    overflow:auto;
+    overflow-x:hidden;
 }
 
 #mask {
@@ -411,7 +415,9 @@ table td{
 #directlinkframe {
 	width: 100%;
 	height: 65%;
+	border: solid 1px #aaaaaa ;
 	overflow-y: scroll;
+	border-radius: 4px;
 }
 
 #directlinktitle {

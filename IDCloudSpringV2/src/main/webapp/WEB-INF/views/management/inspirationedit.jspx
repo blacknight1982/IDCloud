@@ -10,6 +10,7 @@
   	$( document ).ready( function() {
   		new nicEditor({fullPanel: true, maxHeight : 450}).panelInstance('inspiration_editor-edit');
 	} );
+  	
 	</script>
 	
 	<form action="./${inspiration.inspirationID}" accept-charset="UTF-8" method="post">
