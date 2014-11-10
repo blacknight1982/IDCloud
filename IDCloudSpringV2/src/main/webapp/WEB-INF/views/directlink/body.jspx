@@ -14,13 +14,15 @@
   	<script type="text/javascript" src="${fbintegration_js}"><!-- added this avoiding script tag problem --></script>
   	<script type="text/javascript" src="${modeswitch_js}"><!-- added this avoiding script tag problem --></script>
 	 
-	<spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
-	
-	<a href="${index_page}" id="directlinkhome">Inspiration Home Page</a>
-	<br></br>
-	<sec:authorize access="authenticated">
-		<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})">Switch to Editing Mode</a>
-	</sec:authorize>
+	<spring:url var="serverlocation" value="http://idcloud.iego.net/webcontents" />
+	<p>
+		<a href="${index_page}" id="directlinkhome">Inspiration Home Page</a>
+	</p>
+	<p>
+		<sec:authorize access="authenticated">
+			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})">Switch to Editing Mode</a>
+		</sec:authorize>
+	</p>
 	<div id="directlinkpanel">
 		<h1 id="directlinktitle">${inspiration.title}</h1>
 		<div id="directlinktags">
@@ -50,7 +52,10 @@
 			</div>
 			
 			<div id="socialintegrationtabs-twitter">
-				<!-- added this avoiding script tag problem -->
+				<a class="twitter-timeline" data-chrome="nofooter noborders transparent" data-widget-id="530058814301548544">
+					Tweets about "http://www.google.com/chrome/devices/"
+					<!-- added this avoiding script tag problem -->
+				</a>
 			</div>
 		</div>
 	</div>

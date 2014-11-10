@@ -10,6 +10,7 @@ public interface InspirationDao {
 	
 	public void update(Inspiration inspiration);
 	
+	//@PostAuthorize("returnObject?.author == authentication.name")
 	public Inspiration findByPrimaryKey(int id);
 	
 	public void deleteByPrimaryKey(int id);

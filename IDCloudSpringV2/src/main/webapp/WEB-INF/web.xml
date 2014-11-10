@@ -35,6 +35,11 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
    </filter>
    
    <filter>  
+       <filter-name>simpleCORSFilter</filter-name>  
+       <filter-class>com.id.cloud.web.filter.SimpleCORSFilter</filter-class>  
+   </filter>
+   
+   <filter>  
        <filter-name>CharacterEncodingFilter</filter-name>  
        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
        <init-param>  
@@ -45,6 +50,11 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
    
    <filter-mapping>  
        <filter-name>springSecurityFilterChain</filter-name>  
+       <url-pattern>/*</url-pattern>  
+   </filter-mapping>
+   
+   <filter-mapping>  
+       <filter-name>simpleCORSFilter</filter-name>  
        <url-pattern>/*</url-pattern>  
    </filter-mapping>
    

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @PropertySource({"/WEB-INF/cfg-props/inspiration.properties"})
@@ -26,4 +27,11 @@ public class IDCloudAppConfiguration {
 		messageSource.setBasenames("/WEB-INF/i18n/messages","/WEB-INF/i18n/application");
 		return messageSource;
 	}
+	
+	@Bean
+    public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(268435456);
+		return multipartResolver;
+    }
 }
