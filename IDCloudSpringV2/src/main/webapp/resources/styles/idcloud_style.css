@@ -412,6 +412,15 @@ table td{
 }
 
 /**Inspiration direct link page style**/
+#directlinkhomediv {
+	display: inline;
+}
+
+#directlinkeditdiv {
+	display: inline;
+	float: right;
+}
+
 #directlinkframe {
 	width: 100%;
 	height: 65%;

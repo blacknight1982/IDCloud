@@ -15,14 +15,14 @@
   	<script type="text/javascript" src="${modeswitch_js}"><!-- added this avoiding script tag problem --></script>
 	 
 	<spring:url var="serverlocation" value="http://idcloud.iego.net/webcontents" />
-	<p>
-		<a href="${index_page}" id="directlinkhome">Inspiration Home Page</a>
-	</p>
-	<p>
+	<div id="directlinkhomediv">
+		<a href="${index_page}" id="directlinkhome">&lt;-Home Page</a>
+	</div>
+	<div id="directlinkeditdiv">
 		<sec:authorize access="authenticated">
-			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})">Switch to Editing Mode</a>
+			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})">Switch to Editing Mode-&gt;</a>
 		</sec:authorize>
-	</p>
+	</div>
 	<div id="directlinkpanel">
 		<h1 id="directlinktitle">${inspiration.title}</h1>
 		<div id="directlinktags">
