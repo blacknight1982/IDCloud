@@ -24,7 +24,7 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 		<title><spring:message code="welcome_h3" arguments="${app_name}" /></title>
 	</head>
 	
-  	<body>
+  	<body id="idcloudbody">
   		<div id="idcloudmenu">
 	        <ul>
 	          <li><a href="${index_page}">Homepage</a></li>
