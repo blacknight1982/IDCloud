@@ -25,7 +25,7 @@
 	</script>
 	
   
-  	<form action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
+  	<form id="publish_form" action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
   		<table id="publish_table">
 	  		<tbody>
@@ -36,6 +36,16 @@
 					  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
 					  		<span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span>
 					  	</c:forEach>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td>Please Select Authorization Level:</td>
+	  				<td>
+	  					<select form="publish_form" name="inspiration-auth-level">
+							<option value="0">0 - Visible to All</option>
+				    		<option value="1">1 - Visible to Registered Users</option>
+				    		<option value="2">2 - Visible to Self Only</option>
+					    </select>
 	  				</td>
 	  			</tr>
 	  			<tr>

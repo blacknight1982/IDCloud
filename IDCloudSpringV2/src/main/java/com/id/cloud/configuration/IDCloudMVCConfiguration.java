@@ -57,7 +57,7 @@ public class IDCloudMVCConfiguration extends WebMvcConfigurerAdapter{
 	}
 	
 	@Override
-	  public void addInterceptors(InterceptorRegistry registry) {
+	public void addInterceptors(InterceptorRegistry registry) {
 		WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
 		webContentInterceptor.setCacheSeconds(0);
 		webContentInterceptor.setUseExpiresHeader(true);

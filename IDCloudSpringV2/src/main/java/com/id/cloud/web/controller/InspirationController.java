@@ -107,12 +107,12 @@ public class InspirationController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/publish", method = RequestMethod.POST)
 	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+		
 		/*
 		 * Create inspiration on the file system.
 		 */
-		
 		String inspirationTitle = request.getParameter("inspiration_title");
-		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspirationTitle;
 		String fileName = folderName+"/"+inspirationTitle+".html";
 		
 		(new File(folderName)).mkdirs();
@@ -127,11 +127,15 @@ public class InspirationController {
 		catch(IOException e){
 			
 		}
+		//get inspiration authentication level
+		String auth_level = request.getParameter("inspiration-auth-level");
+	
 		
 		Inspiration newInspiration = new Inspiration();
 		newInspiration.setPostTime(Calendar.getInstance());
 		newInspiration.setTitle(inspirationTitle);
 		newInspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		newInspiration.setAuthLevel(Integer.parseInt(auth_level));
 		
 		//set inspiration author to the current user
 		newInspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -212,7 +216,7 @@ public class InspirationController {
 		 * Read inspiration on the file system.
 		 */
 		
-		String folderName = environment.getProperty("inspiration.folder.location")+inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getTitle();
 		String fileName = folderName+"/"+inspiration.getTitle()+".html";
 		
 		try{
@@ -243,7 +247,7 @@ public class InspirationController {
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
 		
 		try {
-		String folderName = environment.getProperty("inspiration.folder.location") + inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getTitle();
 		
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {
@@ -258,7 +262,7 @@ public class InspirationController {
 		 */
 		
 		String inspirationTitle = request.getParameter("inspiration_title-edit");
-		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspirationTitle;
 		(new File(folderName)).mkdirs();
 		String fileName = folderName+"/"+inspirationTitle+".html";
 		
@@ -298,7 +302,7 @@ public class InspirationController {
 		 * Read inspiration on the file system.
 		 */
 		
-		String folderName = environment.getProperty("inspiration.folder.location")+inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getTitle();
 		String fileName = folderName+"/"+inspiration.getTitle()+".html";
 		
 		try{
@@ -390,7 +394,7 @@ public class InspirationController {
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		try {
-		String folderName = environment.getProperty("inspiration.folder.location") + inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getTitle();
 		
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {

@@ -43,6 +43,7 @@
 		
 		<div id="tagmgt-tabs-3">
 			<select id="inspiration-sel-edit">
+				<option value="0">Please Select an Inspiration</option>
 	    		<c:forEach items="${inspirationList}" var="inspiration">
 	    			<option id="optionedit${inspiration.inspirationID}" value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
 	    		</c:forEach>

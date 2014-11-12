@@ -30,6 +30,14 @@ public class Inspiration {
 	 */
 	private String author;
 	
+	/**
+	 * Authorization level:
+	 * 0 - visible to all
+	 * 1 - visible to all registered user
+	 * 2 - visible to self only
+	 */
+	private int authLevel; 
+	
 	
 	/**
 	 * Inspiration author nickname.
@@ -99,6 +107,14 @@ public class Inspiration {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public int getAuthLevel() {
+		return authLevel;
+	}
+
+	public void setAuthLevel(int authLevel) {
+		this.authLevel = authLevel;
 	}
 
 }

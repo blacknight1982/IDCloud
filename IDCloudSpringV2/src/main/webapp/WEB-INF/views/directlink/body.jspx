@@ -46,16 +46,16 @@
 	  		</ul>
 	  		
 	  		<div id="socialintegrationtabs-fb">
-				<div class="fb-comments" data-href="http://www.google.com" data-numposts="10" data-colorscheme="light">
+				<div class="fb-comments" data-href="http://idcloud.iego.net/IDCloudSpringV2/inspiration/${inspiration.inspirationID}" data-numposts="10" data-colorscheme="light">
 					<!-- added this avoiding script tag problem -->
 				</div>
 			</div>
 			
 			<div id="socialintegrationtabs-twitter">
-				<a class="twitter-timeline" data-chrome="nofooter noborders transparent" data-widget-id="530058814301548544">
-					Tweets about "http://www.google.com/chrome/devices/"
-					<!-- added this avoiding script tag problem -->
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://idcloud.iego.net/IDCloudSpringV2/inspiration/${inspiration.inspirationID}">
+					Tweet
 				</a>
+				
 			</div>
 		</div>
 	</div>

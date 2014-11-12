@@ -21,6 +21,7 @@ public class InspirationMapper implements RowMapper<Inspiration>{
 		postTime.setTime(rs.getTimestamp("INSPIRATION_POSTTIME"));
 		inspiration.setPostTime(postTime);
 		inspiration.setAuthor(rs.getString("INSPIRATION_AUTHOR"));
+		inspiration.setAuthLevel(rs.getInt("AUTH_LEVEL"));
 		return inspiration;
 	}
 }

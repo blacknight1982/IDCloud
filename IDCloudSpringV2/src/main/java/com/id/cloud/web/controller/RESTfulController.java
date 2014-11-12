@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -68,10 +69,10 @@ public class RESTfulController {
 	ResponseEntity<RestResponse> getRestResponse(@RequestParam("image") final MultipartFile multiPart){
 		String fileName = null;
 		String folderName = environment.getProperty("inspiration.imageupload.folder.location");
-		String weblocation = environment.getProperty("inspiration.imageupload.dropbox.url.location");
+		String weblocation = environment.getProperty("inspiration.imageupload.url.location");
     	if (!multiPart.isEmpty()) {
             try {
-                fileName = multiPart.getOriginalFilename();      
+                fileName = UUID.randomUUID()+"-"+multiPart.getOriginalFilename();   
                 byte[] bytes = multiPart.getBytes();
                 BufferedOutputStream buffStream = 
                         new BufferedOutputStream(new FileOutputStream(new File(folderName + fileName)));

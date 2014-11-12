@@ -1,29 +1,31 @@
 /**
  * Tag Drap and Drop
  */ 
+$( document ).ready(function() {
+	$(initPageTabs);
 
-$(initPageTabs);
+	$(initInspirationSel);
 
-$(initInspirationSel);
+	$(initInspirationSelEdit);
 
-$(initInspirationSelEdit);
+	$(initDragAndDropTags);
 
-$(initDragAndDropTags);
+	$(initTagRemovable);
 
-$(initTagRemovable);
+	$(initTagPool);
 
-$(initTagPool);
+	$(initTagCreationDialog);
 
-$(initTagCreationDialog);
+	$(initInspirationPool);
 
-$(initInspirationPool);
+	$(initInspirationRemovable);
 
-$(initInspirationRemovable);
+});
 
 
 function initPageTabs(){
 	$( "#tagmgt-tabs" ).tabs({
-			beforeLoad: function( event, ui ) {
+			load: function( event, ui ) {
 				$("#tagcontainer").load("./management/"+$("#inspiration-sel").val(),function(){
 					initDragAndDropTags();
 				});
@@ -178,7 +180,8 @@ function initInspirationSel(){
 	
 	$("#inspiration-sel").data("lastInspirationID",$("#inspiration-sel").val());
 	
-	$("#inspiration-sel").change(function () {
+	//To make sure a change only bind action once
+	$("#inspiration-sel").unbind().change(function () {
         /**
          * Get Confirmation before send inspiration tag update post to server
          */
@@ -199,7 +202,7 @@ function initInspirationSel(){
 		    				}
 		    			});
 		}
-		
+		confirmChange = false;
 		var inspirationid = this.value;
         if(inspirationid!=""){
         	$("#tagcontainer").load("./management/"+inspirationid,function(){
@@ -208,7 +211,8 @@ function initInspirationSel(){
         }
     });
 	
-	$("#save-tag2").button().on( "click", function() {
+	//To make sure a button click only bind action once
+	$("#save-tag2").unbind().button().on( "click", function() {
 		var confirmChange = false;
 		var inspirationID = $("#inspiration-sel").val();
 		if($("#tagcontainer").data("statusChanged")){
@@ -227,18 +231,16 @@ function initInspirationSel(){
 		else{
 			window.alert("Nothing was changed for inspiration with ID: "+ inspirationID);
 		}
+		confirmChange = false;
 	});
 }
 
 function initInspirationSelEdit(){
 	
-	$("#inspirationedit").load("./management/edit/"+$("#inspiration-sel-edit").val(),function(){
-		
-	});
-	
 	$("#inspiration-sel-edit").data("lastInspirationID",$("#inspiration-sel-edit").val());
 	
-	$("#inspiration-sel-edit").change(function () {
+	//To make sure a change only bind action once
+	$("#inspiration-sel-edit").unbind().change(function () {
         /**
          * Get Confirmation before send inspiration tag update post to server
          */
@@ -259,16 +261,20 @@ function initInspirationSelEdit(){
 		    				}
 		    			});*/
 		}
-		
+		confirmChange = false;
 		var inspirationid = this.value;
-        if(inspirationid!=""){
+        if((inspirationid!="0")&&(inspirationid!=undefined)){
         	$("#inspirationedit").load("./management/edit/"+inspirationid,function(){
         		
         	});
         }
+        else{
+        	$("#inspirationedit").empty();
+        }
     });
 	
-	$("#save-tag3").button().on( "click",function(){
+	//To make sure a button click only bind action once
+	$("#save-tag3").unbind().button().on( "click",function(){
 		var inspirationID = $("#inspiration-sel-edit").val();
 		var newInspirationTitle = $("#inspiration_title-edit").val();
 		var valid = checkLength($("#inspiration_title-edit"),"Title length not meet requirement",1,255);
@@ -288,6 +294,16 @@ function initInspirationSelEdit(){
 		    			});
 		}
 	});
+	
+	var inspirationid = this.value;
+	if((inspirationid!="0")&&(inspirationid!=undefined)){
+    	$("#inspirationedit").load("./management/edit/"+inspirationid,function(){
+    		
+    	});
+    }
+    else{
+    	$("#inspirationedit").empty();
+    }
 }
 
 function initInspirationPool(){
