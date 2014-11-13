@@ -32,7 +32,7 @@ public class InspirationDaoImpl implements InspirationDao {
 	public int create(final Inspiration inspiration) {
 		if (inspiration == null) return 0;
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		final String SQL = "insert into INSPIRATION (INSPIRATION_TITLE, INSPIRATION_LOCATION, INSPIRATION_POSTTIME, INSPIRATION_AUTHOR, AUTH_LEVEL) values (?, ?, ?, ?, ?)";
+		final String SQL = "insert into INSPIRATION (INSPIRATION_TITLE, INSPIRATION_LOCATION, INSPIRATION_POSTTIME, INSPIRATION_AUTHOR,INSPIRATION_BRIEFING, AUTH_LEVEL) values (?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(new PreparedStatementCreator() {
 	        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 	            PreparedStatement ps =
@@ -41,7 +41,8 @@ public class InspirationDaoImpl implements InspirationDao {
 	            ps.setString(2, inspiration.getMainPageLocation());
 	            ps.setTimestamp(3, new java.sql.Timestamp(inspiration.getPostTime().getTimeInMillis()), inspiration.getPostTime());
 	            ps.setString(4, inspiration.getAuthor());
-	            ps.setInt(5, inspiration.getAuthLevel());
+	            ps.setString(5, inspiration.getBriefing());
+	            ps.setInt(6, inspiration.getAuthLevel());
 	            return ps;
 	        }
 	    },
@@ -52,8 +53,8 @@ public class InspirationDaoImpl implements InspirationDao {
 	@Override
 	public void update(Inspiration inspiration) {
 		if (inspiration == null) return;
-		String SQL = "update INSPIRATION SET INSPIRATION_TITLE=?, INSPIRATION_LOCATION=?, INSPIRATION_POSTTIME=?, INSPIRATION_AUTHOR=?, AUTH_LEVEL=? where INSPIRATION_ID = ? ";
-		jdbcTemplate.update(SQL, inspiration.getTitle(), inspiration.getMainPageLocation(), new java.sql.Timestamp(inspiration.getPostTime().getTimeInMillis()), inspiration.getAuthor(), inspiration.getInspirationID(),inspiration.getAuthLevel());
+		String SQL = "update INSPIRATION SET INSPIRATION_TITLE=?, INSPIRATION_LOCATION=?, INSPIRATION_POSTTIME=?, INSPIRATION_AUTHOR=?, INSPIRATION_BRIEFING=?, AUTH_LEVEL=? where INSPIRATION_ID = ? ";
+		jdbcTemplate.update(SQL, inspiration.getTitle(), inspiration.getMainPageLocation(), new java.sql.Timestamp(inspiration.getPostTime().getTimeInMillis()), inspiration.getAuthor(), inspiration.getBriefing(),inspiration.getAuthLevel(), inspiration.getInspirationID());
 	}
 
 	@Override

@@ -136,6 +136,7 @@ public class InspirationController {
 		newInspiration.setTitle(inspirationTitle);
 		newInspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
 		newInspiration.setAuthLevel(Integer.parseInt(auth_level));
+		newInspiration.setBriefing(request.getParameter("inspiration_briefing"));
 		
 		//set inspiration author to the current user
 		newInspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -277,11 +278,15 @@ public class InspirationController {
 			
 		}
 		
+		//get inspiration authentication level
+		String auth_level = request.getParameter("inspiration-auth-level");
 		
 		inspiration.setPostTime(Calendar.getInstance());
 		inspiration.setTitle(inspirationTitle);
 		inspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
 		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
+		inspiration.setAuthLevel(Integer.parseInt(auth_level));
+		inspiration.setBriefing(request.getParameter("inspiration_briefing"));
 		inspirationDao.update(inspiration);
 		
 		return "redirect:index";

@@ -51,14 +51,20 @@
 	  			<tr>
 	  				<td>Inspiration Title:</td>
 	  				<td>
-	  					<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
+	  					<input id="inspiration_title-publish" name="inspiration_title"  size="100" placeholder="Please input a title here ..."/>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td>Inspiration Briefing:</td>
+	  				<td>
+	  					<textarea id="inspiration_briefing-publish" name="inspiration_briefing" placeholder="Please input an inspiration highlight here ..."><!-- Added this to avoid JSP problem --></textarea>
 	  				</td>
 	  			</tr>
 	  		</tbody>
   		</table>
   		
   		<div>
-  			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
+  			<textarea name="inspiration_editor" id="inspiration_editor" >Please input your article here ...</textarea>
   		</div>
   		<p>
   			<input name="submit" type="submit" value="Submit"/>

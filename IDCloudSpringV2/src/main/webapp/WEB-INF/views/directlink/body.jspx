@@ -32,7 +32,7 @@
 			<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${inspiration.postTime.time}"/>
 		</h1>
 		<h1 id="directlinkauthor">Author: ${inspiration.authorNickname}</h1>
-		
+		<div id="directlinkbriefing">${inspiration.briefing}</div>
 		<div class="ios-scroll-wrapper">
 			<iframe id="directlinkframe" src="${serverlocation}${inspiration.mainPageLocation}">
 				<!-- added this avoiding script tag problem -->

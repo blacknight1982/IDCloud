@@ -31,6 +31,11 @@ public class Inspiration {
 	private String author;
 	
 	/**
+	 * General description of each inspiration
+	 */
+	private String briefing;
+	
+	/**
 	 * Authorization level:
 	 * 0 - visible to all
 	 * 1 - visible to all registered user
@@ -115,6 +120,14 @@ public class Inspiration {
 
 	public void setAuthLevel(int authLevel) {
 		this.authLevel = authLevel;
+	}
+
+	public String getBriefing() {
+		return briefing;
+	}
+
+	public void setBriefing(String briefing) {
+		this.briefing = briefing;
 	}
 
 }
