@@ -39,6 +39,12 @@
 	  					<textarea id="inspiration_briefing-publish" name="inspiration_briefing">${inspiration.briefing}</textarea>
 	  				</td>
 	  			</tr>
+	  			<tr>
+	  				<td>Update Inspiration Artical?</td>
+	  				<td>
+	  					<input type="checkbox" name="inspiration_article_update" value="update"/>
+	  				</td>
+	  			</tr>
 	  		</tbody>
 		</table>
 		

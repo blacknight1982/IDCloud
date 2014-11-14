@@ -241,42 +241,51 @@ public class InspirationController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.POST)
 	public String inspirationEditPost(@PathVariable String inspiration_id, Locale locale, Model model, HttpServletRequest request) {
-		/**
-		 * Delete inspiration on the file system first
-		 */
+		
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
 		
-		try {
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getTitle();
-		
-			FileUtils.deleteDirectory(new File(folderName));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.error("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed");
-			e.printStackTrace(System.err);
-		}
 		
 		
-		/**
-		 * Write edited inspiration on the file system.
-		 */
 		
+		
+		
+		String article_update = request.getParameter("inspiration_article_update"); 
 		String inspirationTitle = request.getParameter("inspiration_title-edit");
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspirationTitle;
-		(new File(folderName)).mkdirs();
-		String fileName = folderName+"/"+inspirationTitle+".html";
 		
-		try{
-			FileOutputStream fos = new FileOutputStream(fileName);
-			OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
-			osw.write(request.getParameter("inspiration_editor-edit"));
-			osw.flush();
-			osw.close();
-		}
-		catch(IOException e){
+		if("update".equals(article_update)){
 			
+			/**
+			 * Delete inspiration on the file system first
+			 */
+			try {
+			String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getTitle();
+			
+				FileUtils.deleteDirectory(new File(folderName));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.error("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed: "+ e.getMessage());
+			}
+			
+			/**
+			 * Write edited inspiration on the file system.
+			 */
+			String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspirationTitle;
+			(new File(folderName)).mkdirs();
+			String fileName = folderName+"/"+inspirationTitle+".html";
+			
+			try{
+				FileOutputStream fos = new FileOutputStream(fileName);
+				OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
+				osw.write(request.getParameter("inspiration_editor-edit"));
+				osw.flush();
+				osw.close();
+			}
+			catch(IOException e){
+				logger.error("Inspiration update with error: "+e.getMessage());
+			}
 		}
+		
 		
 		//get inspiration authentication level
 		String auth_level = request.getParameter("inspiration-auth-level");

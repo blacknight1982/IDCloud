@@ -19,7 +19,7 @@
   	<sec:authentication var="author" property="principal.username" />
   	<c:set var="authenticated" scope="session" value="true"/>
   </sec:authorize>
-  <c:out value="${authenticated}"/>
+  
 <!-- Temporarily comment out the begining of body for IDCloud inspiration introduction
   <h1>
 	<spring:message code="welcome_h3" arguments="${app_name}" />
