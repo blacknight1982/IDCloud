@@ -1369,10 +1369,10 @@ var nicUploadOptions = {
 /* END CONFIG */
 
 var nicUploadButton = nicEditorAdvancedButton.extend({	
-//	nicURI : 'http://api.imgur.com/2/upload.json',
-	nicURI : 'http://idcloud.iego.net/IDCloudSpringV2/inspiration/rest/imageupload',
-//	nicURI : 'http://localhost:8080/IDCloudSpringV2/inspiration/rest/imageupload',
-  errorText : 'Failed to upload image',
+	//nicURI : 'http://api.imgur.com/2/upload.json',
+	nicURI : 'http://idcloud.info/IDCloudSpringV2/inspiration/rest/imageupload',
+	//nicURI : 'http://localhost:8080/IDCloudSpringV2/inspiration/rest/imageupload',
+	errorText : 'Failed to upload image',
 
 	addPane : function() {
     if(typeof window.FormData === "undefined") {
@@ -1732,5 +1732,31 @@ var nicCodeButton = nicEditorAdvancedButton.extend({
 });
 
 nicEditors.registerPlugin(nicPlugin,nicCodeOptions);
+
+/**
+* John Customized Plugin
+* nicExample
+* @description: An example button plugin for nicEdit
+* @requires: nicCore, nicPane, nicAdvancedButton
+* @author: Brian Kirchoff
+* @version: 0.9.0
+*/
+ 
+/* START CONFIG */
+var nicExampleOptions = {
+    buttons : {
+        'example' : {name : __('Upload JS File'), type : 'nicEditorExampleButton'}
+    }
+	/* NICEDIT_REMOVE_START */,iconFiles : {'example' : '../resources/nicEdit/save.gif'}/* NICEDIT_REMOVE_END */
+};
+/* END CONFIG */
+ 
+var nicEditorExampleButton = nicEditorAdvancedButton.extend({   
+    mouseClick : function() {
+    alert('The example save button icon has been clicked!');
+  }
+});
+ 
+nicEditors.registerPlugin(nicPlugin,nicExampleOptions);
 
 

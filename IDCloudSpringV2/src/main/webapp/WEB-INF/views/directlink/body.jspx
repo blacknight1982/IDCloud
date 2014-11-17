@@ -14,7 +14,7 @@
   	<script type="text/javascript" src="${fbintegration_js}"><!-- added this avoiding script tag problem --></script>
   	<script type="text/javascript" src="${modeswitch_js}"><!-- added this avoiding script tag problem --></script>
 	 
-	<spring:url var="serverlocation" value="http://idcloud.iego.net/webcontents" />
+	<spring:url var="serverlocation" value="http://idcloud.info/webcontents" />
 	<div id="directlinkhomediv">
 		<a href="${index_page}" id="directlinkhome">&lt;-Home Page</a>
 	</div>

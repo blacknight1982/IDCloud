@@ -244,11 +244,7 @@ public class InspirationController {
 		
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
-		
-		
-		
-		
-		
+	
 		
 		String article_update = request.getParameter("inspiration_article_update"); 
 		String inspirationTitle = request.getParameter("inspiration_title-edit");
