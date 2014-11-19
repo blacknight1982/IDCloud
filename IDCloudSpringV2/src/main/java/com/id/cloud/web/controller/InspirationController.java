@@ -31,10 +31,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.id.cloud.inspiration.dao.AccessLogDao;
 import com.id.cloud.inspiration.dao.InspirationDao;
 import com.id.cloud.inspiration.dao.InspirationM2MTagDao;
 import com.id.cloud.inspiration.dao.TagDao;
 import com.id.cloud.inspiration.dao.UserDao;
+import com.id.cloud.inspiration.entities.AccessLog;
 import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.InspirationM2MTag;
 import com.id.cloud.inspiration.entities.Tag;
@@ -64,12 +66,19 @@ public class InspirationController {
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private AccessLogDao accessLogDao;
+	
 	/**
 	 * Query for the inspirations and related tags and display them on the index page
 	 * Selects the index view to render by returning its name.
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String inspirationIndex(Locale locale, Model model) {
+	public String inspirationIndex(Locale locale, Model model, HttpServletRequest request) {
+		final String userIpAddress = request.getRemoteAddr();
+        final String userAgent = request.getHeader("user-agent");
+        final String user = request.getRemoteUser();
+        accessLogDao.create(new AccessLog(userIpAddress, userAgent, "Inspiration Index",user));
 		
 		List<Inspiration> inspirationList = inspirationDao.findAll();
 		for(int i=0 ; i< inspirationList.size();i++){
@@ -419,6 +428,11 @@ public class InspirationController {
 		
 		inspirationDao.deleteByPrimaryKey(inspirationID);
 		
+		/**
+		 * Delete inspiration-tag relation
+		 */
+		inspirationM2MTagDao.deleteByInspirationID(inspirationID);
+		
 		List<Inspiration> inspirationList = inspirationDao.findAll();
 		model.addAttribute("inspirationList",inspirationList);
 		return "inspirationpool";
@@ -468,15 +482,6 @@ public class InspirationController {
 		return "management";
 	}
 	
-	/**
-	 * 
-	 */
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/imageupload", method = RequestMethod.POST)
-	public String imageUpload(Locale locale, Model model) {
-		
-		return "contact";
-	}
 	
 	/**
 	 * Selects the contact view to render by returning its name.
