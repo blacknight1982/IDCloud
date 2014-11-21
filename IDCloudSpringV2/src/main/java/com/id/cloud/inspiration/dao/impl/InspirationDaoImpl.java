@@ -32,17 +32,18 @@ public class InspirationDaoImpl implements InspirationDao {
 	public int create(final Inspiration inspiration) {
 		if (inspiration == null) return 0;
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		final String SQL = "insert into INSPIRATION (INSPIRATION_TITLE, INSPIRATION_LOCATION, INSPIRATION_POSTTIME, INSPIRATION_AUTHOR,INSPIRATION_BRIEFING, AUTH_LEVEL) values (?, ?, ?, ?, ?, ?)";
+		final String SQL = "insert into INSPIRATION (INSPIRATION_UUID, INSPIRATION_TITLE, INSPIRATION_LOCATION, INSPIRATION_POSTTIME, INSPIRATION_AUTHOR,INSPIRATION_BRIEFING, AUTH_LEVEL) values (?, ?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(new PreparedStatementCreator() {
 	        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 	            PreparedStatement ps =
 	                connection.prepareStatement(SQL, new String[] {"INSPIRATION_ID"});
-	            ps.setString(1, inspiration.getTitle());
-	            ps.setString(2, inspiration.getMainPageLocation());
-	            ps.setTimestamp(3, new java.sql.Timestamp(inspiration.getPostTime().getTimeInMillis()), inspiration.getPostTime());
-	            ps.setString(4, inspiration.getAuthor());
-	            ps.setString(5, inspiration.getBriefing());
-	            ps.setInt(6, inspiration.getAuthLevel());
+	            ps.setString(1, inspiration.getUuid());
+	            ps.setString(2, inspiration.getTitle());
+	            ps.setString(3, inspiration.getMainPageLocation());
+	            ps.setTimestamp(4, new java.sql.Timestamp(inspiration.getPostTime().getTimeInMillis()), inspiration.getPostTime());
+	            ps.setString(5, inspiration.getAuthor());
+	            ps.setString(6, inspiration.getBriefing());
+	            ps.setInt(7, inspiration.getAuthLevel());
 	            return ps;
 	        }
 	    },

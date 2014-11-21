@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -120,9 +121,10 @@ public class InspirationController {
 		/*
 		 * Create inspiration on the file system.
 		 */
+		String uuid = UUID.randomUUID().toString();
 		String inspirationTitle = request.getParameter("inspiration_title");
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspirationTitle;
-		String fileName = folderName+"/"+inspirationTitle+".html";
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+uuid;
+		String fileName = folderName+"/"+uuid+".html";
 		
 		(new File(folderName)).mkdirs();
 		
@@ -141,9 +143,10 @@ public class InspirationController {
 	
 		
 		Inspiration newInspiration = new Inspiration();
+		newInspiration.setUuid(uuid);
 		newInspiration.setPostTime(Calendar.getInstance());
 		newInspiration.setTitle(inspirationTitle);
-		newInspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		newInspiration.setMainPageLocation("/"+uuid+"/"+uuid+".html");
 		newInspiration.setAuthLevel(Integer.parseInt(auth_level));
 		newInspiration.setBriefing(request.getParameter("inspiration_briefing"));
 		
@@ -226,8 +229,8 @@ public class InspirationController {
 		 * Read inspiration on the file system.
 		 */
 		
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getTitle();
-		String fileName = folderName+"/"+inspiration.getTitle()+".html";
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getUuid();
+		String fileName = folderName+"/"+inspiration.getUuid()+".html";
 		
 		try{
 			Path paths = Paths.get(fileName);
@@ -257,27 +260,15 @@ public class InspirationController {
 		
 		String article_update = request.getParameter("inspiration_article_update"); 
 		String inspirationTitle = request.getParameter("inspiration_title-edit");
+		String uuid = inspiration.getUuid();
 		
 		if("update".equals(article_update)){
 			
 			/**
-			 * Delete inspiration on the file system first
-			 */
-			try {
-			String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getTitle();
-			
-				FileUtils.deleteDirectory(new File(folderName));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				logger.error("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed: "+ e.getMessage());
-			}
-			
-			/**
 			 * Write edited inspiration on the file system.
 			 */
-			String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspirationTitle;
-			(new File(folderName)).mkdirs();
-			String fileName = folderName+"/"+inspirationTitle+".html";
+			String folderName = environment.getProperty("inspiration.webcontents.folder.location")+uuid;
+			String fileName = folderName+"/"+uuid+".html";
 			
 			try{
 				FileOutputStream fos = new FileOutputStream(fileName);
@@ -297,7 +288,7 @@ public class InspirationController {
 		
 		inspiration.setPostTime(Calendar.getInstance());
 		inspiration.setTitle(inspirationTitle);
-		inspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		inspiration.setMainPageLocation("/"+uuid+"/"+uuid+".html");
 		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
 		inspiration.setAuthLevel(Integer.parseInt(auth_level));
 		inspiration.setBriefing(request.getParameter("inspiration_briefing"));
@@ -318,11 +309,11 @@ public class InspirationController {
 		
 		
 		/*
-		 * Read inspiration on the file system.
+		 * No need to read inspiration on the file system.
 		 */
 		
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getTitle();
-		String fileName = folderName+"/"+inspiration.getTitle()+".html";
+		/*String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getUuid();
+		String fileName = folderName+"/"+inspiration.getUuid()+".html";
 		
 		try{
 			Path paths = Paths.get(fileName);
@@ -333,7 +324,7 @@ public class InspirationController {
 		}
 		catch(IOException e){
 			
-		}
+		}*/
 		
 		return "inspirationedit";
 	}
@@ -413,7 +404,7 @@ public class InspirationController {
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		try {
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getUuid();
 		
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {

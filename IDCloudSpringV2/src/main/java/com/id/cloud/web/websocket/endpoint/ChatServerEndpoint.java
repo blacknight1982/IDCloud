@@ -21,6 +21,7 @@ public class ChatServerEndpoint {
         this.wsSession = session;  
         chatServerLogger.info("*** WebSocket opened from sessionId " + session.getId()); 
         broadcast(session, "System Message: "+ user + " joined room.");
+        send(session, "There are "+session.getOpenSessions().size()+" users in the room.");
         broadcast(session, "Welcome "+ user+"!");
         this.user = user;
     }  

@@ -26,6 +26,11 @@ public class Inspiration {
 	private String mainPageLocation;
 	
 	/**
+	 * Inspiration random unique ID for storing inspiration on file system 
+	 */
+	private String uuid;
+	
+	/**
 	 * Inspiration author
 	 */
 	private String author;
@@ -128,6 +133,14 @@ public class Inspiration {
 
 	public void setBriefing(String briefing) {
 		this.briefing = briefing;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 }

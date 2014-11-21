@@ -1743,20 +1743,54 @@ nicEditors.registerPlugin(nicPlugin,nicCodeOptions);
 */
  
 /* START CONFIG */
-var nicExampleOptions = {
+var nicLocalSaveOptions = {
     buttons : {
-        'example' : {name : __('Upload JS File'), type : 'nicEditorExampleButton'}
+        'localsave' : {name : __('Save to local storage'), type : 'nicEditorLocalSaveButton'}
     }
-	/* NICEDIT_REMOVE_START */,iconFiles : {'example' : '../resources/nicEdit/save.gif'}/* NICEDIT_REMOVE_END */
+	/* NICEDIT_REMOVE_START */,iconFiles : {'localsave' : '../resources/nicEdit/save.gif'}/* NICEDIT_REMOVE_END */
 };
 /* END CONFIG */
  
-var nicEditorExampleButton = nicEditorAdvancedButton.extend({   
+var nicEditorLocalSaveButton = nicEditorAdvancedButton.extend({   
     mouseClick : function() {
-    alert('The example save button icon has been clicked!');
+    
+    console.log(this.ne.selectedInstance.getContent());
+    if (typeof(Storage) != "undefined") {
+        // Store
+        localStorage.setItem("localcontent", this.ne.selectedInstance.getContent());
+        alert('Saved the content to local storage successfully!');
+    } else {
+    	alert('Sorry, your browser does not support Web Storage...');
+    }
   }
 });
  
-nicEditors.registerPlugin(nicPlugin,nicExampleOptions);
+nicEditors.registerPlugin(nicPlugin,nicLocalSaveOptions);
+
+/* START CONFIG */
+var nicLocalLoadOptions = {
+    buttons : {
+        'localload' : {name : __('Load from local storage'), type : 'nicEditorLocalLoadButton'}
+    }
+	/* NICEDIT_REMOVE_START */,iconFiles : {'localload' : '../resources/nicEdit/load.gif'}/* NICEDIT_REMOVE_END */
+};
+/* END CONFIG */
+ 
+var nicEditorLocalLoadButton = nicEditorAdvancedButton.extend({   
+    mouseClick : function() {
+    
+    console.log(this.ne.selectedInstance.getContent());
+    if (typeof(Storage) != "undefined") {
+        // Retrive
+    	this.ne.selectedInstance.setContent(localStorage.getItem("localcontent"));
+    	alert('Loaded the content from local storage successfully!');
+    } else {
+    	alert('Sorry, your browser does not support Web Storage...');
+    }
+  }
+});
+ 
+nicEditors.registerPlugin(nicPlugin,nicLocalLoadOptions);
+
 
 

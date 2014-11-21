@@ -5,10 +5,15 @@
 	<spring:url value="/resources/nicEdit/nicEdit.js" var="nicEdit_js"/>
 	
 	<script type="text/javascript" src="${nicEdit_js}"><!-- added this avoiding script tag problem --></script>
+	<spring:url var="serverlocation" value="http://idcloud.info/webcontents" />
 	
 	<script>
   	$( document ).ready( function() {
-  		new nicEditor({fullPanel: true, maxHeight : 450}).panelInstance('inspiration_editor-edit',{hasPanel : true});
+  		$.get( "${serverlocation}${inspiration.mainPageLocation}", function( data ) {
+  		  $( "#inspiration_editor-edit").val( data );
+  			new nicEditor({fullPanel: true, maxHeight : 450}).panelInstance('inspiration_editor-edit',{hasPanel : true});
+  			
+  		});
   		$("#inspiration_authlevel-edit").val("${inspiration.authLevel}");
 
 	} );
@@ -43,14 +48,14 @@
 	  			<tr>
 	  				<td>Update Inspiration Artical?</td>
 	  				<td>
-	  					<input type="checkbox" name="inspiration_article_update" value="update"/>
+	  					<input type="checkbox" name="inspiration_article_update" value="update" checked="true"></input>
 	  				</td>
 	  			</tr>
 	  		</tbody>
 		</table>
-		<div name="inspiration_editor-edit" id="inspiration_editor-edit">${inspirationString}
+		<textarea name="inspiration_editor-edit" id="inspiration_editor-edit">
 			<!-- added this avoiding script tag problem -->
-		</div>
+		</textarea>
 		<p>
   			<input name="submit" type="submit" value="Submit"/>
   		</p>

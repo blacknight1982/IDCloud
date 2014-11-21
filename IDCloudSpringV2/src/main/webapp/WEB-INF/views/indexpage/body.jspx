@@ -45,7 +45,7 @@
 			  	<td>${inspiration.inspirationID}</td>
 			  	<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${inspiration.postTime.time}" /></td>
 			  	<td> 
-			  	  <a href="${inspiration.inspirationID}" id="${serverlocation}${inspiration.mainPageLocation}" class="inspirationlink">
+			  	  <a href="${inspiration.inspirationID}" id="${serverlocation}${inspiration.mainPageLocation}" class="inspirationlink" title="${inspiration.briefing}">
 			  	  ${inspiration.title}
 		  		  </a>
 		  		</td>

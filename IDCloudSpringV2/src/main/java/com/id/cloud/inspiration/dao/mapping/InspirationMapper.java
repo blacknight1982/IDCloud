@@ -16,6 +16,7 @@ public class InspirationMapper implements RowMapper<Inspiration>{
 		Inspiration inspiration = new Inspiration();
 		Calendar postTime = Calendar.getInstance();
 		inspiration.setInspirationID(rs.getInt("INSPIRATION_ID"));
+		inspiration.setUuid(rs.getString("INSPIRATION_UUID"));
 		inspiration.setTitle(rs.getString("INSPIRATION_TITLE"));
 		inspiration.setMainPageLocation(rs.getString("INSPIRATION_LOCATION"));
 		postTime.setTime(rs.getTimestamp("INSPIRATION_POSTTIME"));

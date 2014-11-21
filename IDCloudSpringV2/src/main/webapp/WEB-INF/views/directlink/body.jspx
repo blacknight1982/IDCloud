@@ -46,13 +46,13 @@
 	  		</ul>
 	  		
 	  		<div id="socialintegrationtabs-fb">
-				<div class="fb-comments" data-href="http://idcloud.iego.net/IDCloudSpringV2/inspiration/${inspiration.inspirationID}" data-numposts="10" data-colorscheme="light">
+				<div class="fb-comments" data-href="http://idcloud.info/IDCloudSpringV2/inspiration/${inspiration.inspirationID}" data-numposts="10" data-colorscheme="light">
 					<!-- added this avoiding script tag problem -->
 				</div>
 			</div>
 			
 			<div id="socialintegrationtabs-twitter">
-				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://idcloud.iego.net/IDCloudSpringV2/inspiration/${inspiration.inspirationID}">
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://idcloud.info/IDCloudSpringV2/inspiration/${inspiration.inspirationID}">
 					Tweet
 				</a>
 				
