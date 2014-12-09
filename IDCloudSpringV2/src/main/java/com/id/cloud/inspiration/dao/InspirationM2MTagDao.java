@@ -20,6 +20,8 @@ public interface InspirationM2MTagDao {
 	
 	public void deleteByInspirationAndTagID(int inspirationID, int tagID);
 	
+	public void deleteByInspirationID(int inspirationID) ;
+	
 	public List<InspirationM2MTag> findAll();
 	
 	public List<InspirationM2MTag> findByInspirationID(int inspirationID);

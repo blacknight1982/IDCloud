@@ -1,32 +1,12 @@
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  outline: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+/**Global Style**/
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+	display: block; 
 }
 
-html { overflow-y: scroll; }
-
-body {
-  width: 100%;
-  background: #BBD6D6;
-  font-size: 100%;
-  line-height: 1;
+ol, ul { 
+	list-style: none; 
 }
-
-br { display: block; line-height: 1.6em; } 
-
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
-ol, ul { list-style: none; }
 
 input, textarea { 
   -webkit-font-smoothing: antialiased;
@@ -38,34 +18,31 @@ input, textarea {
   outline: none; 
 }
 
-blockquote, q { quotes: none; }
-blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
-strong, b { font-weight: bold; }
+strong, b { 
+	font-weight: bold; 
+}
 
-table { border-collapse: collapse; border-spacing: 0; }
+table { 
+	border-collapse: collapse; border-spacing: 0; 
+}
+
 img { 
 	border: 0; 
 	max-width: 100%;
 }
 
-h1 {
-  font-size: 3.6em;
-  line-height: 1.3em;
-  font-weight: 700;
-  color: #484848;
-  text-align: center;
-  letter-spacing: -0.05em;
-  margin-bottom: 15px;
-}
+/**IDCloud Main page**/
 
-p {
-  font-size: 1.7em;
-  line-height: 1.5em;
-  margin-bottom: 20px;
-  color: #616161;
+#idcloudbody {
+  width: 100%;
+  background: #BBD6D6;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0px;
 }
 
 #homebanner{
+	 width: 500px;
      display:block;
      margin:0 auto;
      text-decoration: none;
@@ -78,7 +55,14 @@ p {
      font-family: Verdana;
      font-size: 40px;
      font-weight: bold;
-     color: #274a61;
+     color: #555555;
+}
+
+#credential {
+	float: right;
+	margin: 0 auto;
+	top: -28px;
+	position: relative;
 }
 
 #banner{
@@ -91,34 +75,91 @@ p {
      margin:0 auto;
 }
 
+/**For iOS**/
+.ios-scroll-wrapper {
+	-webkit-overflow-scrolling: touch;
+  	/* important:  dimensions or positioning here! */
+}
 
-/** page structure **/
+/** page structure for content sliding effect**/
+#wrapper {
+    width:100%;
+    height:100%;
+    position:absolute;
+    overflow-x:hidden;
+}
+
+#mask {
+    width:200%;
+    height:100%;
+}
+
+.panel {
+    width:50%;
+    height:100%;
+    float:left;
+    margin: 0 auto;
+}
+
 #content {
-  max-width: 1200px;
   background: #fff;
   padding: 25px 65px;
   margin: 0 auto;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+  max-width: 1200px;
 }
+
+#readingpanel {
+  background: #fff;
+  padding: 25px 65px;
+  margin: 0 auto;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  max-width: 1200px;
+  height: 100%;
+}
+
+#readingframe{
+	width: 100%;
+	height: 80%;
+}
+
+/** Normal/index page structure**/
 
 header {
   display: block;
   width: 100%;
-  height: 70px;
+  height: 45px;
   background: #F1F1F1;
   padding: 15px 10px;
   margin-bottom: 25px;
 }
 
-footer {
+#header {
+	background: #F1F1F1;
+}
+
+#index-slogan{
+	color: #555555;
+	text-align: center;
+	
+}
+
+#body {
   display: block;
   width: 100%;
-  height: 70px;
-  background: #F1F1F1;
   padding: 15px 10px;
   margin-bottom: 25px;
+}
+
+#footer {
+  display: block;
+  width: 100%;
+  background: #F1F1F1;
+  padding: 15px 10px;
 }
 
 #navbar {
@@ -131,7 +172,7 @@ footer {
   /* needs positioning for z-index http://stackoverflow.com/a/10600930/477958 */
   position: relative; 
   z-index: 101;
-  color: #274a61;
+  color: #555555;
   text-decoration: none;
   font-size: 0em;
   line-height: 0em;
@@ -149,13 +190,13 @@ footer {
 
 /** toggle menu **/
 body.openmenu {
-  position: fixed;
-  overflow: hidden;
+  
 }
 
 #pgcontainer {
   padding: 0px 0;
   margin: 0 auto;
+  height: 100%;
 }
 
 .overlay {
@@ -213,6 +254,22 @@ body.openmenu {
 	margin: 0 auto;
 }
 
+#readingback{
+	margin: 10px 0px;
+}
+
+#readingedit{
+	margin: 10px 0px;
+}
+
+#readingback:hover{
+	color: #bdd43e;
+}
+
+#readingedit:hover{
+	color: #bdd43e;
+}
+
 /**Management**/
 #tagpool{
 	height: 300px;
@@ -266,6 +323,7 @@ body.openmenu {
 #inspirationtable{
 	width: 100%;
 	border-collapse: collapse;
+	color: #555555;
 }
 
 tbody {
@@ -284,16 +342,123 @@ table th{
 	text-align: left;
 	padding-top: 5px;
 	padding-bottom: 4px;
-	background-color: #f6a828;
-	color: #fff;
-	border: 1px solid #f6a828;
+	background-color: #F1F1F1;
+	color: #555555;
+	border: 1px solid #F1F1F1;
 	padding: 3px 7px 2px 7px;
 	font-weight: bold;
 }
 
 table td{
-	border: 1px solid #f6a828;
+	border: 1px solid #F1F1F1;
 	padding: 3px 7px 2px 7px;
 	font-weight: bold;
 }
 
+/**Inspiration edit page style**/
+#inspiration_editor-edit{
+	width: 100%;
+	height: 400px;
+}
+
+#edit_table{
+	border: 0px;
+}
+
+
+/**Inspiration publish page style**/
+#inspiration_editor{
+	width: 100%;
+	height: 400px;
+}
+
+#publish_table tr td{
+	border: 0px;
+}
+
+#inspiration_title-publish{
+	size: 100px;
+}
+
+#inspiration_briefing-publish{
+	width: 100%;
+	height: 100;
+}
+/**Credential Panel Style**/
+#credential_table tr td{
+	border: 0px;
+	color: #555555;
+}
+
+/**Login page style**/
+#login_table tr td{
+	border: 0px;
+}
+
+/**New account page style**/
+#account_table tr td{
+	border: 0px;
+}
+
+/**Inspiration direct link page style**/
+#directlinkhomediv {
+	display: inline;
+}
+
+#directlinkeditdiv {
+	display: inline;
+	float: right;
+}
+
+#directlinkframe {
+	width: 100%;
+	height: 65%;
+	border: solid 1px #aaaaaa ;
+	overflow: scroll;
+	border-radius: 4px;
+}
+
+#directlinktitle {
+	font-size: 26px;
+	font-weight: bold;
+	color: #555555;
+	text-align: center;
+	margin: 5px 0px 10px 0px;
+}
+#directlinkdate{
+	font-size: 23px;
+	font-weight: bold;
+	color: #555555;
+	text-align: center;
+	margin: 5px 0px 10px 0px;
+}
+
+#directlinkauthor{
+	font-size: 20px;
+	font-weight: bold;
+	color: #555555;
+	text-align: center;
+	margin: 5px 0px 10px 0px;	
+}
+
+#directlinkbriefing{
+	font-size: 20px;
+	font-weight: bold;
+	color: #555555;
+	text-align: center;
+	width: 50%;
+	margin: 25 auto;	
+}
+
+#directlinktags{
+	text-align: center ;
+}
+
+#directlinkarticle{
+	height: 65%;
+	overflow-y: scroll;
+}
+
+#socialintegrationtabs{
+	margin: 25px 0px;
+}

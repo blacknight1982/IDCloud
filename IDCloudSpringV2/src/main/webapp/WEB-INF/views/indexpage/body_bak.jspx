@@ -1,0 +1,49 @@
+<div xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <spring:message var="app_name" code="application_name" htmlEscape="false" />
+  <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
+  <spring:url value="/resources/jquery/jquery.scrollTo.js" var="jquery_scrollTo_js"/>
+  <spring:url value="/resources/idcloudjs/index.js" var="index_js"/>
+  
+  <spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
+  
+  <script type="text/javascript" src="${jquery_scrollTo_js}"><!-- added this avoiding script tag problem --></script>
+  <script type="text/javascript" src="${index_js}"><!-- added this avoiding script tag problem --></script>
+<!-- Temporarily comment out the begining of body for IDCloud inspiration introduction
+  <h1>
+	<spring:message code="welcome_h3" arguments="${app_name}" />
+  </h1>
+  <p>
+  	<spring:message code="welcome_text" />
+  </p>
+--> 
+  <table id="inspirationtable">
+	<tbody>
+	  <tr>
+	  	<th>Index</th>
+	  	<th>Time</th>
+	  	<th>Title <input type="search" id="titlefilter"></input></th>
+	  	<th>Author</th>
+	  	<th>Tags <input type="search" id="tagfilter"></input></th>
+	  </tr>
+	  <c:forEach items="${inspirationList}" var="inspiration">
+	  	<tr class="dynamicrows">
+		  	<td>${inspiration.inspirationID}</td>
+		  	<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${inspiration.postTime.time}" /></td>
+		  	<td> 
+		  	  <a href="#" id="${serverlocation}${inspiration.mainPageLocation}" class="inspirationlink">
+		  	  ${inspiration.title}
+	  		  </a>
+	  		</td>
+	  		<td>${inspiration.authorNickname}</td>
+		  	<td><c:forEach items="${inspiration.tags}" var="tag"><span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span></c:forEach></td>
+	  	</tr>
+	  </c:forEach>
+	</tbody>
+  </table>
+</div>

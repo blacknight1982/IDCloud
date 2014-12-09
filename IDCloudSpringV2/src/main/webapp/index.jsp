@@ -11,7 +11,7 @@
 		<title>Welcome</title>
 	</head> 
 	<body>
-		<c:url value="/showMessage.html" var="messageUrl" />
-		<a href="${messageUrl}">Click to enter</a>
+		<c:url value="/inspiration/index" var="inspirationUrl" />
+		<a href="${inspirationUrl}">Click to Enter IDCloud Inspiration</a>
 	</body>
 </html>

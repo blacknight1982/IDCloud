@@ -2,6 +2,7 @@
 xmlns:c="http://java.sun.com/jsp/jstl/core" 
 xmlns:tiles="http://tiles.apache.org/tags-tiles" 
 xmlns:spring="http://www.springframework.org/tags" 
+xmlns:sec="http://www.springframework.org/security/tags"
 xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
 xmlns:fn="http://java.sun.com/jsp/jstl/functions" >  
 
@@ -10,6 +11,8 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 <spring:url var="index_page" value="/inspiration/index" />
 <spring:url var="publish_page" value="/inspiration/publish" />
 <spring:url var="management" value="/inspiration/management" />
+<spring:url var="contact" value="/inspiration/contact" />
+
 <spring:url var="banner" value="/resources/images/banner-graphic.png" />
 <spring:url var="home" value="/" />
 <spring:message code="button_home" var="home_label" htmlEscape="false" />
@@ -21,38 +24,61 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 		<title><spring:message code="welcome_h3" arguments="${app_name}" /></title>
 	</head>
 	
-  	<body>
+  	<body id="idcloudbody">
+  		<div id="idcloudmenu">
+	        <ul>
+	          <li><a href="${index_page}">Homepage</a></li>
+	          <li><a href="${publish_page}">Publish</a></li>
+	          <li><a href="${management}">Management</a></li>
+	          <li><a href="${contact}">Contact</a></li>
+	        </ul>
+	    </div>
   		<div id="pgcontainer">
-  			  <header>
+  			<header>
     			<div id="navbar">
 	      			<span id='menubtn' type="button">Menu</span>
 	      			<a id="homebanner" href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
     					<span>IDCloud Inspiration</span>
   					</a>
-	      			<!-- use captain icon for toggle menu -->
-	      			<div id="idcloudmenu">
-				        <ul>
-				          <li><a href="${index_page}">Homepage</a></li>
-				          <li><a href="${publish_page}">Publish</a></li>
-				          <li><a href="${management}">Management</a></li>
-				          <li><a href="#">Our Products</a></li>
-				          <li><a href="#">Contact</a></li>
-				        </ul>
-	      			</div>
+  					<div id="credential">
+  						<tiles:insertAttribute name="credential" ignore="true" />
+  					</div>
+  					<!-- use captain icon for toggle menu -->
     			</div>
     			<div class="overlay"></div>
   			</header>
-  			<div id="content">
-		   		<div id="header">
-		   			<tiles:insertAttribute name="header" ignore="true" />
-		   		</div>
-				    
-				<div id="body">
-					<tiles:insertAttribute name="body" ignore="true"/>
-				</div>
-				
-				<div id="footer">
-				  	<tiles:insertAttribute name="footer" ignore="true"/>
+  			<div id="wrapper">
+  				<div id="mask">
+  					<div id="panel1" class="panel">
+			  			<div id="content">
+					   		<div id="header">
+					   			<tiles:insertAttribute name="header" ignore="true" />
+					   		</div>
+							    
+							<div id="body">
+								<tiles:insertAttribute name="body" ignore="true"/>
+							</div>
+							
+							<div id="footer">
+							  	<tiles:insertAttribute name="footer" ignore="true"/>
+							</div>
+						</div>
+					</div>
+					<div id="panel2" class="panel">
+						<div id="readingpanel">
+							<button id="readingback">Back</button>
+							<sec:authorize access="authenticated">
+								<button id="readingedit">Switch to Editing Mode</button>
+							</sec:authorize>
+							<div id="inspirationpanel">
+								<div class="ios-scroll-wrapper">
+									<iframe id="readingframe">
+										<!-- added this avoiding script tag problem -->
+							   		</iframe>
+						   		</div>
+						   	</div>
+					   	</div>
+					</div>
 				</div>
 			</div>
 		</div>

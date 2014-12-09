@@ -25,20 +25,44 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     <!--
     	Filters that process requests in a chain  
      -->
-    <filter>  
+   <filter>  
+       <filter-name>springSecurityFilterChain</filter-name>  
+       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>  
+       <init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>com.id.cloud.configuration.IDCloudSecurityConfiguration</param-value>
+		</init-param>
+   </filter>
+   
+   <filter>  
+       <filter-name>simpleCORSFilter</filter-name>  
+       <filter-class>com.id.cloud.web.filter.SimpleCORSFilter</filter-class>  
+   </filter>
+   
+   <filter>  
        <filter-name>CharacterEncodingFilter</filter-name>  
        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
        <init-param>  
            <param-name>encoding</param-name>  
            <param-value>UTF-8</param-value>  
        </init-param>  
-   </filter>
+   </filter>   
+   
+   <filter-mapping>  
+       <filter-name>springSecurityFilterChain</filter-name>  
+       <url-pattern>/*</url-pattern>  
+   </filter-mapping>
+   
+   <filter-mapping>  
+       <filter-name>simpleCORSFilter</filter-name>  
+       <url-pattern>/*</url-pattern>  
+   </filter-mapping>
    
    <filter-mapping>  
        <filter-name>CharacterEncodingFilter</filter-name>  
        <url-pattern>/*</url-pattern>  
    </filter-mapping>
-    
+
     <!--
 		- Servlet that dispatches request to registered handlers (Controller implementations).
 	-->
@@ -51,7 +75,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         </init-param>
         <init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>com.id.cloud.configuration.IDCloudMVCConfiguration</param-value>
+			<param-value>com.id.cloud.configuration.IDCloudAppConfiguration</param-value>
 		</init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -60,5 +84,5 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
+    
 </web-app>

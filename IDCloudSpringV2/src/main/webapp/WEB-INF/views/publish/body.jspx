@@ -8,35 +8,64 @@
 	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
 	<spring:url var="serverlocation" value="/resources" />
 	
-	<spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditor_js"/>
-	<spring:url value="/resources/ckeditor/jquery.js" var="ckeditor_jquery_js"/>
+	<spring:url value="/resources/nicEdit/nicEdit.js" var="nicEdit_js"/>
 	
-	<script type="text/javascript" src="${ckeditor_js}"><!-- added this avoiding script tag problem --></script>
-	<script type="text/javascript" src="${ckeditor_jquery_js}"><!-- added this avoiding script tag problem --></script>
+	<script type="text/javascript" src="${nicEdit_js}"><!-- added this avoiding script tag problem --></script>
 	
 	<script>
-  	$( document ).ready( function() {
-		$( '#inspiration_editor' ).ckeditor(); 
-	} );
+	bkLib.onDomLoaded(function() {
+		new nicEditor({fullPanel: true, maxHeight : 450}).panelInstance('inspiration_editor');
+	});
+  	
+  	function validateForm(){
+  		var newInspirationTitle = $("#inspiration_title-edit").val();
+		return checkLength($("#inspiration_title-publish"),"Title length not meet requirement",1,255);
+  	}
+  	
 	</script>
 	
   
-  	<form action="./publish" accept-charset="UTF-8" method="post">
+  	<form id="publish_form" action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
-  		<p>List Tags:</p>
-	  	<p>
-		  	<c:forEach items="${tags}" var="tag">
-		  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
-		  		<span>${tag.name}||</span>
-		  	</c:forEach>
-	  	</p>
-  		<p>
-  			<strong>Inspiration Title:</strong>
-  			<input name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
-  		</p>
-  		<p>
-  			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
-  		</p>
+  		<table id="publish_table">
+	  		<tbody>
+	  			<tr>
+	  				<td>Please Select Tags:</td>
+	  				<td>
+	  					<c:forEach items="${tags}" var="tag">
+					  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
+					  		<span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span>
+					  	</c:forEach>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td>Please Select Authorization Level:</td>
+	  				<td>
+	  					<select form="publish_form" name="inspiration-auth-level">
+							<option value="0">0 - Visible to All</option>
+				    		<option value="1">1 - Visible to Registered Users</option>
+				    		<option value="2">2 - Visible to Self Only</option>
+					    </select>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td>Inspiration Title:</td>
+	  				<td>
+	  					<input id="inspiration_title-publish" name="inspiration_title"  size="100" placeholder="Please input a title here ..."/>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td>Inspiration Briefing:</td>
+	  				<td>
+	  					<textarea id="inspiration_briefing-publish" name="inspiration_briefing" placeholder="Please input an inspiration highlight here ..."><!-- Added this to avoid JSP problem --></textarea>
+	  				</td>
+	  			</tr>
+	  		</tbody>
+  		</table>
+  		
+  		<div>
+  			<textarea name="inspiration_editor" id="inspiration_editor" >Please input your article here ...</textarea>
+  		</div>
   		<p>
   			<input name="submit" type="submit" value="Submit"/>
   		</p>

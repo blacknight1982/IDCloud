@@ -2,16 +2,18 @@ package com.id.cloud.web.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +32,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.id.cloud.inspiration.dao.AccessLogDao;
 import com.id.cloud.inspiration.dao.InspirationDao;
 import com.id.cloud.inspiration.dao.InspirationM2MTagDao;
 import com.id.cloud.inspiration.dao.TagDao;
+import com.id.cloud.inspiration.dao.UserDao;
+import com.id.cloud.inspiration.entities.AccessLog;
 import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.InspirationM2MTag;
 import com.id.cloud.inspiration.entities.Tag;
+import com.id.cloud.inspiration.entities.User;
 
 /**
  * Handles requests for the application home page.
@@ -45,8 +53,8 @@ public class InspirationController {
 	private static final Logger logger = LoggerFactory.getLogger(InspirationController.class);
 	
 	@Autowired
-	Environment environment;
-		
+	private Environment environment;
+	
 	@Autowired
 	private InspirationDao inspirationDao;
 	
@@ -56,12 +64,22 @@ public class InspirationController {
 	@Autowired
 	private InspirationM2MTagDao inspirationM2MTagDao;
 	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private AccessLogDao accessLogDao;
+	
 	/**
 	 * Query for the inspirations and related tags and display them on the index page
 	 * Selects the index view to render by returning its name.
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String inspirationIndex(Locale locale, Model model) {
+	public String inspirationIndex(Locale locale, Model model, HttpServletRequest request) {
+		final String userIpAddress = request.getRemoteAddr();
+        final String userAgent = request.getHeader("user-agent");
+        final String user = request.getRemoteUser();
+        accessLogDao.create(new AccessLog(userIpAddress, userAgent, "Inspiration Index",user));
 		
 		List<Inspiration> inspirationList = inspirationDao.findAll();
 		for(int i=0 ; i< inspirationList.size();i++){
@@ -72,6 +90,8 @@ public class InspirationController {
 				tagIDs[j] = inspirationM2MTags.get(j).getTagID();
 			}
 			inspirationList.get(i).setTags(tagDao.findByTagIDs(tagIDs));
+			User author = userDao.findByPrimaryKey(inspirationList.get(i).getAuthor());
+			inspirationList.get(i).setAuthorNickname(author.getNickname());
 		}
 		model.addAttribute("inspirationList",inspirationList);
 		return "index";
@@ -81,6 +101,7 @@ public class InspirationController {
 	 * Publish the inspiration and associate the tags to it
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/publish", method = RequestMethod.GET)
 	public String inspirationPublish(Locale locale, Model model) {
 		List <Tag> tags = tagDao.findAll();
@@ -93,15 +114,17 @@ public class InspirationController {
 	 * Redirect to the index view after executing publish
 	 * @throws UnsupportedEncodingException 
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/publish", method = RequestMethod.POST)
 	public String inspirationPost(Locale locale, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+		
 		/*
 		 * Create inspiration on the file system.
 		 */
-		
+		String uuid = UUID.randomUUID().toString();
 		String inspirationTitle = request.getParameter("inspiration_title");
-		String folderName = environment.getProperty("inspiration.folder.location")+inspirationTitle;
-		String fileName = folderName+"/"+inspirationTitle+".html";
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+uuid;
+		String fileName = folderName+"/"+uuid+".html";
 		
 		(new File(folderName)).mkdirs();
 		
@@ -115,11 +138,20 @@ public class InspirationController {
 		catch(IOException e){
 			
 		}
+		//get inspiration authentication level
+		String auth_level = request.getParameter("inspiration-auth-level");
+	
 		
 		Inspiration newInspiration = new Inspiration();
+		newInspiration.setUuid(uuid);
 		newInspiration.setPostTime(Calendar.getInstance());
 		newInspiration.setTitle(inspirationTitle);
-		newInspiration.setMainPageLocation("/"+inspirationTitle+"/"+inspirationTitle+".html");
+		newInspiration.setMainPageLocation("/"+uuid+"/"+uuid+".html");
+		newInspiration.setAuthLevel(Integer.parseInt(auth_level));
+		newInspiration.setBriefing(request.getParameter("inspiration_briefing"));
+		
+		//set inspiration author to the current user
+		newInspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
 		int newInspirationID = inspirationDao.create(newInspiration);
 		
 		List <Tag> tags = tagDao.findAll();
@@ -137,6 +169,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String tagManagement(Locale locale, Model model) {
 		/**
@@ -152,6 +185,7 @@ public class InspirationController {
 	 * Manage the tags for each inspiration with parameter {inspiration_id}
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/{inspiration_id}", method = RequestMethod.GET)
 	public String inspirationTagMgt(@PathVariable String inspiration_id, Locale locale, Model model) {
 		
@@ -169,13 +203,137 @@ public class InspirationController {
 		
 		List <Tag> tags = tagDao.findAll();
 		model.addAttribute("tags", tags);
-		return "management_inspirationTag";
+		return "inspirationtag";
+	}
+	
+	/**
+	 * Direct link for getting the content of each inspiration with parameter {inspiration_id}
+	 */
+	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.GET)
+	public String directLink(@PathVariable String inspiration_id, Locale locale, Model model) {
+		int inspirationID = Integer.parseInt(inspiration_id);
+		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
+		inspiration.setAuthorNickname(userDao.findByPrimaryKey(inspiration.getAuthor()).getNickname());
+		
+		List<InspirationM2MTag> inspirationM2MTags = inspirationM2MTagDao.findByInspirationID(inspirationID);
+		Integer [] tagIDs = new Integer[inspirationM2MTags.size()];
+		for (int i=0 ; i<inspirationM2MTags.size() ; i++) 
+		{
+			tagIDs[i] = inspirationM2MTags.get(i).getTagID();
+		}
+		inspiration.setTags(tagDao.findByTagIDs(tagIDs));
+		
+		model.addAttribute("inspiration",inspiration);
+				
+		/*
+		 * Read inspiration on the file system.
+		 */
+		
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getUuid();
+		String fileName = folderName+"/"+inspiration.getUuid()+".html";
+		
+		try{
+			Path paths = Paths.get(fileName);
+			byte[] encoded = Files.readAllBytes(paths);
+			String inspirationString = new String(encoded, "UTF-8");
+			model.addAttribute("inspirationString",inspirationString);
+			
+		}
+		catch(IOException e){
+			
+		}
+		
+		return "directlink";
+	}
+	
+	/**
+	 * Manage the content for each inspiration with parameter {inspiration_id}
+	 * Selects the publish view to render by returning its name
+	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.POST)
+	public String inspirationEditPost(@PathVariable String inspiration_id, Locale locale, Model model, HttpServletRequest request) {
+		
+		
+		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
+	
+		
+		String article_update = request.getParameter("inspiration_article_update"); 
+		String inspirationTitle = request.getParameter("inspiration_title-edit");
+		String uuid = inspiration.getUuid();
+		
+		if("update".equals(article_update)){
+			
+			/**
+			 * Write edited inspiration on the file system.
+			 */
+			String folderName = environment.getProperty("inspiration.webcontents.folder.location")+uuid;
+			String fileName = folderName+"/"+uuid+".html";
+			
+			try{
+				FileOutputStream fos = new FileOutputStream(fileName);
+				OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
+				osw.write(request.getParameter("inspiration_editor-edit"));
+				osw.flush();
+				osw.close();
+			}
+			catch(IOException e){
+				logger.error("Inspiration update with error: "+e.getMessage());
+			}
+		}
+		
+		
+		//get inspiration authentication level
+		String auth_level = request.getParameter("inspiration-auth-level");
+		
+		inspiration.setPostTime(Calendar.getInstance());
+		inspiration.setTitle(inspirationTitle);
+		inspiration.setMainPageLocation("/"+uuid+"/"+uuid+".html");
+		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
+		inspiration.setAuthLevel(Integer.parseInt(auth_level));
+		inspiration.setBriefing(request.getParameter("inspiration_briefing"));
+		inspirationDao.update(inspiration);
+		
+		return "redirect:index";
+	}
+	
+	/**
+	 * Manage the content for each inspiration with parameter {inspiration_id}
+	 * Selects the publish view to render by returning its name
+	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = "/management/edit/{inspiration_id}", method = RequestMethod.GET)
+	public String inspirationEdit(@PathVariable String inspiration_id, Locale locale, Model model) {
+		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
+		model.addAttribute("inspiration",inspiration);
+		
+		
+		/*
+		 * No need to read inspiration on the file system.
+		 */
+		
+		/*String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getUuid();
+		String fileName = folderName+"/"+inspiration.getUuid()+".html";
+		
+		try{
+			Path paths = Paths.get(fileName);
+			byte[] encoded = Files.readAllBytes(paths);
+			String inspirationString = new String(encoded, "UTF-8");
+			model.addAttribute("inspirationString",inspirationString);
+			
+		}
+		catch(IOException e){
+			
+		}*/
+		
+		return "inspirationedit";
 	}
 	
 	/**
 	 * Manage the tags for creating, deleting in a pool
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/create_delete", method = RequestMethod.POST)
 	public String tagCreateDeletePool(@RequestParam(value = "tagNameArray[]", required = false) String[] tagNameArray, 
 			@RequestParam(value = "tagColorArray[]", required = false) String[] tagColorArray,
@@ -211,6 +369,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/tagpool", method = RequestMethod.GET)
 	public String tagPool(Model model) {
 		List <Tag> tags = tagDao.findAll();
@@ -222,6 +381,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationpool", method = RequestMethod.GET)
 	public String inspirationPool(Model model) {
 		List<Inspiration> inspirationList = inspirationDao.findAll();
@@ -233,6 +393,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationremove/{inspiration_id}", method = RequestMethod.GET)
 	public String inspirationRemove(@PathVariable String inspiration_id, Model model) {
 		int inspirationID = Integer.parseInt(inspiration_id);
@@ -243,7 +404,7 @@ public class InspirationController {
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		try {
-		String folderName = environment.getProperty("inspiration.folder.location") + inspiration.getTitle();
+		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getUuid();
 		
 			FileUtils.deleteDirectory(new File(folderName));
 		} catch (IOException e) {
@@ -252,14 +413,16 @@ public class InspirationController {
 			e.printStackTrace(System.err);
 		}
 		
-		
 		/**
 		 *  Delete inspiration in the DB
 		 */
 		
 		inspirationDao.deleteByPrimaryKey(inspirationID);
 		
-		
+		/**
+		 * Delete inspiration-tag relation
+		 */
+		inspirationM2MTagDao.deleteByInspirationID(inspirationID);
 		
 		List<Inspiration> inspirationList = inspirationDao.findAll();
 		model.addAttribute("inspirationList",inspirationList);
@@ -270,6 +433,7 @@ public class InspirationController {
 	 * Manage the tags for creating, deleting
 	 * Selects the publish view to render by returning its name
 	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationtags/{inspiration_id}", method = RequestMethod.POST)
 	public String inspirationTagOper(@PathVariable String inspiration_id, 
 			@RequestParam(value = "inspirationTagOperation", required = false) String inspirationTagOperation,
@@ -306,8 +470,17 @@ public class InspirationController {
 				}
 			}
 		}
-		
 		return "management";
+	}
+	
+	
+	/**
+	 * Selects the contact view to render by returning its name.
+	 */
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact(Locale locale, Model model) {
+		
+		return "contact";
 	}
 	
 	/**

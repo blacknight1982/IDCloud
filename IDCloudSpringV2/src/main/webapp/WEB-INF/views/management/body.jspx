@@ -6,16 +6,16 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<spring:message var="app_name" code="application_name" htmlEscape="false" />
 	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
-	<spring:url var="serverlocation" value="/resources" />
-	<spring:url value="/resources/idcloudjs/tagmgt.js" var="tagmgt_js"/>
+	<spring:url value="/resources/idcloudjs/management.js" var="management_js"/>
 	
-	<script type="text/javascript" src="${tagmgt_js}"><!-- added this avoiding script tag problem --></script>
+	<script type="text/javascript" src="${management_js}"><!-- added this avoiding script tag problem --></script>
   
 	<div id="tagmgt-tabs">
     	<ul>
 		    <li><a href="#tagmgt-tabs-1">Tag Creation/Deletion</a></li>
 		    <li><a href="#tagmgt-tabs-2">Inspiration Tags</a></li>
-		    <li><a href="#tagmgt-tabs-3">Inspiration Deletion</a></li>
+		    <li><a href="#tagmgt-tabs-3">Inspiration Editing</a></li>
+		    <li><a href="#tagmgt-tabs-4">Inspiration Deletion</a></li>
   		</ul>
   		
 		<div id="tagmgt-tabs-1">
@@ -33,7 +33,7 @@
 		<div id="tagmgt-tabs-2">
 			<select id="inspiration-sel">
 	    		<c:forEach items="${inspirationList}" var="inspiration">
-	    			<option value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
+	    			<option id="option${inspiration.inspirationID}" value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
 	    		</c:forEach>
 		    </select>
 		    <button id="save-tag2">Save to Server</button>
@@ -42,6 +42,19 @@
 		</div>
 		
 		<div id="tagmgt-tabs-3">
+			<select id="inspiration-sel-edit">
+				<option value="0">Please Select an Inspiration</option>
+	    		<c:forEach items="${inspirationList}" var="inspiration">
+	    			<option id="optionedit${inspiration.inspirationID}" value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
+	    		</c:forEach>
+		    </select>
+		    <!--<button id="save-tag3">Save to Server</button>-->
+		    <section id="inspirationedit">
+			    
+  			</section>
+		</div>
+		
+		<div id="tagmgt-tabs-4">
 		 	<section id="inspirationcontainer"></section>
 		</div>
 	</div>

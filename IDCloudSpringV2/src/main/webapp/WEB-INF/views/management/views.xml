@@ -5,14 +5,15 @@
 
 <tiles-definitions>
 
-  <definition name="management" extends="template">
+  <definition name="management" extends="template_nonsliding">
   	<put-attribute name="body" value="/WEB-INF/views/management/body.jspx"/>
 	<put-attribute name="header" value="/WEB-INF/views/management/header.jspx"/>
   </definition>
   
-  <definition name="management_inspirationTag" template="/WEB-INF/views/management/management_inspirationTag.jspx"/>
+  <definition name="inspirationtag" template="/WEB-INF/views/management/inspirationtag.jspx"/>
   <definition name="tagpool" template="/WEB-INF/views/management/tagpool.jspx"/>
   <definition name="inspirationpool" template="/WEB-INF/views/management/inspirationpool.jspx"/>
+  <definition name="inspirationedit" template="/WEB-INF/views/management/inspirationedit.jspx"/>
   
   
 </tiles-definitions>

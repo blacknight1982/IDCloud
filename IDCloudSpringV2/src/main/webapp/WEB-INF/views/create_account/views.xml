@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+  <definition name="create_account" extends="template">
+  	<put-attribute name="body" value="/WEB-INF/views/create_account/body.jspx"/>
+	<put-attribute name="header" value="/WEB-INF/views/create_account/header.jspx"/>
+  </definition>
+</tiles-definitions>

@@ -16,6 +16,14 @@
     <put-attribute name="header" value="/WEB-INF/layouts/header.jspx" />
     <put-attribute name="body" value="/WEB-INF/layouts/body.jspx" />
     <put-attribute name="footer" value="/WEB-INF/layouts/footer.jspx" />
+    <put-attribute name="credential" value="/WEB-INF/layouts/credential.jspx" />
+  </definition>
+  
+   <definition name="template_nonsliding" template="/WEB-INF/layouts/template_nonsliding.jspx">
+    <put-attribute name="header" value="/WEB-INF/layouts/header.jspx" />
+    <put-attribute name="body" value="/WEB-INF/layouts/body.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/layouts/footer.jspx" />
+    <put-attribute name="credential" value="/WEB-INF/layouts/credential.jspx" />
   </definition>
   
   <definition name="public" template="/WEB-INF/layouts/default.jspx">

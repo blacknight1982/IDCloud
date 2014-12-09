@@ -94,6 +94,13 @@ public class InspirationM2MTagDaoImpl implements InspirationM2MTagDao {
 		jdbcTemplate.update(SQL, inspirationID, tagID);
 		
 	}
+	
+	@Override
+	public void deleteByInspirationID(int inspirationID) {
+		String SQL = "delete from INSPIRATION_M2M_TAG where INSPIRATION_ID = ?";
+		jdbcTemplate.update(SQL, inspirationID);
+		
+	}
 
 	@Override
 	public List<InspirationM2MTag> findAll() {

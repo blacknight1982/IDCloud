@@ -1,0 +1,50 @@
+<div xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message var="app_name" code="application_name" htmlEscape="false" />
+	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
+	<spring:url var="serverlocation" value="/resources" />
+	
+	<spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditor_js"/>
+	<spring:url value="/resources/ckeditor/jquery.js" var="ckeditor_jquery_js"/>
+	
+	<script type="text/javascript" src="${ckeditor_js}"><!-- added this avoiding script tag problem --></script>
+	<script type="text/javascript" src="${ckeditor_jquery_js}"><!-- added this avoiding script tag problem --></script>
+	
+	<script>
+  	$( document ).ready( function() {
+		$( '#inspiration_editor' ).ckeditor(); 
+	} );
+  	
+  	function validateForm(){
+  		var newInspirationTitle = $("#inspiration_title-edit").val();
+		return checkLength($("#inspiration_title-publish"),"Title length not meet requirement",1,255);
+  	}
+  	
+	</script>
+	
+  
+  	<form action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
+  	
+  		<p>Please Select Tags:</p>
+	  	<p>
+		  	<c:forEach items="${tags}" var="tag">
+		  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
+		  		<span>${tag.name}||</span>
+		  	</c:forEach>
+	  	</p>
+  		<p>
+  			<strong>Inspiration Title:</strong>
+  			<input id="inspiration_title-publish" name="inspiration_title"  size="40" placeholder="Please input a title here ..."/>
+  		</p>
+  		<p>
+  			<textarea name="inspiration_editor" id="inspiration_editor">Please input your article here ...</textarea>
+  		</p>
+  		<p>
+  			<input name="submit" type="submit" value="Submit"/>
+  		</p>
+  	</form>
+</div>

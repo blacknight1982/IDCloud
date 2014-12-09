@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+<security:http security="none" pattern="/resources/**"/>
+		
+<security:http use-expressions="true">
+	<security:intercept-url pattern="/login" access="permitAll"/>
+	<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+	<security:form-login login-page="/login"
+		authentication-failure-url="/login?error"
+		authentication-success-handler-ref="successHandler" />
+	<security:logout logout-success-url="/login?logout" />
+</security:http>
+
+  
+<security:authentication-manager alias="authenticationManager">
+	<security:authentication-provider>
+		<security:user-service>
+			<security:user name="john" password="ljh123" authorities="ROLE_USER"/>
+		</security:user-service>
+	</security:authentication-provider>
+</security:authentication-manager>
+
+<!-- 
+<security:authentication-manager alias="authenticationManager">  
+	<security:authentication-provider>  
+		<security:jdbc-user-service data-source-ref="dataSource"
+			users-by-username-query="select username, password, enabled from idcloud_users where username=?"
+			authorities-by-username-query="select username, role from idcloud_user_roles where username =?" />
+	</security:authentication-provider>  
+</security:authentication-manager> 
+-->
+<bean id="successHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"/>
+
+<bean id="expressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+  <property name="permissionEvaluator">
+  	<bean class="com.id.cloud.inspiration.security.IDCloudPermissionEvaluator" />
+  </property>
+</bean>
+</beans>
