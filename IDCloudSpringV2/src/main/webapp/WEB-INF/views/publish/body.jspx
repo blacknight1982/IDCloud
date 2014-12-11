@@ -8,20 +8,10 @@
 	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
 	
 	<spring:url value="/resources/nicEdit/nicEdit.js" var="nicEdit_js"/>
+	<spring:url value="/resources/idcloudjs/publish.js" var="publish_js"/>
 	
 	<script type="text/javascript" src="${nicEdit_js}"><!-- added this avoiding script tag problem --></script>
-	
-	<script>
-	bkLib.onDomLoaded(function() {
-		new nicEditor({fullPanel: true, maxHeight : 450}).panelInstance('inspiration_editor');
-	});
-  	
-  	function validateForm(){
-  		var newInspirationTitle = $("#inspiration_title-edit").val();
-		return checkLength($("#inspiration_title-publish"),"Title length not meet requirement",1,255);
-  	}
-  	
-	</script>
+	<script type="text/javascript" src="${publish_js}"><!-- added this avoiding script tag problem --></script>
 	
   	<form id="publish_form" action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
@@ -34,6 +24,12 @@
 					  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
 					  		<span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span>
 					  	</c:forEach>
+	  				</td>
+	  			</tr>
+	  			<tr>
+	  				<td id="publish_newtag"><spring:message code="publish.newtag"/></td>
+	  				<td id="publish_newtagpool">
+	  					
 	  				</td>
 	  			</tr>
 	  			<tr>
@@ -71,4 +67,20 @@
   			<input name="submit" type="submit" value="${publish_submit}"/>
   		</p>
   	</form>
+  	
+  	<spring:message code="publish.newtagform" var="newtag"/>
+  	<section id="dialog-form" title="${newtag}">
+	  <form id="tag-creating-form">
+	    <fieldset>
+	    	<label for="name"><spring:message code="publish.newtagform.name"/></label>
+	    	<input type="text" name="tagName" id="tagName" class="text ui-widget-content ui-corner-all"/>
+	    	<br/>
+	    	<label for="color"><spring:message code="publish.newtagform.color"/></label>
+	    	<input type="color" name="tagColor" id="tagColor" class="text ui-widget-content ui-corner-all"/>
+	    	
+	    	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	      	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+	    </fieldset>
+	  </form>
+	</section>
 </div>

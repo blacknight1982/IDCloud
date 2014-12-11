@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.id.cloud.inspiration.dao.InspirationDao;
+import com.id.cloud.inspiration.dao.TagDao;
 import com.id.cloud.inspiration.dao.UserDao;
 import com.id.cloud.inspiration.entities.Inspiration;
+import com.id.cloud.inspiration.entities.Tag;
 import com.id.cloud.inspiration.utility.imageupload.RestResponse;
 import com.id.cloud.inspiration.utility.webshare.WebShare;
 import com.id.cloud.inspiration.utility.webshare.WebShareRepository;
@@ -39,6 +41,9 @@ public class RESTfulController {
 	
 	@Autowired
 	private InspirationDao inspirationDao;
+	
+	@Autowired
+	private TagDao tagDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -90,5 +95,12 @@ public class RESTfulController {
     	restResponse.getUpload().getLinks().setOriginal(weblocation+"/"+fileName);
     	restResponse.getUpload().getImage().setWidth(300);
 		return new ResponseEntity<RestResponse>(restResponse,HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/tag", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<Void> postTag(@RequestBody Map<String,String> tag){
+		Tag newTag = new Tag(tag.get("name"),tag.get("color"));
+		tagDao.create(newTag);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
 }
