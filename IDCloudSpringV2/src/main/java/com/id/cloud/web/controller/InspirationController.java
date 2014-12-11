@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +18,7 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -53,7 +50,7 @@ public class InspirationController {
 	private static final Logger logger = LoggerFactory.getLogger(InspirationController.class);
 	
 	@Autowired
-	private Environment environment;
+	private AbstractMessageSource messagesource;
 	
 	@Autowired
 	private InspirationDao inspirationDao;
@@ -120,23 +117,36 @@ public class InspirationController {
 		
 		/*
 		 * Create inspiration on the file system.
+		 * Two copies, one for locale en and one for locale zh
 		 */
 		String uuid = UUID.randomUUID().toString();
 		String inspirationTitle = request.getParameter("inspiration_title");
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+uuid;
-		String fileName = folderName+"/"+uuid+".html";
 		
-		(new File(folderName)).mkdirs();
+		String folderName_en = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.US)+"/"+uuid;
+		String fileName_en = folderName_en+"/"+uuid+".html";
+		
+		String folderName_zh = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.CHINA)+"/"+uuid;
+		String fileName_zh = folderName_zh+"/"+uuid+".html";
+		
+		(new File(folderName_en)).mkdirs();
+		
+		(new File(folderName_zh)).mkdirs();
 		
 		try{
-			FileOutputStream fos = new FileOutputStream(fileName);
-			OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
-			osw.write(request.getParameter("inspiration_editor"));
-			osw.flush();
-			osw.close();
+			FileOutputStream fos_en = new FileOutputStream(fileName_en);
+			OutputStreamWriter osw_en = new OutputStreamWriter(fos_en,"UTF-8");
+			osw_en.write(request.getParameter("inspiration_editor"));
+			osw_en.flush();
+			osw_en.close();
+			
+			FileOutputStream fos_zh = new FileOutputStream(fileName_zh);
+			OutputStreamWriter osw_zh = new OutputStreamWriter(fos_zh,"UTF-8");
+			osw_zh.write(request.getParameter("inspiration_editor"));
+			osw_zh.flush();
+			osw_zh.close();
 		}
 		catch(IOException e){
-			
+			logger.error("Inspiration publish with error: "+e.getMessage());
 		}
 		//get inspiration authentication level
 		String auth_level = request.getParameter("inspiration-auth-level");
@@ -211,6 +221,7 @@ public class InspirationController {
 	 */
 	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.GET)
 	public String directLink(@PathVariable String inspiration_id, Locale locale, Model model) {
+		
 		int inspirationID = Integer.parseInt(inspiration_id);
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		inspiration.setAuthorNickname(userDao.findByPrimaryKey(inspiration.getAuthor()).getNickname());
@@ -228,8 +239,7 @@ public class InspirationController {
 		/*
 		 * Read inspiration on the file system.
 		 */
-		
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getUuid();
+		/*String folderName = messagesource.getMessage("inspiration.webcontents.folder.location", null,locale)+"/"+inspiration.getUuid();
 		String fileName = folderName+"/"+inspiration.getUuid()+".html";
 		
 		try{
@@ -241,7 +251,7 @@ public class InspirationController {
 		}
 		catch(IOException e){
 			
-		}
+		}*/
 		
 		return "directlink";
 	}
@@ -260,6 +270,8 @@ public class InspirationController {
 		
 		String article_update = request.getParameter("inspiration_article_update"); 
 		String inspirationTitle = request.getParameter("inspiration_title-edit");
+		String updatelocale = request.getParameter("inspiration-language");
+		
 		String uuid = inspiration.getUuid();
 		
 		if("update".equals(article_update)){
@@ -267,8 +279,21 @@ public class InspirationController {
 			/**
 			 * Write edited inspiration on the file system.
 			 */
-			String folderName = environment.getProperty("inspiration.webcontents.folder.location")+uuid;
-			String fileName = folderName+"/"+uuid+".html";
+			String folderName = null;
+			String fileName = null;
+			if("en".equals(updatelocale))
+			{
+				folderName = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.US)+"/"+uuid;
+				
+			}
+			else if("zh".equals(updatelocale)){
+				folderName = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.CHINA)+"/"+uuid;
+			}
+			else{
+				folderName = messagesource.getMessage("inspiration.webcontents.folder.location", null,locale)+"/"+uuid;
+			}
+			
+			fileName = folderName+"/"+uuid+".html";
 			
 			try{
 				FileOutputStream fos = new FileOutputStream(fileName);
@@ -309,10 +334,10 @@ public class InspirationController {
 		
 		
 		/*
-		 * No need to read inspiration on the file system.
+		 * No need to read inspiration on the file system any more.
 		 */
 		
-		/*String folderName = environment.getProperty("inspiration.webcontents.folder.location")+inspiration.getUuid();
+		/*String folderName = environment.getProperty("inspiration.webcontents.folder.location")+"/"+inspiration.getUuid();
 		String fileName = folderName+"/"+inspiration.getUuid()+".html";
 		
 		try{
@@ -395,7 +420,7 @@ public class InspirationController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationremove/{inspiration_id}", method = RequestMethod.GET)
-	public String inspirationRemove(@PathVariable String inspiration_id, Model model) {
+	public String inspirationRemove(@PathVariable String inspiration_id, Model model, Locale locale) {
 		int inspirationID = Integer.parseInt(inspiration_id);
 		
 		/**
@@ -404,9 +429,10 @@ public class InspirationController {
 		
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		try {
-		String folderName = environment.getProperty("inspiration.webcontents.folder.location") + inspiration.getUuid();
-		
-			FileUtils.deleteDirectory(new File(folderName));
+		String folderName_en = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.US) + "/" +inspiration.getUuid();
+		String folderName_zh = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.CHINA) + "/" +inspiration.getUuid();
+		FileUtils.deleteDirectory(new File(folderName_en));
+		FileUtils.deleteDirectory(new File(folderName_zh));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.err.println("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed");

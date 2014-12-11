@@ -6,12 +6,12 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <spring:message var="app_name" code="application_name" htmlEscape="false" />
+  <spring:message var="app_name" code="application.name" htmlEscape="false" />
   <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
   <spring:url value="/resources/jquery/jquery.scrollTo.js" var="jquery_scrollTo_js"/>
   <spring:url value="/resources/idcloudjs/index.js" var="index_js"/>
   
-  <spring:url var="serverlocation" value="https://dl.dropboxusercontent.com/u/98117111/inspirations" />
+  <spring:message code="inspiration.webcontents.url.location" var="serverlocation" htmlEscape="false" />
   
   <script type="text/javascript" src="${jquery_scrollTo_js}"><!-- added this avoiding script tag problem --></script>
   <script type="text/javascript" src="${index_js}"><!-- added this avoiding script tag problem --></script>
@@ -31,11 +31,11 @@
   <table id="inspirationtable">
 	<tbody>
 	  <tr>
-	  	<th>Index</th>
-	  	<th>Time</th>
-	  	<th>Title <input type="search" id="titlefilter"></input></th>
-	  	<th>Author</th>
-	  	<th>Tags <input type="search" id="tagfilter"></input></th>
+	  	<th><spring:message code="indexpage.tablehead.index" /></th>
+	  	<th><spring:message code="indexpage.tablehead.time" /></th>
+	  	<th><spring:message code="indexpage.tablehead.title" /> <input type="search" id="titlefilter"></input></th>
+	  	<th><spring:message code="indexpage.tablehead.author" /></th>
+	  	<th><spring:message code="indexpage.tablehead.tags" /> <input type="search" id="tagfilter"></input></th>
 	  </tr>
 	  <c:forEach items="${inspirationList}" var="inspiration">
 	  	<c:if test="${(inspiration.authLevel == 0)||

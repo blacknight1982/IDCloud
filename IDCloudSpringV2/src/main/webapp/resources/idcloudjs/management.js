@@ -1,6 +1,3 @@
-/**
- * Tag Drap and Drop
- */ 
 $( document ).ready(function() {
 	$(initPageTabs);
 
@@ -315,7 +312,7 @@ function initInspirationPool(){
 function initInspirationRemovable(){
 	$(".removeinspiration").hover(
 			function(){
-				$(this).text("Single click to remove inspiration");
+				$(this).text("Single click to remove");
 			},
 			function(){
 				$(this).text($(this).attr("name"));
@@ -351,7 +348,7 @@ function initTagCreationDialog() {
 		width: 350,
 		modal: true,
 		buttons: {
-			"Create a Tag": addTag,
+			"Create": addTag,
 	        Cancel: function() {
 	        dialog.dialog( "close" );
 	       }

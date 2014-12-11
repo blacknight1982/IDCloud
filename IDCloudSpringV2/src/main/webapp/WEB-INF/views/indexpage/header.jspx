@@ -15,5 +15,5 @@
   	Search Inspiration: <input type="search"></input>
   </p>
   -->
-  <h2 id="index-slogan">A Mind Voyaing Through Spaces of Inspiration</h2>
+  <h2 id="index-slogan"><spring:message code="header.slogan" /></h2>
 </div> 

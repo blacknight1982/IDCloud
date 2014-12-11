@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
@@ -51,6 +52,13 @@ public class IDCloudMVCConfiguration extends WebMvcConfigurerAdapter{
 		return tilesConfigurer;
 	}
 	
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor(){
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		return localeChangeInterceptor;
+	}
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
@@ -64,5 +72,6 @@ public class IDCloudMVCConfiguration extends WebMvcConfigurerAdapter{
 		webContentInterceptor.setUseCacheControlHeader(true);
 		webContentInterceptor.setUseCacheControlNoStore(true);
 	    registry.addInterceptor(webContentInterceptor);
+	    registry.addInterceptor(localeChangeInterceptor());
 	 }
 }

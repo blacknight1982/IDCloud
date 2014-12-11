@@ -1,17 +1,18 @@
 package com.id.cloud.configuration;
 
+import java.util.Locale;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
-@PropertySource({"/WEB-INF/cfg-props/inspiration.properties"})
+//@PropertySource({"/WEB-INF/cfg-props/inspiration.properties"})
 @Import({IDCloudDBConfiguration.class, IDCloudMVCConfiguration.class, IDCloudSecurityConfiguration.class})
 
-//@ImportResource("/WEB-INF/spring/idcloudsecurity.xml")
 public class IDCloudAppConfiguration {
 	
 	/**
@@ -24,8 +25,16 @@ public class IDCloudAppConfiguration {
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource(){
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasenames("/WEB-INF/i18n/messages","/WEB-INF/i18n/application");
+		messageSource.setBasenames("/WEB-INF/i18n/messages","/WEB-INF/i18n/application","/WEB-INF/cfg-props/inspiration");
+		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
+	}
+	
+	@Bean
+	public SessionLocaleResolver localeResolver(){
+		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+		localeResolver.setDefaultLocale(Locale.US);
+		return localeResolver;
 	}
 	
 	@Bean

@@ -16,21 +16,20 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 <spring:url var="banner" value="/resources/images/banner-graphic.png" />
 <spring:url var="home" value="/" />
 <spring:message code="button_home" var="home_label" htmlEscape="false" />
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<util:load-scripts />
-		<spring:message code="application_name" var="app_name" htmlEscape="false"/>
+		<spring:message code="application.name" var="app_name" htmlEscape="false"/>
 		<title><spring:message code="welcome_h3" arguments="${app_name}" /></title>
 	</head>
 	
   	<body id="idcloudbody">
   		<div id="idcloudmenu">
 	        <ul>
-	          <li><a href="${index_page}">Homepage</a></li>
-	          <li><a href="${publish_page}">Publish</a></li>
-	          <li><a href="${management}">Management</a></li>
-	          <li><a href="${contact}">Contact</a></li>
+	          <li><a href="${index_page}"><spring:message code="menu.homepage"/></a></li>
+	          <li><a href="${publish_page}"><spring:message code="menu.publish"/></a></li>
+	          <li><a href="${management}"><spring:message code="menu.management"/></a></li>
+	          <li><a href="${contact}"><spring:message code="menu.contact"/></a></li>
 	        </ul>
 	    </div>
   		<div id="pgcontainer">
@@ -38,10 +37,14 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
     			<div id="navbar">
 	      			<span id='menubtn' type="button">Menu</span>
 	      			<a id="homebanner" href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
-    					<span>IDCloud Inspiration</span>
+    					<span><spring:message code="navigation.title"/></span>
   					</a>
   					<div id="credential">
   						<tiles:insertAttribute name="credential" ignore="true" />
+  					</div>
+  					<div id="language">
+  						<spring:message code="navigation.language.url" var="language_url" />
+  						<a href="${language_url}"><spring:message code="navigation.language" />|</a>
   					</div>
   					<!-- use captain icon for toggle menu -->
     			</div>

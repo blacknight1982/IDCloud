@@ -9,14 +9,14 @@
   <table>
 	<tbody>
 	  <tr>
-	  	<th>Name</th>
-	  	<th>Title</th>
-	  	<th>Email</th>
+	  	<th><spring:message code="contacts.name"/></th>
+	  	<th><spring:message code="contacts.title"/></th>
+	  	<th><spring:message code="contacts.email"/></th>
 	  </tr>
 	  <tr>
-	  	<td>John Liu</td>
-	  	<td>Founder</td>
-	  	<td>blacknight1982@gmail.com</td>
+	  	<td><spring:message code="contacts.john.name"/></td>
+	  	<td><spring:message code="contacts.john.title"/></td>
+	  	<td><spring:message code="contacts.john.email"/></td>
   	  </tr>
 	</tbody>
   </table>

@@ -4,7 +4,7 @@
 	"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
 
 <tiles-definitions>
-  <definition name="login" extends="template">
+  <definition name="login" extends="template_nonsliding">
   	<put-attribute name="body" value="/WEB-INF/views/login/body.jspx"/>
 	<put-attribute name="header" value="/WEB-INF/views/login/header.jspx"/>
   </definition>

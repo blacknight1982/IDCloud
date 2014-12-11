@@ -5,9 +5,9 @@
 	<table id="inspirationtable">
 		<tbody>
 		  <tr>
-		  	<th>Index</th>
-		  	<th>Time</th>
-		  	<th>Title</th>
+		  	<th><spring:message code="indexpage.tablehead.index" /></th>
+		  	<th><spring:message code="indexpage.tablehead.time" /></th>
+		  	<th><spring:message code="indexpage.tablehead.title" /></th>
 		  </tr>
 		  <c:forEach items="${inspirationList}" var="inspiration">
 		  	<tr>

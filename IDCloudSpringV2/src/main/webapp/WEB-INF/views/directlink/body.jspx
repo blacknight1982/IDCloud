@@ -14,13 +14,14 @@
   	<script type="text/javascript" src="${fbintegration_js}"><!-- added this avoiding script tag problem --></script>
   	<script type="text/javascript" src="${modeswitch_js}"><!-- added this avoiding script tag problem --></script>
 	 
-	<spring:url var="serverlocation" value="http://idcloud.info/webcontents" />
+	<spring:message code="inspiration.webcontents.url.location" var="serverlocation" htmlEscape="false" />
+		
 	<div id="directlinkhomediv">
-		<a href="${index_page}" id="directlinkhome">&lt;-Home Page</a>
+		<a href="${index_page}" id="directlinkhome">&lt;-<spring:message code="directlink.homepage" /></a>
 	</div>
 	<div id="directlinkeditdiv">
 		<sec:authorize access="authenticated">
-			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})">Switch to Editing Mode-&gt;</a>
+			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})"><spring:message code="directlink.switcheditmode" />-&gt;</a>
 		</sec:authorize>
 	</div>
 	<div id="directlinkpanel">
@@ -31,7 +32,7 @@
 		<h1 id="directlinkdate">
 			<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${inspiration.postTime.time}"/>
 		</h1>
-		<h1 id="directlinkauthor">Author: ${inspiration.authorNickname}</h1>
+		<h1 id="directlinkauthor"><spring:message code="directlink.author"/> ${inspiration.authorNickname}</h1>
 		<div id="directlinkbriefing">${inspiration.briefing}</div>
 		<div class="ios-scroll-wrapper">
 			<iframe id="directlinkframe" src="${serverlocation}${inspiration.mainPageLocation}">

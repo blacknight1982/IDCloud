@@ -15,6 +15,6 @@
   </span>
   -->
   	<div>
-		Powered by ID Cloud
+		<spring:message code="footer.idcloud"/>
 	</div>
 </div>

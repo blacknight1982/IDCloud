@@ -4,7 +4,7 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-	<spring:message var="app_name" code="application_name" htmlEscape="false" />
+	<spring:message var="app_name" code="application.name" htmlEscape="false" />
 	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
 	<spring:url value="/resources/idcloudjs/management.js" var="management_js"/>
 	
@@ -12,23 +12,23 @@
   
 	<div id="tagmgt-tabs">
     	<ul>
-		    <li><a href="#tagmgt-tabs-1">Tag Creation/Deletion</a></li>
-		    <li><a href="#tagmgt-tabs-2">Inspiration Tags</a></li>
-		    <li><a href="#tagmgt-tabs-3">Inspiration Editing</a></li>
-		    <li><a href="#tagmgt-tabs-4">Inspiration Deletion</a></li>
+		    <li><a href="#tagmgt-tabs-1"><spring:message code="management.tabs.tagpool"/></a></li>
+		    <li><a href="#tagmgt-tabs-2"><spring:message code="management.tabs.inspirationtags"/></a></li>
+		    <li><a href="#tagmgt-tabs-3"><spring:message code="management.tabs.inspirationedit"/></a></li>
+		    <li><a href="#tagmgt-tabs-4"><spring:message code="management.tabs.inspirationpool"/></a></li>
   		</ul>
   		
 		<div id="tagmgt-tabs-1">
 			
-		  	<section>Tag Creation/Deletion Pool</section>
+		  	<section><spring:message code="management.tabs.tagpool"/></section>
 	  		<section id="tagpool" >
 		  		<c:forEach items="${tags}" var="tag">
 				  		<span style="background-color:${tag.color}; color:${tag.complementaryColorInHex}; font-size:18px" id="${tag.tagID}" name="${tag.name}" class="tag">${tag.name}</span>
 				</c:forEach>
 		  	</section>
 			
-			<button id="create-tag">Create new tag</button>
-			<button id="save-tag">Save to Server</button>
+			<button id="create-tag"><spring:message code="management.tabs.tagpool.newtag"/></button>
+			<button id="save-tag"><spring:message code="management.tabs.savetoserver"/></button>
 		</div>
 		<div id="tagmgt-tabs-2">
 			<select id="inspiration-sel">
@@ -36,14 +36,14 @@
 	    			<option id="option${inspiration.inspirationID}" value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
 	    		</c:forEach>
 		    </select>
-		    <button id="save-tag2">Save to Server</button>
+		    <button id="save-tag2"><spring:message code="management.tabs.savetoserver"/></button>
 		    <section id="tagcontainer"></section>
 		    
 		</div>
 		
 		<div id="tagmgt-tabs-3">
 			<select id="inspiration-sel-edit">
-				<option value="0">Please Select an Inspiration</option>
+				<option value="0"><spring:message code="management.tabs.inspirationedit.select"/></option>
 	    		<c:forEach items="${inspirationList}" var="inspiration">
 	    			<option id="optionedit${inspiration.inspirationID}" value="${inspiration.inspirationID}">${inspiration.inspirationID} - ${inspiration.title}</option>
 	    		</c:forEach>
@@ -59,13 +59,14 @@
 		</div>
 	</div>
 	  	
-  	<section id="dialog-form" title="Create new tag">
+	<spring:message code="management.tabs.tagpool.newtag" var="newtag"/>
+  	<section id="dialog-form" title="${newtag}">
 	  <form id="tag-creating-form">
 	    <fieldset>
-	    	<label for="name">Name</label>
+	    	<label for="name"><spring:message code="management.newtagform.name"/></label>
 	    	<input type="text" name="tagName" id="tagName" class="text ui-widget-content ui-corner-all"/>
 	    	<br/>
-	    	<label for="color">Color</label>
+	    	<label for="color"><spring:message code="management.newtagform.color"/></label>
 	    	<input type="color" name="tagColor" id="tagColor" class="text ui-widget-content ui-corner-all"/>
 	    	
 	    	<!-- Allow form submission with keyboard without duplicating the dialog button -->

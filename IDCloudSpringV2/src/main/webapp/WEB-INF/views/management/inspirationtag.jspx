@@ -3,7 +3,7 @@
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" 
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	
-  	<p>Available Tags in the Pool:</p>
+  	<p><spring:message code="management.tabs.inspirationtags.available" /></p>
   	<p>
 	  	<div id="tagFromBox" class="droppableFromBox">
 		  	<c:forEach items="${tags}" var="tag">
@@ -19,7 +19,7 @@
 		  	</c:forEach>
 	  	</div>
   	</p>
-  	<p>Associated Tags:</p>
+  	<p><spring:message code="management.tabs.inspirationtags.associate" /></p>
   	<p>
 	  	<div id="tagToBox" class="droppableToBox">
 	  		<c:forEach items="${inspirationTags}" var="inspirationTag">

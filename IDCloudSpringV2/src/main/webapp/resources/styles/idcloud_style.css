@@ -1,5 +1,7 @@
 /**Global Style**/
-
+a {
+	text-decoration:none;
+}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
 	display: block; 
 }
@@ -56,6 +58,7 @@ img {
      font-size: 40px;
      font-weight: bold;
      color: #555555;
+     text-align: center;
 }
 
 #credential {
@@ -63,6 +66,15 @@ img {
 	margin: 0 auto;
 	top: -28px;
 	position: relative;
+}
+
+#language {
+	float: right;
+	margin: 0 auto;
+	top: -26px;
+	position: relative;
+	font-size: 12;
+	font-weight: bold;
 }
 
 #banner{
@@ -185,6 +197,7 @@ header {
 }
 #menubtn:hover, .openmenu .menubtn {
   color: #bdd43e;
+  cursor: hand;
   background-image: url('../images/hamburger-active.png');
 }
 
@@ -316,8 +329,13 @@ body.openmenu {
 	background: #d1d1d1;
 }
 
+.removeinspiration:hover {
+	cursor: hand;
+}
+
 .tag{
 	margin: 2px;
+	cursor: hand;
 }
 
 #inspirationtable{

@@ -3,11 +3,12 @@ package com.id.cloud.web.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ import com.id.cloud.inspiration.utility.webshare.WebShareRepository;
 public class RESTfulController {
 	
 	@Autowired
-	private Environment environment;
+	private AbstractMessageSource messagesource;
 	
 	@Autowired
 	private InspirationDao inspirationDao;
@@ -66,16 +67,17 @@ public class RESTfulController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/imageupload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	ResponseEntity<RestResponse> getRestResponse(@RequestParam("image") final MultipartFile multiPart){
+	ResponseEntity<RestResponse> getRestResponse(@RequestParam("image") final MultipartFile multiPart, Locale locale){
 		String fileName = null;
-		String folderName = environment.getProperty("inspiration.imageupload.folder.location");
-		String weblocation = environment.getProperty("inspiration.imageupload.url.location");
+		String folderName = messagesource.getMessage("inspiration.imageupload.folder.location", null,locale);
+		String weblocation = messagesource.getMessage("inspiration.imageupload.url.location", null,locale);
+				
     	if (!multiPart.isEmpty()) {
             try {
                 fileName = UUID.randomUUID()+"-"+multiPart.getOriginalFilename();   
                 byte[] bytes = multiPart.getBytes();
                 BufferedOutputStream buffStream = 
-                        new BufferedOutputStream(new FileOutputStream(new File(folderName + fileName)));
+                        new BufferedOutputStream(new FileOutputStream(new File(folderName + "/" +fileName)));
                 buffStream.write(bytes);
                 buffStream.close();
             } catch (Exception e) {
@@ -85,7 +87,7 @@ public class RESTfulController {
             
         }
     	RestResponse restResponse = new RestResponse();
-    	restResponse.getUpload().getLinks().setOriginal(weblocation+fileName);
+    	restResponse.getUpload().getLinks().setOriginal(weblocation+"/"+fileName);
     	restResponse.getUpload().getImage().setWidth(300);
 		return new ResponseEntity<RestResponse>(restResponse,HttpStatus.OK);
 	}

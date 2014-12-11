@@ -1,5 +1,8 @@
-$(initTagFilter);
-$(initSlidingPanel);
+$( document ).ready(function() {
+	$(initTagFilter);
+	$(initTagClick);
+});
+
 
 function initTagFilter(){
 	$("#tagfilter").keyup(function() {
@@ -9,6 +12,19 @@ function initTagFilter(){
 	$("#titlefilter").keyup(function() {
 		filterInspirationByTitleAndTag();
 	});
+	
+	$("#tagfilter").bind("search",function() {
+		filterInspirationByTitleAndTag();
+	});
+}
+
+function initTagClick(){
+	$(".tag").click(
+			function(){
+				$("#tagfilter").val($(this).text());
+				filterInspirationByTitleAndTag();
+			}
+		);
 }
 
 function filterInspirationByTitleAndTag(){

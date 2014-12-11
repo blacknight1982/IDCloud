@@ -4,9 +4,8 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-	<spring:message var="app_name" code="application_name" htmlEscape="false" />
+	<spring:message var="app_name" code="application.name" htmlEscape="false" />
 	<spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
-	<spring:url var="serverlocation" value="/resources" />
 	
 	<spring:url value="/resources/nicEdit/nicEdit.js" var="nicEdit_js"/>
 	
@@ -24,13 +23,12 @@
   	
 	</script>
 	
-  
   	<form id="publish_form" action="./publish" accept-charset="UTF-8" method="post" onsubmit="return validateForm()">
   	
   		<table id="publish_table">
 	  		<tbody>
 	  			<tr>
-	  				<td>Please Select Tags:</td>
+	  				<td><spring:message code="publish.selecttag" /></td>
 	  				<td>
 	  					<c:forEach items="${tags}" var="tag">
 					  		<input type="checkbox" id="${tag.tagID}" name="${tag.name}"/>
@@ -39,35 +37,38 @@
 	  				</td>
 	  			</tr>
 	  			<tr>
-	  				<td>Please Select Authorization Level:</td>
+	  				<td><spring:message code="publish.authlevel" /></td>
 	  				<td>
 	  					<select form="publish_form" name="inspiration-auth-level">
-							<option value="0">0 - Visible to All</option>
-				    		<option value="1">1 - Visible to Registered Users</option>
-				    		<option value="2">2 - Visible to Self Only</option>
+							<option value="0"><spring:message code="publish.authlevel.0" /></option>
+				    		<option value="1"><spring:message code="publish.authlevel.1" /></option>
+				    		<option value="2"><spring:message code="publish.authlevel.2" /></option>
 					    </select>
 	  				</td>
 	  			</tr>
 	  			<tr>
-	  				<td>Inspiration Title:</td>
+	  				<td><spring:message code="publish.title" /></td>
+	  				<spring:message code="publish.title.placeholder" var="title_placeholder"/>
 	  				<td>
-	  					<input id="inspiration_title-publish" name="inspiration_title"  size="100" placeholder="Please input a title here ..."/>
+	  					<input id="inspiration_title-publish" name="inspiration_title"  size="100" placeholder="${title_placeholder}"/>
 	  				</td>
 	  			</tr>
 	  			<tr>
-	  				<td>Inspiration Briefing:</td>
+	  				<td><spring:message code="publish.briefing" /></td>
+	  				<spring:message code="publish.briefing.placeholder" var="briefing_placeholder"/>
 	  				<td>
-	  					<textarea id="inspiration_briefing-publish" name="inspiration_briefing" placeholder="Please input an inspiration highlight here ..."><!-- Added this to avoid JSP problem --></textarea>
+	  					<textarea id="inspiration_briefing-publish" name="inspiration_briefing" placeholder="${briefing_placeholder}"><!-- Added this to avoid JSP problem --></textarea>
 	  				</td>
 	  			</tr>
 	  		</tbody>
   		</table>
   		
   		<div>
-  			<textarea name="inspiration_editor" id="inspiration_editor" >Please input your article here ...</textarea>
+  			<textarea name="inspiration_editor" id="inspiration_editor" ><spring:message code="publish.editor.placeholder" /></textarea>
   		</div>
+  		<spring:message code="publish.submit" var="publish_submit"/>
   		<p>
-  			<input name="submit" type="submit" value="Submit"/>
+  			<input name="submit" type="submit" value="${publish_submit}"/>
   		</p>
   	</form>
 </div>

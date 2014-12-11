@@ -4,7 +4,7 @@
 	"file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
 
 <tiles-definitions>
-  <definition name="contact" extends="template">
+  <definition name="contact" extends="template_nonsliding">
   	<put-attribute name="body" value="/WEB-INF/views/contact/body.jspx"/>
 	<put-attribute name="header" value="/WEB-INF/views/contact/header.jspx"/>
   </definition>

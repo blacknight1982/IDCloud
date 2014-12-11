@@ -5,7 +5,7 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <spring:message var="app_name" code="application_name" htmlEscape="false" />
+  <spring:message var="app_name" code="application.name" htmlEscape="false" />
   <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" htmlEscape="false" />
   
   <p>
@@ -22,23 +22,24 @@
   	</p>
   	<table id="account_table">
   		<tr>
-  			<td><label for="username">Email (Will be used as login user name)</label></td>
+  			<td><label for="username"><spring:message code="security.createaccount.username" /></label></td>
   			<td><spring-form:input path="idcloud_username"/></td>
   		</tr>
   		<tr>
-  			<td><label for="nickname">Nickname</label></td>
+  			<td><label for="nickname"><spring:message code="security.createaccount.nickname" /></label></td>
   			<td><spring-form:input path="idcloud_nickname"/></td>
   		</tr>
   		<tr>
-  			<td><label for="password">Password</label></td>
+  			<td><label for="password"><spring:message code="security.createaccount.password" /></label></td>
   			<td><spring-form:password path="idcloud_password"/></td>
   		</tr>
   		<tr>
-  			<td><label for="password">Confirm Password</label></td>
+  			<td><label for="password"><spring:message code="security.createaccount.confirmpassword" /></label></td>
   			<td><spring-form:password path="idcloud_confirm_password"/></td>
   		</tr>
+  		<spring:message code="security.createaccount.create" var="createaccount"/>
   		<tr>
-  			<td><input id="submit" name="submit" type="submit" value="Create Account"/></td>
+  			<td><input id="submit" name="submit" type="submit" value="${createaccount}"/></td>
   		</tr>
   	</table>
   </spring-form:form>
