@@ -19,7 +19,7 @@
 	<spring:message code="welcome_h3" arguments="${app_name}" />
   </p>
   <p>
-  	<spring:message code="security.accessdenied " />
+  	<spring:message code="security.accessdenied" />
   </p>
 
   <c:url value="/login" var="loginUrl"/>

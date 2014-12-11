@@ -12,18 +12,18 @@
 	<spring:message code="welcome_h3" arguments="${app_name}" />
   </p>
   <p>
-  	<spring:message code="welcome_text" />
+  	<spring:message code="security.updateaccount.welcome" />
   </p>
 
-  <c:url value="/createAccount" var="createAccountUrl"/>
-  <spring-form:form action="${createAccountUrl}" method="POST" commandName="newAccountForm">
+  <c:url value="/updateAccount" var="updateAccountUrl"/>
+  <spring-form:form action="${updateAccountUrl}" method="POST" commandName="accountForm">
   	<p>
   		<spring-form:errors path="*" element="div"/>
   	</p>
   	<table id="account_table">
   		<tr>
   			<td><label for="username"><spring:message code="security.createaccount.username" /></label></td>
-  			<td><spring-form:input path="idcloud_username"/></td>
+  			<td><spring-form:input path="idcloud_username" readonly="true"/></td>
   		</tr>
   		<tr>
   			<td><label for="nickname"><spring:message code="security.createaccount.nickname" /></label></td>
@@ -37,13 +37,9 @@
   			<td><label for="password"><spring:message code="security.createaccount.confirmpassword" /></label></td>
   			<td><spring-form:password path="idcloud_confirm_password"/></td>
   		</tr>
+  		<spring:message code="security.updateaccount.update" var="updateaccount"/>
   		<tr>
-  			<td><label for="invitationcode"><spring:message code="security.createaccount.invitationcode" /></label></td>
-  			<td><spring-form:password path="idcloud_invitation_code"/></td>
-  		</tr>
-  		<spring:message code="security.createaccount.create" var="createaccount"/>
-  		<tr>
-  			<td><input id="submit" name="submit" type="submit" value="${createaccount}"/></td>
+  			<td><input id="submit" name="submit" type="submit" value="${updateaccount}"/></td>
   		</tr>
   	</table>
   </spring-form:form>

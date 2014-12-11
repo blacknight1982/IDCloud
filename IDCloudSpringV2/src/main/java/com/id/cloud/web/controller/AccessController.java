@@ -16,10 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,6 +29,7 @@ import com.id.cloud.inspiration.dao.UserDao;
 import com.id.cloud.inspiration.dao.UserRoleDao;
 import com.id.cloud.inspiration.entities.AccountForm;
 import com.id.cloud.inspiration.entities.LoginForm;
+import com.id.cloud.inspiration.entities.NewAccountForm;
 import com.id.cloud.inspiration.entities.User;
 import com.id.cloud.inspiration.entities.UserRole;
 
@@ -50,6 +53,8 @@ public class AccessController {
 	
 	@Autowired
 	private UserRoleDao userRoleDao;
+	
+	@Autowired PasswordEncoder passwordEncoder;
 	
 	/**
 	 * post login Servlet
@@ -96,7 +101,7 @@ public class AccessController {
 	 * Create Account Servlet
 	 */
 	@RequestMapping(value = "/createAccount", method = RequestMethod.GET)
-	public String createAccount(@ModelAttribute("accountForm") AccountForm accountForm){
+	public String createAccount(@ModelAttribute("newAccountForm") NewAccountForm newAccountForm){
 		return "create_account";
 	}
 	
@@ -105,11 +110,13 @@ public class AccessController {
 	 */
 	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
 	public String createAccount(HttpServletRequest request, HttpServletResponse response,
-			@Valid @ModelAttribute("accountForm") AccountForm accountForm, BindingResult result){
-		String username = accountForm.getIdcloud_username();
-		String password = accountForm.getIdcloud_password();
-		String confirm_password = accountForm.getIdcloud_confirm_password();
-		String nickname = accountForm.getIdcloud_nickname();
+			@Valid @ModelAttribute("newAccountForm") NewAccountForm newAccountForm, BindingResult result){
+		String username = newAccountForm.getIdcloud_username();
+		String password = newAccountForm.getIdcloud_password();
+		String encodedPassword = passwordEncoder.encode(password);
+		String confirm_password = newAccountForm.getIdcloud_confirm_password();
+		String nickname = newAccountForm.getIdcloud_nickname();
+		String invitation_code = newAccountForm.getIdcloud_invitation_code();
 		if(result.hasErrors()){
 			return "create_account";
 		}
@@ -118,11 +125,58 @@ public class AccessController {
 			result.reject("Create Account Fail","Passwords does not equal.");
 			return "create_account";
 		}
-		User newUser = new User(username,password,true,nickname);
+		if(!invitation_code.equals("idcloud")){
+			result.reject("Create Account Fail","Invalid invitation code");
+			return "create_account";
+		}
+		User newUser = new User(username,encodedPassword,true,nickname);
 		UserRole newUserRole = new UserRole(username,"ROLE_USER");
 		userDao.create(newUser);
 		userRoleDao.create(newUserRole);
 		
+		return "redirect:/login";
+	}
+	
+	/**
+	 * Update Account Servlet
+	 */
+	@RequestMapping(value = "/updateAccount/{id}", method = RequestMethod.GET)
+	public String updateAccount(@ModelAttribute("accountForm") AccountForm accountForm, @PathVariable int id){
+		User userToBeUpdated = userDao.findByPrimaryKey(id);
+		accountForm.setIdcloud_username(userToBeUpdated.getUsername());
+		accountForm.setIdcloud_nickname(userToBeUpdated.getNickname());
+		accountForm.setIdcloud_userid(id);
+		return "update_account";
+	}
+	
+	/**
+	 * Post Update Account Servlet
+	 */
+	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
+	public String updateAccount(HttpServletRequest request, HttpServletResponse response,
+			@Valid @ModelAttribute("accountForm") AccountForm accountForm, BindingResult result){
+		String username = accountForm.getIdcloud_username();
+		String password = accountForm.getIdcloud_password();
+		String encodedPassword = passwordEncoder.encode(password);
+		String confirm_password = accountForm.getIdcloud_confirm_password();
+		String nickname = accountForm.getIdcloud_nickname();
+		if(result.hasErrors()){
+			return "update_account";
+		}
+		
+		if(!password.equals(confirm_password)){
+			result.reject("Update Account Fail","Passwords does not equal.");
+			return "update_account";
+		}
+		User updateUser = new User(username,encodedPassword,true,nickname);
+		
+		try{
+			userDao.update(updateUser);
+		}
+		catch (Exception e) {
+			logger.error("Update user failed. Reason: "+e.getMessage());
+			return "redirect:/accessdenied";
+		}
 		return "redirect:/login";
 	}
 	

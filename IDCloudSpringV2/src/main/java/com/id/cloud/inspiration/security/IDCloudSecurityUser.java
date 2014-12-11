@@ -21,6 +21,7 @@ public class IDCloudSecurityUser extends User implements UserDetails {
 	public IDCloudSecurityUser(User user) {
 		if(user != null)
 		{
+			this.setId(user.getId());
 			this.setEnabled((user.isEnabled()));
 			this.setUsername(user.getUsername());
 			this.setPassword(user.getPassword());

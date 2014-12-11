@@ -11,13 +11,15 @@ import javax.validation.constraints.Size;
  */
 public class AccountForm extends LoginForm {
 	
-	@NotNull
-	@Size(min=1, message="Username is required")
+	@NotNull(message = "User nickname is required")
+	@Size(min=1, message="User nickname is required")
 	private String idcloud_nickname;
 	
-	@NotNull
+	@NotNull(message = "Confirm Password is required")
 	@Size(min=1, message="Confirm Password is required")
 	private String idcloud_confirm_password;
+	
+	private int idcloud_userid;
 
 	public String getIdcloud_nickname() {
 		return idcloud_nickname;
@@ -33,5 +35,13 @@ public class AccountForm extends LoginForm {
 
 	public void setIdcloud_confirm_password(String idcloud_confirm_password) {
 		this.idcloud_confirm_password = idcloud_confirm_password;
+	}
+
+	public int getIdcloud_userid() {
+		return idcloud_userid;
+	}
+
+	public void setIdcloud_userid(int idcloud_userid) {
+		this.idcloud_userid = idcloud_userid;
 	}
 }

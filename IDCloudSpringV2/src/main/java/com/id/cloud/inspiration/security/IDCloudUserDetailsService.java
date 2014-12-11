@@ -22,7 +22,7 @@ public class IDCloudUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		User user = userDao.findByPrimaryKey(username);
+		User user = userDao.findByUsername(username);
 		if(user == null){
 			throw new UsernameNotFoundException("UserName "+username+" not found");
 		}

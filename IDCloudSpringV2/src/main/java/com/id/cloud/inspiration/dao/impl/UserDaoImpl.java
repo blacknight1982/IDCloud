@@ -1,5 +1,8 @@
 package com.id.cloud.inspiration.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,9 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.id.cloud.inspiration.dao.UserDao;
@@ -22,12 +28,32 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	@Override
+/*	@Override
 	public int create(final User user) {
 		if(user == null) return 0;
 		final String SQL = "insert into USERS (USERNAME, PASSWORD, ENABLED, NICKNAME) values (?, ?, ?, ?)";
 		jdbcTemplate.update(SQL,user.getUsername(),user.getPassword(), user.isEnabled(), user.getNickname());
 		return 0;
+	}*/
+	
+	@Override
+	public int create(final User user) {
+		if(user == null) return 0;
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		final String SQL = "insert into USERS (USERNAME, PASSWORD, ENABLED, NICKNAME) values (?, ?, ?, ?)";
+		jdbcTemplate.update(new PreparedStatementCreator() {
+	        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+	            PreparedStatement ps =
+	                connection.prepareStatement(SQL, new String[] {"ID"});
+	            ps.setString(1, user.getUsername());
+	            ps.setString(2, user.getPassword());
+	            ps.setBoolean(3,user.isEnabled());
+	            ps.setString(4, user.getNickname());
+	            return ps;
+	        }
+	    },
+	    keyHolder);
+		return keyHolder.getKey().intValue();
 	}
 
 	@Override
@@ -38,9 +64,15 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User findByPrimaryKey(String username) {
+	public User findByUsername(String username) {
 		String SQL = "select * from users where username = ? ";
 		return jdbcTemplate.queryForObject(SQL,new UserMapper(), username);
+	}
+	
+	@Override
+	public User findByPrimaryKey(int id) {
+		String SQL = "select * from users where id = ? ";
+		return jdbcTemplate.queryForObject(SQL,new UserMapper(), id);
 	}
 
 	@Override

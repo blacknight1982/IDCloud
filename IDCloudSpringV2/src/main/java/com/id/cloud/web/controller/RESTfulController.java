@@ -49,7 +49,7 @@ public class RESTfulController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{inspirationID}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Inspiration> getInspiration(@PathVariable int inspirationID){
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
-		inspiration.setAuthorNickname(userDao.findByPrimaryKey(inspiration.getAuthor()).getNickname());
+		inspiration.setAuthorNickname(userDao.findByUsername(inspiration.getAuthor()).getNickname());
 		return new ResponseEntity<Inspiration>(inspiration, HttpStatus.OK);
 	}
 	

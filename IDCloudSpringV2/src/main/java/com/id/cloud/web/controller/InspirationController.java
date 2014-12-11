@@ -87,7 +87,7 @@ public class InspirationController {
 				tagIDs[j] = inspirationM2MTags.get(j).getTagID();
 			}
 			inspirationList.get(i).setTags(tagDao.findByTagIDs(tagIDs));
-			User author = userDao.findByPrimaryKey(inspirationList.get(i).getAuthor());
+			User author = userDao.findByUsername(inspirationList.get(i).getAuthor());
 			inspirationList.get(i).setAuthorNickname(author.getNickname());
 		}
 		model.addAttribute("inspirationList",inspirationList);
@@ -224,7 +224,7 @@ public class InspirationController {
 		
 		int inspirationID = Integer.parseInt(inspiration_id);
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
-		inspiration.setAuthorNickname(userDao.findByPrimaryKey(inspiration.getAuthor()).getNickname());
+		inspiration.setAuthorNickname(userDao.findByUsername(inspiration.getAuthor()).getNickname());
 		
 		List<InspirationM2MTag> inspirationM2MTags = inspirationM2MTagDao.findByInspirationID(inspirationID);
 		Integer [] tagIDs = new Integer[inspirationM2MTags.size()];
