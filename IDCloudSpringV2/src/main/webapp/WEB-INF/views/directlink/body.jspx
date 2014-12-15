@@ -24,6 +24,7 @@
 			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})"><spring:message code="directlink.switcheditmode" />-&gt;</a>
 		</sec:authorize>
 	</div>
+	<br/>
 	<div id="directlinkpanel">
 		<h1 id="directlinktitle">${inspiration.title}</h1>
 		<div id="directlinktags">

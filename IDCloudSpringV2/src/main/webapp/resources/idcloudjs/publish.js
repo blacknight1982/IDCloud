@@ -52,11 +52,13 @@ function initTagCreationDialog() {
 			xmlhttp.open("POST", url, false);
 			xmlhttp.setRequestHeader("Content-Type","application/json");
 			xmlhttp.onreadystatechange = function() {
+				unlockScreen();
 				if (xmlhttp.readyState == 4 && xmlhttp.status != 202) {
 					alert("Creating of new tag:" + tagName.val() +" failed!");
 					createSuccessful = false;
 				}
 			}
+			lockScreenAndWait("Creating new Tag...");
 			xmlhttp.send(JSON.stringify(newtag));
 			
 			if(createSuccessful){

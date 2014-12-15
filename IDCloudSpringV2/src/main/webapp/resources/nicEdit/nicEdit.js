@@ -1741,6 +1741,35 @@ nicEditors.registerPlugin(nicPlugin,nicCodeOptions);
 * @author: Brian Kirchoff
 * @version: 0.9.0
 */
+
+/* START CONFIG */
+var nicInsertHTMLOptions = {
+    buttons : {
+        'inserthtml' : {name : __('Insert HTML Code'), type : 'nicEditorInsertHTMLButton'}
+    }
+	/* NICEDIT_REMOVE_START */,iconFiles : {'inserthtml' : '../resources/nicEdit/html.jpg'}/* NICEDIT_REMOVE_END */
+};
+/* END CONFIG */
+ 
+var nicEditorInsertHTMLButton = nicEditorAdvancedButton.extend({   
+	width : '350px',
+	
+	addPane : function() {
+		this.addForm({
+			'' : {type : 'title', txt : 'Insert HTML'},
+			'code' : {type : 'content', 'value' : '', style : {width: '340px', height : '200px'}}
+		});
+	},
+	
+	submit : function(e) {
+		var code = this.inputs['code'].value;
+		var codeobj = $(code);
+		this.removePane();
+	    this.ne.nicCommand("insertHTML", code);
+	}
+});
+ 
+nicEditors.registerPlugin(nicPlugin,nicInsertHTMLOptions);
  
 /* START CONFIG */
 var nicLocalSaveOptions = {
@@ -1791,6 +1820,3 @@ var nicEditorLocalLoadButton = nicEditorAdvancedButton.extend({
 });
  
 nicEditors.registerPlugin(nicPlugin,nicLocalLoadOptions);
-
-
-

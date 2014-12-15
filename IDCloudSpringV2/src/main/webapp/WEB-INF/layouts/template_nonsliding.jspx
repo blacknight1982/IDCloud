@@ -64,5 +64,6 @@ xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
 				</div>
 			</div>
 		</div>
+		<div id="lockPane" class="LockOff"></div>
 	</body>
 </html>
