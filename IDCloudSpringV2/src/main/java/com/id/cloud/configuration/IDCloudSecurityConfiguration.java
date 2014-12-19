@@ -17,9 +17,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import com.id.cloud.inspiration.security.IDCloudUserDetailsService;
 
@@ -56,12 +58,22 @@ public class IDCloudSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage("/accessdenied");
 		//http.formLogin().loginPage("/login").failureUrl("/login?error").successHandler(successHandler());
 		//http.formLogin().loginProcessingUrl("/login").usernameParameter("idcloud_username").passwordParameter("idcloud_password");
+		//http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
 	}
 	
 	@Bean
 	AuthenticationSuccessHandler successHandler(){
-		return new SavedRequestAwareAuthenticationSuccessHandler();
+		SimpleUrlAuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler();
+		successHandler.setDefaultTargetUrl("/inspiration/index");
+		return successHandler;
+		//return new SavedRequestAwareAuthenticationSuccessHandler();
+	}
+	
+	@Bean
+	AuthenticationFailureHandler loginFailureHandler(){
+		AuthenticationFailureHandler loginFailureHandler = new SimpleUrlAuthenticationFailureHandler("/login?error");
+		return loginFailureHandler;
 	}
 	
 	@Bean(name="idcloudAuthenticationManager")

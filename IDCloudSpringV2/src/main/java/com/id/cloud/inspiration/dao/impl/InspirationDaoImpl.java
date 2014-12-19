@@ -83,5 +83,12 @@ public class InspirationDaoImpl implements InspirationDao {
 		List<Inspiration> inspirations = jdbcTemplate.query(sql, new InspirationMapper());
 		return inspirations;
 	}
+	
+	@Override
+	public List<Inspiration> findAllOrderByTime(){
+		String sql = "SELECT * FROM INSPIRATION order by INSPIRATION_POSTTIME desc";
+		List<Inspiration> inspirations = jdbcTemplate.query(sql, new InspirationMapper());
+		return inspirations;
+	}
 
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,15 +31,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.id.cloud.inspiration.dao.AccessLogDao;
-import com.id.cloud.inspiration.dao.InspirationDao;
 import com.id.cloud.inspiration.dao.InspirationM2MTagDao;
-import com.id.cloud.inspiration.dao.TagDao;
 import com.id.cloud.inspiration.dao.UserDao;
 import com.id.cloud.inspiration.entities.AccessLog;
 import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.InspirationM2MTag;
 import com.id.cloud.inspiration.entities.Tag;
-import com.id.cloud.inspiration.entities.User;
+import com.id.cloud.inspiration.repository.InspirationAccessCacheRepository;
 
 /**
  * Handles requests for the application home page.
@@ -53,12 +52,6 @@ public class InspirationController {
 	private AbstractMessageSource messagesource;
 	
 	@Autowired
-	private InspirationDao inspirationDao;
-	
-	@Autowired
-	private TagDao tagDao;
-	
-	@Autowired
 	private InspirationM2MTagDao inspirationM2MTagDao;
 	
 	@Autowired
@@ -66,6 +59,9 @@ public class InspirationController {
 	
 	@Autowired
 	private AccessLogDao accessLogDao;
+	
+	@Autowired
+	private InspirationAccessCacheRepository inspirationAccessCacheRepository;
 	
 	/**
 	 * Query for the inspirations and related tags and display them on the index page
@@ -78,19 +74,7 @@ public class InspirationController {
         final String user = request.getRemoteUser();
         accessLogDao.create(new AccessLog(userIpAddress, userAgent, "Inspiration Index",user));
 		
-		List<Inspiration> inspirationList = inspirationDao.findAll();
-		for(int i=0 ; i< inspirationList.size();i++){
-			List<InspirationM2MTag> inspirationM2MTags = inspirationM2MTagDao.findByInspirationID(inspirationList.get(i).getInspirationID());
-			Integer [] tagIDs = new Integer[inspirationM2MTags.size()];
-			for (int j=0 ; j<inspirationM2MTags.size() ; j++) 
-			{
-				tagIDs[j] = inspirationM2MTags.get(j).getTagID();
-			}
-			inspirationList.get(i).setTags(tagDao.findByTagIDs(tagIDs));
-			User author = userDao.findByUsername(inspirationList.get(i).getAuthor());
-			inspirationList.get(i).setAuthorNickname(author.getNickname());
-		}
-		model.addAttribute("inspirationList",inspirationList);
+		model.addAttribute("inspirationList",inspirationAccessCacheRepository.getInspirationModelByAuthorization());
 		return "index";
 	}
 	
@@ -101,8 +85,7 @@ public class InspirationController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/publish", method = RequestMethod.GET)
 	public String inspirationPublish(Locale locale, Model model) {
-		List <Tag> tags = tagDao.findAll();
-		model.addAttribute("tags", tags);
+		model.addAttribute("tags", inspirationAccessCacheRepository.getFullTagPoolModel());
 		return "publish";
 	}
 	
@@ -162,15 +145,16 @@ public class InspirationController {
 		
 		//set inspiration author to the current user
 		newInspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
-		int newInspirationID = inspirationDao.create(newInspiration);
 		
-		List <Tag> tags = tagDao.findAll();
-		for(Tag currentTag: tags){
+		List <Tag> associatedTags = new ArrayList<Tag>();
+		
+		
+		for(Tag currentTag: inspirationAccessCacheRepository.getFullTagPoolModel()){
 			if("on".equals(request.getParameter(currentTag.getName()))){
-				InspirationM2MTag newInspirationM2MTag = new InspirationM2MTag(newInspirationID,currentTag.getTagID());
-				inspirationM2MTagDao.create(newInspirationM2MTag);
+				associatedTags.add(currentTag);
 			}	
 		}
+		inspirationAccessCacheRepository.createInspiration(newInspiration,associatedTags);
 		
 		return "redirect:index";
 	}
@@ -186,8 +170,7 @@ public class InspirationController {
 		 * Only need a list of inspiration 
 		 * Tags and Inspirations will be loaded by jquery by separate view
 		 */
-		List<Inspiration> inspirationList = inspirationDao.findAll();
-		model.addAttribute("inspirationList",inspirationList);
+		model.addAttribute("inspirationList",inspirationAccessCacheRepository.getFullInspirationModel());
 		return "management";
 	}
 	
@@ -197,22 +180,15 @@ public class InspirationController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/{inspiration_id}", method = RequestMethod.GET)
-	public String inspirationTagMgt(@PathVariable String inspiration_id, Locale locale, Model model) {
+	public String inspirationTagMgt(@PathVariable int inspiration_id, Locale locale, Model model) {
 		
+		Inspiration inspiration = inspirationAccessCacheRepository.getInspirationByID(inspiration_id);
+		List <Tag> inspirationTags = inspiration.getTags();
 		
-		List<InspirationM2MTag> inspirationM2MTags = inspirationM2MTagDao.findByInspirationID(Integer.parseInt(inspiration_id));
-		Integer [] tagIDs = new Integer[inspirationM2MTags.size()];
-		for (int j=0 ; j<inspirationM2MTags.size() ; j++) 
-		{
-			tagIDs[j] = inspirationM2MTags.get(j).getTagID();
-		}
-		List <Tag> inspirationTags = tagDao.findByTagIDs(tagIDs);
-		
-		model.addAttribute("inspiration",inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id)));
+		model.addAttribute("inspiration",inspiration);
 		model.addAttribute("inspirationTags",inspirationTags);
 		
-		List <Tag> tags = tagDao.findAll();
-		model.addAttribute("tags", tags);
+		model.addAttribute("tags", inspirationAccessCacheRepository.getFullTagPoolModel());
 		return "inspirationtag";
 	}
 	
@@ -220,39 +196,9 @@ public class InspirationController {
 	 * Direct link for getting the content of each inspiration with parameter {inspiration_id}
 	 */
 	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.GET)
-	public String directLink(@PathVariable String inspiration_id, Locale locale, Model model) {
+	public String directLink(@PathVariable int inspiration_id, Locale locale, Model model) {
 		
-		int inspirationID = Integer.parseInt(inspiration_id);
-		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
-		inspiration.setAuthorNickname(userDao.findByUsername(inspiration.getAuthor()).getNickname());
-		
-		List<InspirationM2MTag> inspirationM2MTags = inspirationM2MTagDao.findByInspirationID(inspirationID);
-		Integer [] tagIDs = new Integer[inspirationM2MTags.size()];
-		for (int i=0 ; i<inspirationM2MTags.size() ; i++) 
-		{
-			tagIDs[i] = inspirationM2MTags.get(i).getTagID();
-		}
-		inspiration.setTags(tagDao.findByTagIDs(tagIDs));
-		
-		model.addAttribute("inspiration",inspiration);
-				
-		/*
-		 * Read inspiration on the file system.
-		 */
-		/*String folderName = messagesource.getMessage("inspiration.webcontents.folder.location", null,locale)+"/"+inspiration.getUuid();
-		String fileName = folderName+"/"+inspiration.getUuid()+".html";
-		
-		try{
-			Path paths = Paths.get(fileName);
-			byte[] encoded = Files.readAllBytes(paths);
-			String inspirationString = new String(encoded, "UTF-8");
-			model.addAttribute("inspirationString",inspirationString);
-			
-		}
-		catch(IOException e){
-			
-		}*/
-		
+		model.addAttribute("inspiration",inspirationAccessCacheRepository.getInspirationByID(inspiration_id));
 		return "directlink";
 	}
 	
@@ -262,10 +208,10 @@ public class InspirationController {
 	 */
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/{inspiration_id}", method = RequestMethod.POST)
-	public String inspirationEditPost(@PathVariable String inspiration_id, Locale locale, Model model, HttpServletRequest request) {
+	public String inspirationEditPost(@PathVariable int inspiration_id, Locale locale, Model model, HttpServletRequest request) {
 		
 		
-		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
+		Inspiration inspiration = inspirationAccessCacheRepository.getInspirationByID(inspiration_id);
 	
 		
 		String article_update = request.getParameter("inspiration_article_update"); 
@@ -317,7 +263,7 @@ public class InspirationController {
 		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
 		inspiration.setAuthLevel(Integer.parseInt(auth_level));
 		inspiration.setBriefing(request.getParameter("inspiration_briefing"));
-		inspirationDao.update(inspiration);
+		inspirationAccessCacheRepository.updateInspiration(inspiration);
 		
 		return "redirect:index";
 	}
@@ -328,29 +274,8 @@ public class InspirationController {
 	 */
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/management/edit/{inspiration_id}", method = RequestMethod.GET)
-	public String inspirationEdit(@PathVariable String inspiration_id, Locale locale, Model model) {
-		Inspiration inspiration = inspirationDao.findByPrimaryKey(Integer.parseInt(inspiration_id));
-		model.addAttribute("inspiration",inspiration);
-		
-		
-		/*
-		 * No need to read inspiration on the file system any more.
-		 */
-		
-		/*String folderName = environment.getProperty("inspiration.webcontents.folder.location")+"/"+inspiration.getUuid();
-		String fileName = folderName+"/"+inspiration.getUuid()+".html";
-		
-		try{
-			Path paths = Paths.get(fileName);
-			byte[] encoded = Files.readAllBytes(paths);
-			String inspirationString = new String(encoded, "UTF-8");
-			model.addAttribute("inspirationString",inspirationString);
-			
-		}
-		catch(IOException e){
-			
-		}*/
-		
+	public String inspirationEdit(@PathVariable int inspiration_id, Locale locale, Model model) {
+		model.addAttribute("inspiration",inspirationAccessCacheRepository.getInspirationByID(inspiration_id));
 		return "inspirationedit";
 	}
 	
@@ -372,8 +297,7 @@ public class InspirationController {
 				
 				intTagIDs[i] = Integer.valueOf(tagIDs[i]);
 			}
-			tagDao.deleteByTagIDs(intTagIDs);
-			inspirationM2MTagDao.deleteByTagIDs(intTagIDs);
+			inspirationAccessCacheRepository.deleteTags(intTagIDs);
 		}
 		
 		if ((tagNameArray!=null)&&
@@ -383,7 +307,7 @@ public class InspirationController {
 				tagNameArray.length == tagColorArray.length){
 			for (int i=0;i<tagNameArray.length;i++){
 				Tag newTag = new Tag(tagNameArray[i],tagColorArray[i]);
-				tagDao.create(newTag);
+				inspirationAccessCacheRepository.createTag(newTag);
 			}
 		}
 		
@@ -397,8 +321,7 @@ public class InspirationController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/tagpool", method = RequestMethod.GET)
 	public String tagPool(Model model) {
-		List <Tag> tags = tagDao.findAll();
-		model.addAttribute("tags", tags);
+		model.addAttribute("tags", inspirationAccessCacheRepository.getFullTagPoolModel());
 		return "tagpool";
 	}
 	
@@ -409,8 +332,7 @@ public class InspirationController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationpool", method = RequestMethod.GET)
 	public String inspirationPool(Model model) {
-		List<Inspiration> inspirationList = inspirationDao.findAll();
-		model.addAttribute("inspirationList",inspirationList);
+		model.addAttribute("inspirationList",inspirationAccessCacheRepository.getFullInspirationModel());
 		return "inspirationpool";
 	}
 	
@@ -420,19 +342,18 @@ public class InspirationController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/management/inspirationremove/{inspiration_id}", method = RequestMethod.GET)
-	public String inspirationRemove(@PathVariable String inspiration_id, Model model, Locale locale) {
-		int inspirationID = Integer.parseInt(inspiration_id);
+	public String inspirationRemove(@PathVariable int inspiration_id, Model model, Locale locale) {
 		
 		/**
 		 * Delete inspiration on the file system
 		 */
 		
-		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
+		Inspiration inspiration = inspirationAccessCacheRepository.getInspirationByID(inspiration_id);
 		try {
-		String folderName_en = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.US) + "/" +inspiration.getUuid();
-		String folderName_zh = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.CHINA) + "/" +inspiration.getUuid();
-		FileUtils.deleteDirectory(new File(folderName_en));
-		FileUtils.deleteDirectory(new File(folderName_zh));
+			String folderName_en = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.US) + "/" +inspiration.getUuid();
+			String folderName_zh = messagesource.getMessage("inspiration.webcontents.folder.location", null,Locale.CHINA) + "/" +inspiration.getUuid();
+			FileUtils.deleteDirectory(new File(folderName_en));
+			FileUtils.deleteDirectory(new File(folderName_zh));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.err.println("Delete Inspiration:" + inspiration.getTitle() + "on the file system failed");
@@ -440,18 +361,11 @@ public class InspirationController {
 		}
 		
 		/**
-		 *  Delete inspiration in the DB
+		 *  Delete inspiration
 		 */
-		
-		inspirationDao.deleteByPrimaryKey(inspirationID);
-		
-		/**
-		 * Delete inspiration-tag relation
-		 */
-		inspirationM2MTagDao.deleteByInspirationID(inspirationID);
-		
-		List<Inspiration> inspirationList = inspirationDao.findAll();
-		model.addAttribute("inspirationList",inspirationList);
+		inspirationAccessCacheRepository.deleteInspiration(inspiration_id);
+
+		model.addAttribute("inspirationList",inspirationAccessCacheRepository.getFullInspirationModel());
 		return "inspirationpool";
 	}
 	
@@ -496,6 +410,7 @@ public class InspirationController {
 				}
 			}
 		}
+		inspirationAccessCacheRepository.setInspirationUpdated();
 		return "management";
 	}
 	

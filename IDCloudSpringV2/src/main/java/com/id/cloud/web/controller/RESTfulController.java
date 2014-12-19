@@ -3,6 +3,7 @@ package com.id.cloud.web.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
@@ -13,18 +14,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.id.cloud.inspiration.dao.InspirationDao;
 import com.id.cloud.inspiration.dao.TagDao;
-import com.id.cloud.inspiration.dao.UserDao;
 import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.Tag;
+import com.id.cloud.inspiration.repository.InspirationAccessCacheRepository;
 import com.id.cloud.inspiration.utility.imageupload.RestResponse;
 import com.id.cloud.inspiration.utility.webshare.WebShare;
 import com.id.cloud.inspiration.utility.webshare.WebShareRepository;
@@ -40,23 +39,20 @@ public class RESTfulController {
 	private AbstractMessageSource messagesource;
 	
 	@Autowired
-	private InspirationDao inspirationDao;
-	
-	@Autowired
 	private TagDao tagDao;
 	
 	@Autowired
-	private UserDao userDao;
+	private WebShareRepository webShareRepository;
 	
 	@Autowired
-	private WebShareRepository webShareRepository;
+	private InspirationAccessCacheRepository inspirationAccessCacheRepository;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{inspirationID}", produces = {MediaType.APPLICATION_JSON_VALUE})
+/*	@RequestMapping(method = RequestMethod.GET, value = "/inspiration/{inspirationID}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Inspiration> getInspiration(@PathVariable int inspirationID){
 		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
 		inspiration.setAuthorNickname(userDao.findByUsername(inspiration.getAuthor()).getNickname());
 		return new ResponseEntity<Inspiration>(inspiration, HttpStatus.OK);
-	}
+	}*/
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/webshare", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Void> postWebShare(@RequestBody Map<String,String> body){
@@ -101,6 +97,12 @@ public class RESTfulController {
 	ResponseEntity<Void> postTag(@RequestBody Map<String,String> tag){
 		Tag newTag = new Tag(tag.get("name"),tag.get("color"));
 		tagDao.create(newTag);
+		inspirationAccessCacheRepository.setTagpoolUpdated();
 		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/inspiration", produces = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<List<Inspiration>> getInspirations(){	
+		return new ResponseEntity<List<Inspiration>>(inspirationAccessCacheRepository.getInspirationModelByAuthorization(), HttpStatus.OK);
 	}
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "file:///C:/Users/John/Dropbox/CloudDev/DTDs/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+  <definition name="mobile-index" template="/WEB-INF/views/mobile/index.jsp">
+  </definition>
+  <definition name="mobile-login" template="/WEB-INF/views/mobile/login.jsp">
+  </definition>
+</tiles-definitions>
