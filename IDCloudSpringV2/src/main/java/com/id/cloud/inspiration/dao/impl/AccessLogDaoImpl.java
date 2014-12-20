@@ -3,6 +3,7 @@ package com.id.cloud.inspiration.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -77,6 +78,59 @@ public class AccessLogDaoImpl implements AccessLogDao {
 	public List<AccessLog> findAll() {
 		String sql = "SELECT * FROM ACCESSLOG";
 		List<AccessLog> accessLogs = jdbcTemplate.query(sql, new AccessLogMapper());
+		return accessLogs;
+	}
+	
+	@Override
+	public List<AccessLog> findAllDistinctIP() {
+		String sql = "SELECT * FROM ACCESSLOG group by IP";
+		List<AccessLog> accessLogs = jdbcTemplate.query(sql, new AccessLogMapper());
+		return accessLogs;
+	}
+	
+	@Override
+	public List<AccessLog> findForToday() {
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		String sql = "SELECT * FROM ACCESSLOG where ACCESS_TIME > ? and IP not like '0:0:0%'";
+		List<AccessLog> accessLogs = jdbcTemplate.query(sql, new AccessLogMapper(),new java.sql.Date(today.getTimeInMillis()));
+		return accessLogs;
+	}
+	
+	@Override
+	public List<AccessLog> findForTodayDistinctIP() {
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		String sql = "SELECT * FROM ACCESSLOG where ACCESS_TIME > ? and IP not like '0:0:0%' group by IP";
+		List<AccessLog> accessLogs = jdbcTemplate.query(sql, new AccessLogMapper(),new java.sql.Date(today.getTimeInMillis()));
+		return accessLogs;
+	}
+	
+	@Override
+	public List<AccessLog> findForOneWeek() {
+		Calendar week = Calendar.getInstance();
+		week.set(Calendar.HOUR, 0);
+		week.set(Calendar.MINUTE, 0);
+		week.set(Calendar.SECOND, 0);
+		week.add(Calendar.WEEK_OF_YEAR, -1);
+		String sql = "SELECT * FROM ACCESSLOG where ACCESS_TIME > ? and IP not like '0:0:0%'";
+		List<AccessLog> accessLogs = jdbcTemplate.query(sql, new AccessLogMapper(),new java.sql.Date(week.getTimeInMillis()));
+		return accessLogs;
+	}
+	
+	@Override
+	public List<AccessLog> findForOneWeekDistinctIP() {
+		Calendar week = Calendar.getInstance();
+		week.set(Calendar.HOUR, 0);
+		week.set(Calendar.MINUTE, 0);
+		week.set(Calendar.SECOND, 0);
+		week.add(Calendar.WEEK_OF_YEAR, -1);
+		String sql = "SELECT * FROM ACCESSLOG where ACCESS_TIME > ? and IP not like '0:0:0%' group by IP";
+		List<AccessLog> accessLogs = jdbcTemplate.query(sql, new AccessLogMapper(),new java.sql.Date(week.getTimeInMillis()));
 		return accessLogs;
 	}
 

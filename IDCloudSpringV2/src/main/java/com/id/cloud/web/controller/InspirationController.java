@@ -38,6 +38,7 @@ import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.InspirationM2MTag;
 import com.id.cloud.inspiration.entities.Tag;
 import com.id.cloud.inspiration.repository.InspirationAccessCacheRepository;
+import com.id.cloud.inspiration.repository.InspirationAccessLocationRepository;
 
 /**
  * Handles requests for the application home page.
@@ -63,6 +64,9 @@ public class InspirationController {
 	@Autowired
 	private InspirationAccessCacheRepository inspirationAccessCacheRepository;
 	
+	@Autowired
+	private InspirationAccessLocationRepository inspirationAccessLocationRepository;
+	
 	/**
 	 * Query for the inspirations and related tags and display them on the index page
 	 * Selects the index view to render by returning its name.
@@ -72,9 +76,10 @@ public class InspirationController {
 		final String userIpAddress = request.getRemoteAddr();
         final String userAgent = request.getHeader("user-agent");
         final String user = request.getRemoteUser();
-        accessLogDao.create(new AccessLog(userIpAddress, userAgent, "Inspiration Index",user));
-		
-		model.addAttribute("inspirationList",inspirationAccessCacheRepository.getInspirationModelByAuthorization());
+        AccessLog accessLog = new AccessLog(userIpAddress, userAgent, "Inspiration Index",user);
+        accessLogDao.create(accessLog);
+        inspirationAccessLocationRepository.recordAccessLocation(accessLog);
+        model.addAttribute("inspirationList",inspirationAccessCacheRepository.getInspirationModelByAuthorization());
 		return "index";
 	}
 	

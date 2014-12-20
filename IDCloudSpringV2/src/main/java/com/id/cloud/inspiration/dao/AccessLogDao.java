@@ -17,4 +17,14 @@ public interface AccessLogDao {
 	public void deleteAll();
 	
 	public List<AccessLog> findAll();
+	
+	public List<AccessLog> findAllDistinctIP();
+	
+	public List<AccessLog> findForToday();
+	
+	public List<AccessLog> findForTodayDistinctIP();
+	
+	public List<AccessLog> findForOneWeek();
+	
+	public List<AccessLog> findForOneWeekDistinctIP();
 }

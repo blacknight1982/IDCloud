@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.id.cloud.inspiration.dao.TagDao;
+import com.id.cloud.inspiration.entities.IPLocationInfo;
 import com.id.cloud.inspiration.entities.Inspiration;
 import com.id.cloud.inspiration.entities.Tag;
 import com.id.cloud.inspiration.repository.InspirationAccessCacheRepository;
+import com.id.cloud.inspiration.repository.InspirationAccessLocationRepository;
 import com.id.cloud.inspiration.utility.imageupload.RestResponse;
 import com.id.cloud.inspiration.utility.webshare.WebShare;
 import com.id.cloud.inspiration.utility.webshare.WebShareRepository;
@@ -46,6 +48,9 @@ public class RESTfulController {
 	
 	@Autowired
 	private InspirationAccessCacheRepository inspirationAccessCacheRepository;
+	
+	@Autowired
+	private InspirationAccessLocationRepository inspirationAccessLogRepository;
 
 /*	@RequestMapping(method = RequestMethod.GET, value = "/inspiration/{inspirationID}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Inspiration> getInspiration(@PathVariable int inspirationID){
@@ -104,5 +109,15 @@ public class RESTfulController {
 	@RequestMapping(method = RequestMethod.GET, value = "/inspiration", produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<List<Inspiration>> getInspirations(){	
 		return new ResponseEntity<List<Inspiration>>(inspirationAccessCacheRepository.getInspirationModelByAuthorization(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/accesslocationstoday", produces = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<List<IPLocationInfo>> getAccessLocationsForToday(){	
+		return new ResponseEntity<List<IPLocationInfo>>(inspirationAccessLogRepository.getAccessIPLocationForToday(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/accesslocations", produces = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<List<IPLocationInfo>> getAccessLocations(){	
+		return new ResponseEntity<List<IPLocationInfo>>(inspirationAccessLogRepository.getAllAccessIPLocations(), HttpStatus.OK);
 	}
 }

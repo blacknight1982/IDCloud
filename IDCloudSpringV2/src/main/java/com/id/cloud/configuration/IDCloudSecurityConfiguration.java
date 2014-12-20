@@ -58,8 +58,8 @@ public class IDCloudSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage("/accessdenied");
 		//http.formLogin().loginPage("/login").failureUrl("/login?error").successHandler(successHandler());
 		//http.formLogin().loginProcessingUrl("/login").usernameParameter("idcloud_username").passwordParameter("idcloud_password");
-		//http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
+		//http.logout().logoutUrl("/logout").logoutSuccessUrl("/inspiration/index");
 	}
 	
 	@Bean

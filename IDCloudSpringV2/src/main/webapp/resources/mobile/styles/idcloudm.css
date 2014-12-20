@@ -18,6 +18,10 @@ body {
 	font-family: "HelveticaNeue", Arial, Helvetica, sans-serif;
 }
 
+#mtitle{
+	color: #555555;
+}
+
 #mheader{
 	background: #F1F1F1;
 }
@@ -26,6 +30,11 @@ body {
 	background: #BBD6D6;
 }
 
+#mmap, #map-canvas
+{ 	width: 100%;
+	height: 100%;
+	padding: 0; 
+}
 
 /**lock screen**/
 .LockOff { 

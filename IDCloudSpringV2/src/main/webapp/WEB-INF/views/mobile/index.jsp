@@ -6,9 +6,12 @@
 	<title>IDCloud Mobile</title>
 	<link rel="stylesheet" media="screen" href="/IDCloudSpringV2/resources/mobile/styles/idcloudm.css" />
 	<link rel="stylesheet" media="screen" href="/IDCloudSpringV2/resources/mobile/jquerym/jquery.mobile-1.4.5.min.css" />
-	<script src="/IDCloudSpringV2/resources/mobile/jquerym/jquery-1.8.0.js"></script>
+	<script src="/IDCloudSpringV2/resources/mobile/jquerym/jquery-2.0.3.js"></script>
 	<script src="/IDCloudSpringV2/resources/mobile/jquerym/jquery.mobile-1.4.5.js"></script>
 	<script src="/IDCloudSpringV2/resources/mobile/js/idcloudm.js"></script>
+	
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlLJ_4YxDLZYBWZ9-MFsf7tK3EyzoDsdc"></script>
+    
 </head>
 <body>
 	<div id="mindex" data-role="page">
@@ -40,7 +43,7 @@
 			<nav data-role="navbar">
 				<ul>
 					<li><a href="#mindex" data-icon="cloud" class="ui-btn-active">Inspiration</a></li>
-					<li><a href="#" data-icon="location">Map</a></li>
+					<li><a id="linktommap" href="#mmap" data-icon="location">Map</a></li>
 					<li><a href="/IDCloudSpringV2/login" data-ajax="false" data-icon="user">Sign In</a></li>
 				</ul>
 			</nav>
@@ -61,10 +64,24 @@
 			<nav data-role="navbar">
 				<ul>
 					<li><a href="#mindex" data-icon="cloud" class="ui-btn-active">Inspiration</a></li>
-					<li><a href="#" data-icon="location">Map</a></li>
+					<li><a id="linktommap" href="#mmap" data-icon="location">Map</a></li>
 					<li><a href="/IDCloudSpringV2/login" data-icon="user">Sign In</a></li>
 				</ul>
 			</nav><!-- /navbar -->
+		</footer>
+	</div>
+	
+	<div data-role="page" id="mmap" data-url="mmap">
+		<header data-role="header" data-position="fixed">
+			<a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
+			<h1>Locations</h1>
+		</header><!-- /header -->
+		
+		<div role="main" class="ui-content" id="map-canvas">
+		</div>
+		
+		<footer data-role="footer" data-position="fixed" >
+			<h1>Powered By IDCloud</h1>
 		</footer>
 	</div>
 	

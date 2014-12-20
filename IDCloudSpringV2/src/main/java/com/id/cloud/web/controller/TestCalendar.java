@@ -6,7 +6,11 @@ import java.util.UUID;
 public class TestCalendar {
 
 	public static void main(String[] args) {
-		System.out.println(Calendar.getInstance().getTime());
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		System.out.println(new java.sql.Date(today.getTimeInMillis()));
 		UUID idOne = UUID.randomUUID();
 	    UUID idTwo = UUID.randomUUID();
 	    System.out.println("UUID One: " + idOne);

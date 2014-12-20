@@ -13,6 +13,7 @@ public class AccessLogMapper implements RowMapper<AccessLog>{
 	@Override
 	public AccessLog mapRow(ResultSet rs, int rowNum) throws SQLException {
 		AccessLog accessLog = new AccessLog(rs.getString("IP"),rs.getString("USER_AGENT"),rs.getString("ACCESS_MODULE"),rs.getString("USER"));
+		accessLog.setAccessid(rs.getInt("ACCESS_ID"));
 		Calendar accessTime = Calendar.getInstance();
 		accessTime.setTime(rs.getTimestamp("ACCESS_TIME"));
 		accessLog.setTime(accessTime);
