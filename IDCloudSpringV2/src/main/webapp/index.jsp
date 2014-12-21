@@ -8,10 +8,13 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		<META http-equiv="refresh" content="3;URL=/IDCloudSpringV2/inspiration/index">
+		
 		<title>Welcome</title>
 	</head> 
 	<body>
 		<c:url value="/inspiration/index" var="inspirationUrl" />
-		<a href="${inspirationUrl}">Click to Enter IDCloud Inspiration</a>
+		<a href="${inspirationUrl}">We will automatically redirect you to IDCloud Inspiration</a>
 	</body>
 </html>

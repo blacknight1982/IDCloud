@@ -8,4 +8,8 @@
   </definition>
   <definition name="mobile-login" template="/WEB-INF/views/mobile/login.jsp">
   </definition>
+  <definition name="mobile-map" template="/WEB-INF/views/mobile/map.jsp">
+  </definition>
+  <definition name="mobile-directlink" template="/WEB-INF/views/mobile/directlink.jsp">
+  </definition>
 </tiles-definitions>

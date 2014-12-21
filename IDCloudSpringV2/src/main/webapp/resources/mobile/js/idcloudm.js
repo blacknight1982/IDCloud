@@ -1,11 +1,13 @@
-
-
 $( document ).ready(function() {
 	
 	var map;
 	var markerBounds;
-	
-	lockScreenAndWait("Loading...");
+	var urlString = document.URL;
+	var lastpath = urlString.substr(urlString.lastIndexOf('/') + 1);
+	console.log(lastpath);
+	if((lastpath == "index")||(lastpath == "index#mindex")){
+		lockScreenAndWait("Loading...");
+	}
 	
 	var dataid;
 	var webpagebaseURL = 'http://idcloud.info/webcontents/en';
@@ -24,6 +26,7 @@ $( document ).ready(function() {
 				  $("#minspirationlist").listview('refresh');
 				  $("#minspirationlist li a").on( "click", function( event ) {
 						$("#mdetail").empty();
+						$("#minspirationtitle").text($(this).children("h1").text());
 						lockScreenAndWait("Loading...");
 					    $("#mdetail").load(encodeURI(webpagebaseURL+$(this).attr('data-id')),function(){
 					    	unlockScreen();

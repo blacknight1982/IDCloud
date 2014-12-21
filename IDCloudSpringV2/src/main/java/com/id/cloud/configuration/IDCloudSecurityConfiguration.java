@@ -20,8 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import com.id.cloud.inspiration.security.IDCloudUserDetailsService;
 
@@ -64,9 +64,9 @@ public class IDCloudSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	AuthenticationSuccessHandler successHandler(){
-		SimpleUrlAuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler();
-		successHandler.setDefaultTargetUrl("/inspiration/index");
-		return successHandler;
+		//SimpleUrlAuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler();
+		//successHandler.setDefaultTargetUrl("/inspiration/index");
+		return new SavedRequestAwareAuthenticationSuccessHandler();
 		//return new SavedRequestAwareAuthenticationSuccessHandler();
 	}
 	

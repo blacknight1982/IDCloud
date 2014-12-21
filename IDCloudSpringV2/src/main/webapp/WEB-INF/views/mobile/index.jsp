@@ -10,7 +10,7 @@
 	<script src="/IDCloudSpringV2/resources/mobile/jquerym/jquery.mobile-1.4.5.js"></script>
 	<script src="/IDCloudSpringV2/resources/mobile/js/idcloudm.js"></script>
 	
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlLJ_4YxDLZYBWZ9-MFsf7tK3EyzoDsdc"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB55kMR7IuDEHQHqYkUDOQA1e-AmzX5yek"></script>
     
 </head>
 <body>
@@ -29,14 +29,14 @@
 		</header><!-- /header -->
 		<div id="mcontent" data-role="main" class="ui-content">
 			<ul id="minspirationlist" data-role="listview">
-				<li style="margin-bottom: 0.5em">
+				<!--<li style="margin-bottom: 0.5em">
 					<a href="#">
 						<h1>Test Header</h1>	
 						<p>Author</p>
 						<p>2014-11-13 03:22</p>							
 						<p><span style="margin-right:0.25em; color:blue; background:yellow">Tag</span><span style="color:red; background:white">Tag2</span></p>
 					</a>
-				</li>
+				</li>-->
 			</ul>
 		</div><!-- /content -->
 		<footer data-role="footer" data-position="fixed">
@@ -52,8 +52,8 @@
 	
 	<div data-role="page" id="minspirationdetails">
 		<header data-role="header" data-position="fixed">
-			<a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
-			<h1>Let's see an Inspiration</h1>
+			<a href="#mindex" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
+			<h1 id="minspirationtitle">Let's see an Inspiration</h1>
 		</header><!-- /header -->
 		
 		<div id="mdetail" data-role="main" class="ui-content">
@@ -73,7 +73,7 @@
 	
 	<div data-role="page" id="mmap" data-url="mmap">
 		<header data-role="header" data-position="fixed">
-			<a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
+			<a href="#mindex" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
 			<h1>Locations</h1>
 		</header><!-- /header -->
 		

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,12 +53,11 @@ public class RESTfulController {
 	@Autowired
 	private InspirationAccessLocationRepository inspirationAccessLogRepository;
 
-/*	@RequestMapping(method = RequestMethod.GET, value = "/inspiration/{inspirationID}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(method = RequestMethod.GET, value = "/{inspirationID}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Inspiration> getInspiration(@PathVariable int inspirationID){
-		Inspiration inspiration = inspirationDao.findByPrimaryKey(inspirationID);
-		inspiration.setAuthorNickname(userDao.findByUsername(inspiration.getAuthor()).getNickname());
+		Inspiration inspiration = inspirationAccessCacheRepository.getInspirationByID(inspirationID);
 		return new ResponseEntity<Inspiration>(inspiration, HttpStatus.OK);
-	}*/
+	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/webshare", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Void> postWebShare(@RequestBody Map<String,String> body){

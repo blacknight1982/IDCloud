@@ -430,6 +430,15 @@ public class InspirationController {
 	}
 	
 	/**
+	 * Selects the map view to render by returning its name.
+	 */
+	@RequestMapping(value = "/map", method = RequestMethod.GET)
+	public String map(Locale locale, Model model) {
+		
+		return "map";
+	}
+	
+	/**
 	 * Test Servlet
 	 * @param locale
 	 * @param model
