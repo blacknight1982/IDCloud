@@ -17,7 +17,7 @@
 
 	<div data-role="page" id="mmap" data-url="mmap">
 		<header data-role="header" data-position="fixed">
-			<a href="/IDCloudSpringV2/inspiration/index" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
+			<a href="/IDCloudSpringV2/inspiration/index" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-notext ui-icon-back"></a>
 			<h1>Locations</h1>
 		</header><!-- /header -->
 		

@@ -224,6 +224,16 @@ public class InspirationController {
 		String updatelocale = request.getParameter("inspiration-language");
 		
 		String uuid = inspiration.getUuid();
+		//get inspiration authentication level
+		String auth_level = request.getParameter("inspiration-auth-level");
+		
+		inspiration.setPostTime(Calendar.getInstance());
+		inspiration.setTitle(inspirationTitle);
+		inspiration.setMainPageLocation("/"+uuid+"/"+uuid+".html");
+		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
+		inspiration.setAuthLevel(Integer.parseInt(auth_level));
+		inspiration.setBriefing(request.getParameter("inspiration_briefing"));
+		inspirationAccessCacheRepository.updateInspiration(inspiration);
 		
 		if("update".equals(article_update)){
 			
@@ -257,18 +267,6 @@ public class InspirationController {
 				logger.error("Inspiration update with error: "+e.getMessage());
 			}
 		}
-		
-		
-		//get inspiration authentication level
-		String auth_level = request.getParameter("inspiration-auth-level");
-		
-		inspiration.setPostTime(Calendar.getInstance());
-		inspiration.setTitle(inspirationTitle);
-		inspiration.setMainPageLocation("/"+uuid+"/"+uuid+".html");
-		inspiration.setAuthor(SecurityContextHolder.getContext().getAuthentication().getName());
-		inspiration.setAuthLevel(Integer.parseInt(auth_level));
-		inspiration.setBriefing(request.getParameter("inspiration_briefing"));
-		inspirationAccessCacheRepository.updateInspiration(inspiration);
 		
 		return "redirect:index";
 	}

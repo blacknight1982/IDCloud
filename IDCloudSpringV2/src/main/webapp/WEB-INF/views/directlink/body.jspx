@@ -13,16 +13,25 @@
 	<spring:url value="/resources/idcloudjs/modeswitch.js" var="modeswitch_js"></spring:url>
   	<script type="text/javascript" src="${fbintegration_js}"><!-- added this avoiding script tag problem --></script>
   	<script type="text/javascript" src="${modeswitch_js}"><!-- added this avoiding script tag problem --></script>
-	 
-	<spring:message code="inspiration.webcontents.url.location" var="serverlocation" htmlEscape="false" />
+  	<spring:message code="inspiration.webcontents.url.location" var="serverlocation" htmlEscape="false" />
+  	
+  	<script>
+	  	function resizeIframe(obj) {
+	      obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+	    }
+  	</script>
+  	
+	<sec:authorize access="authenticated">
+  		<sec:authentication var="author" property="principal.username" />
+	</sec:authorize>
 		
 	<div id="directlinkhomediv">
 		<a href="${index_page}" id="directlinkhome">&lt;-<spring:message code="directlink.homepage" /></a>
 	</div>
 	<div id="directlinkeditdiv">
-		<sec:authorize access="authenticated">
+		<c:if test="${author == inspiration.author}">
 			<a href="#" id="editswitch" onclick="javascript:modeswitch(${inspiration.inspirationID})"><spring:message code="directlink.switcheditmode" />-&gt;</a>
-		</sec:authorize>
+		</c:if>
 	</div>
 	<br/>
 	<div id="directlinkpanel">
@@ -36,8 +45,9 @@
 		<h1 id="directlinkauthor"><spring:message code="directlink.author"/> ${inspiration.authorNickname}</h1>
 		<div id="directlinkbriefing">${inspiration.briefing}</div>
 		<div class="ios-scroll-wrapper">
-			<iframe id="directlinkframe" src="${serverlocation}${inspiration.mainPageLocation}">
-				<!-- added this avoiding script tag problem -->
+			<!-- <div id="directlinkdiv"></div> -->
+			<iframe id="directlinkframe" src="${serverlocation}${inspiration.mainPageLocation}" onload="javascript:resizeIframe(this);">
+				<!--  added this avoiding script tag problem -->
 			</iframe>
 		</div>
 		

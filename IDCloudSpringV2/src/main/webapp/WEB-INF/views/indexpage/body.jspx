@@ -38,9 +38,6 @@
 	  	<th><spring:message code="indexpage.tablehead.tags" /> <input type="search" id="tagfilter"></input></th>
 	  </tr>
 	  <c:forEach items="${inspirationList}" var="inspiration">
-	  	<c:if test="${(inspiration.authLevel == 0)||
-	  		((inspiration.authLevel == 1)&amp;&amp;(authenticated == true))
-	  		||((inspiration.authLevel == 2)&amp;&amp;(author == inspiration.author))}">
 		  	<tr class="dynamicrows">
 			  	<td>${inspiration.inspirationID}</td>
 			  	<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${inspiration.postTime.time}" /></td>
@@ -52,7 +49,6 @@
 		  		<td>${inspiration.authorNickname}</td>
 			  	<td><c:forEach items="${inspiration.tags}" var="tag"><span class="tag" style="background-color:${tag.color}; color:${tag.complementaryColorInHex};">${tag.name}</span></c:forEach></td>
 		  	</tr>
-	  	</c:if>
 	  </c:forEach>
 	</tbody>
   </table>

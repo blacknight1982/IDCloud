@@ -145,8 +145,9 @@ public class InspirationAccessCacheRepository {
 		return cachedInspirationsModel.get(inspirationID);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("#inspiration.getAuthor().equals(authentication.name) or hasRole('ROLE_ADMIN')")
 	public void updateInspiration(Inspiration inspiration){
+		inspiration.setAuthorNickname(userDao.findByUsername(inspiration.getAuthor()).getNickname());
 		cachedInspirationsModel.put(inspiration.getInspirationID(), inspiration);
 		inspirationDao.update(inspiration);
 	}

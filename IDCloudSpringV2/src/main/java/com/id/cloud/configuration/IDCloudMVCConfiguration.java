@@ -68,6 +68,7 @@ public class IDCloudMVCConfiguration extends WebMvcConfigurerAdapter{
 	    registry.addInterceptor(webContentInterceptor);
 	    registry.addInterceptor(localeChangeInterceptor());
 	    registry.addInterceptor(deviceResolverHandlerInterceptor());
+	    registry.addInterceptor(sitePreferenceHandlerInterceptor());
 	 }
 	
 	/*
